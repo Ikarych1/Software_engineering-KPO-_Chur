@@ -146,29 +146,33 @@ RecommendationService ..> User : анализирует
 autonumber
 actor "Хост (Создатель)" as Host
 actor "Участник комнаты" as Guest
-boundary "Веб-интерфейс (SPA/HTML)" as UI
+boundary "Веб-интерфейс (SPA/HTML) хоста" as HostUI
+boundary "Веб-интерфейс (SPA/HTML) участника" as GuestUI
 control "WatchRoom API / Controller" as Controller
 entity "WatchRoom (Сессия)" as Room
-database "База данных" as DB
 
-Host -> UI: Нажимает "Пауза / Перемотка на 01:25"
-UI -> Controller: POST /api/room/{id}/playback (is_playing=false, time=85)
+Host -> HostUI: Нажимает "Пауза / Перемотка на 01:25"
+HostUI -> Controller: POST /api/room/{id}/playback (is_playing=false, time=85)
 Controller -> Room: update_playback(false, 85)
 Room -> Room: Обновление PlaybackState
 Room --> Controller: Состояние обновлено (200 OK)
-Controller --> UI: Актуальный статус воспроизведения
+Controller --> HostUI: Смещение плеера хоста на 01:25 и установка на паузу
+HostUI --> Host: Отображение изменений
 
-Guest -> UI: Периодический опрос/событие комнаты
-UI -> Controller: GET /api/room/{id}/sync
+GuestUI -> Controller: GET /api/room/{id}/sync
 Controller -> Room: get_room_state()
 Room --> Controller: {time: 85, is_playing: false}
-Controller --> UI: Смещение плеера гостя на 01:25 и установка на Паузу
+Controller --> GuestUI: Смещение плеера гостя на 01:25 и установка на паузу
+GuestUI --> Guest: Отображение изменений
 
-Guest -> UI: Ввод сообщения в чат: "Отличный момент!"
-UI -> Controller: POST /api/room/{id}/chat (text="Отличный момент!")
+Guest -> GuestUI: Ввод сообщения в чат: "Отличный момент!"
+GuestUI -> Controller: POST /api/room/{id}/chat (text="Отличный момент!")
 Controller -> Room: post_chat_message(user, text)
 Room -> Room: Валидация и добавление ChatMessage
-Controller --> UI: Чат обновлен (200 OK)
+Controller --> GuestUI: Чат обновлен (200 OK)
+GuestUI --> Guest: Отображение изменений
+Controller --> HostUI: Чат обновлен (200 OK)
+HostUI --> Host: Отображение изменений
 @enduml
 
 
