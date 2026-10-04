@@ -130,14 +130,14 @@ class RecommendationService {
     - rank_by_user_preferences(items: List<MediaItem>, user_id: int): List<MediaItem>
 }
 
-User "1" o-- "*" Review : оставляет
-MediaItem "1" o-- "*" Review : получает
+WatchRoom ..> User : подключается/отключается
+User "1" -- "*" Review : оставляет
+MediaItem "1" -- "*" Review : получает
 WatchRoom "1" *-- "1" PlaybackState : состояние плеера
 WatchRoom "1" *-- "*" ChatMessage : сообщения
 WatchRoom --> MediaItem : транслирует
 RecommendationService ..> MediaItem : отбирает
 RecommendationService ..> User : анализирует
-@enduml
 
 
 Диаграмма последовательностей (Sequence Diagram)
