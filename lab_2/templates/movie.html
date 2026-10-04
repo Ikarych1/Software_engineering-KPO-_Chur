@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon, rail %}
+{% set info = art[film.id] %}
+{% block title %}{{ film.title }}{% endblock %}
+{% block content %}
+<section class="movie-detail page-width">
+    <a class="back-link" href="{{ url_for('index', view='catalog') }}">{{ icon('back') }} К каталогу</a>
+    <div class="movie-detail-grid">
+        <div class="detail-poster"><img src="{{ url_for('static', filename='images/' ~ info.slug ~ '.jpg') }}" alt="Обложка «{{ film.title }}»"><span class="poster-caption">{{ film.age_rating }} · {{ film.duration_min }} мин</span></div>
+        <div class="detail-main"><span class="eyebrow accent">КИНО, КОТОРОЕ ОСТАЁТСЯ С ВАМИ</span><h1>{{ film.title }}</h1><p class="muted original-title">{{ info.original }} · {{ film.year }}</p><div class="chips">{% for genre in film.genres %}<a class="chip" href="{{ url_for('index', genre=genre) }}">{{ genre }}</a>{% endfor %}</div><p class="detail-logline">{{ film.description }}</p>
+            <div class="detail-actions"><a class="btn" href="{{ url_for('player', movie_id=film.id) }}" target="_blank" rel="noopener">{{ icon('play') }} Смотреть фильм</a><button class="btn btn-secondary" data-bookmark="{{ film.id }}" aria-pressed="false">{{ icon('bookmark') }} <span data-bookmark-label>Буду смотреть</span></button><a class="icon-button" href="{{ url_for('watch_room', room_code='ROOM-359', movie=film.id) }}" aria-label="Открыть макет комнаты">{{ icon('users') }}</a></div>
+            <a class="text-link room-invitation" href="{{ url_for('watch_room', room_code='ROOM-359', movie=film.id) }}">{{ icon('users') }} Хорошее кино лучше смотреть вместе {{ icon('arrow') }}</a>
+            <section class="about-film"><h2>О фильме</h2><dl class="film-facts"><dt>Год производства</dt><dd>{{ film.year }}</dd><dt>Страна</dt><dd>{{ film.country }}</dd><dt>Жанр</dt><dd>{{ film.genres|join(', ') }}</dd><dt>Режиссёр</dt><dd>{{ info.director }}</dd><dt>Время</dt><dd>{{ film.duration_min // 60 }} ч {{ film.duration_min % 60 }} мин</dd><dt>Возраст</dt><dd>{{ film.age_rating }}</dd></dl></section>
+        </div>
+        <aside class="detail-sidebar"><div class="external-ratings"><div><strong>{{ info.kp }}</strong><span>Кинопоиск</span></div><div><strong>{{ info.imdb }}</strong><span><b class="imdb-label">IMDb</b></span></div></div><p class="muted small-text">Рейтинги приведены для демонстрации интерфейса.</p><div class="rating-panel" data-rating-panel="{{ film.id }}" data-default-score="{{ user_score or '' }}"><h3>Ваша оценка</h3><p class="muted small-text">Что вы думаете об этом фильме?</p><div class="rating-buttons">{% for score in range(1, 11) %}<button data-rate="{{ score }}" aria-label="Оценить на {{ score }}" aria-pressed="{{ 'true' if user_score == score else 'false' }}">{{ score }}</button>{% endfor %}</div><p class="score-feedback muted small-text" aria-live="polite">{{ 'Вы оценили на ' ~ user_score ~ ' из 10' if user_score else 'Ещё не оценён' }}</p></div><h3>В главных ролях</h3><ul class="actor-list">{% for actor in info.actors %}<li><span class="actor-avatar">{{ actor[0] }}</span>{{ actor }}</li>{% endfor %}</ul></aside>
+    </div>
+    <section class="description-section"><span class="eyebrow accent">ПОГРУЗИТЬСЯ В ИСТОРИЮ</span><h2>Описание</h2><p>{{ film.description }}</p><p class="muted">{{ info.original }} — фильм режиссёра {{ info.director }}. Выберите одиночный просмотр или откройте комнату, чтобы провести вечер с друзьями.</p></section>
+    <section class="reviews-section"><div class="section-heading"><h2>Впечатления зрителей <span class="count">{{ reviews|length }}</span></h2></div><div class="review-grid">{% for rev in reviews %}<article class="panel review"><div class="review-heading"><span class="avatar peach small">{{ rev.user_name[0] }}</span><strong>{{ rev.user_name.split(' (')[0] }}</strong><span class="score-text">{{ rev.score }}/10</span></div><p>{{ rev.comment }}</p><span class="muted small-text">{{ rev.created_at }}</span></article>{% else %}<p class="muted">Отзывов пока нет. Оцените фильм, чтобы сохранить впечатление в профиле.</p>{% endfor %}</div></section>
+</section>
+{{ rail('Ещё немного хорошего кино', catalog|rejectattr('id', 'equalto', film.id)|list, art, 'more-movies') }}
+{% endblock %}

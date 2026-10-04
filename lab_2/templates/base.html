@@ -1,0 +1,60 @@
+{% from 'components.html' import icon %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101113">
+    <title>{% block title %}Главная{% endblock %} · КиноСфера</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <script src="{{ url_for('static', filename='js/ui.js') }}" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('index') }}" aria-label="КиноСфера — главная"><span class="brand-symbol">{{ icon('play') }}</span>кино<span>сфера</span><span class="brand-dot">.</span></a>
+        <nav class="nav-links" aria-label="Основная навигация">
+            <a class="{{ 'active' if request.endpoint == 'index' and not filtered|default(false) }}" href="{{ url_for('index') }}">Главная</a>
+            <a class="{{ 'active' if request.endpoint == 'index' and filtered|default(false) }}" href="{{ url_for('index', view='catalog') }}">Каталог</a>
+            <a class="{{ 'active' if request.endpoint in ['rooms', 'watch_room', 'archived_room'] }}" href="{{ url_for('rooms') }}">Смотрим вместе <span class="nav-new">NEW</span></a>
+            <a class="{{ 'active' if request.endpoint == 'profile' }}" href="{{ url_for('profile', section='watchlist') }}">Моё кино</a>
+        </nav>
+        <div class="nav-actions">
+            <button class="search-trigger" data-open-search aria-label="Открыть поиск">{{ icon('search') }}<span>Поиск</span></button>
+            <details class="profile-menu">
+                <summary aria-label="Меню профиля"><span class="avatar peach small">ИГ</span></summary>
+                <div class="dropdown">
+                    <strong>{{ user.username.split(' (')[0] }}</strong><span class="muted small-text">Ваше пространство кино</span>
+                    <a href="{{ url_for('profile') }}">{{ icon('user') }} Мой профиль</a>
+                    <a href="{{ url_for('profile', section='ratings') }}">{{ icon('star') }} Оценки и просмотры</a>
+                    <a href="{{ url_for('profile', section='watchlist') }}">{{ icon('bookmark') }} Буду смотреть</a>
+                    <a href="{{ url_for('profile', section='clips') }}">{{ icon('scissors') }} Мои клипы</a>
+                    <hr><a href="{{ url_for('profile', section='subscription') }}">{{ icon('card') }} Подписка и оплата</a>
+                    <a href="{{ url_for('profile', section='settings') }}">{{ icon('settings') }} Настройки</a>
+                </div>
+            </details>
+        </div>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer class="footer page-width"><a class="brand footer-brand" href="{{ url_for('index') }}">киносфера<span class="brand-dot">.</span></a><span>Хорошее кино. Хорошая компания.</span><span class="muted">Интерфейсный прототип · 2026</span></footer>
+    <dialog id="search-dialog" class="search-dialog">
+        <div class="dialog-heading"><h2>Найдём ваше кино</h2><button class="icon-button" data-close-dialog aria-label="Закрыть поиск">{{ icon('close') }}</button></div>
+        <form action="{{ url_for('index') }}" method="get" class="search-form"><label for="global-search" class="sr-only">Название фильма или описание</label>{{ icon('search') }}<input id="global-search" name="q" type="search" placeholder="Фильм, история, настроение…" required><button class="btn" type="submit">Найти</button></form>
+        <p class="muted">Или начните с жанра</p><div class="chips">{% for g in ['Фантастика', 'Драма', 'Комедия', 'Триллер'] %}<a class="chip" href="{{ url_for('index', genre=g) }}">{{ g }}</a>{% endfor %}</div>
+    </dialog>
+    <dialog id="clip-dialog" class="clip-dialog">
+        <form id="clip-form">
+            <div class="dialog-heading"><div><span class="eyebrow">СОХРАНИТЕ МОМЕНТ</span><h2>Создать клип</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Закрыть">{{ icon('close') }}</button></div>
+            <div class="clip-preview" id="clip-preview"><span>{{ icon('play') }}</span><span class="badge">Предпросмотр макета</span></div>
+            <label for="clip-title">Название клипа</label><input id="clip-title" maxlength="80" placeholder="Момент, который хочется пересмотреть" required>
+            <div class="two-columns"><div><label for="clip-start">Начало, сек.</label><input id="clip-start" type="number" min="0" value="0" required></div><div><label for="clip-end">Конец, сек.</label><input id="clip-end" type="number" min="1" value="30" required></div></div>
+            <label for="clip-format">Формат</label><select id="clip-format"><option value="landscape">Альбомный · 16:9</option><option value="portrait">Вертикальный · 9:16</option></select>
+            <label class="checkbox-label"><input id="clip-pin" type="checkbox" checked> Закрепить в моём профиле</label>
+            <p class="muted small-text">Демо редактора: сохраняются название и границы фрагмента. Видеофайл не создаётся.</p><p id="clip-error" class="error" role="alert"></p>
+            <button class="btn full-width" type="submit">{{ icon('scissors') }} Сохранить клип</button>
+        </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

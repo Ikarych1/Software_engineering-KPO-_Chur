@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Смотреть · {{ film.title }}{% endblock %}
+{% block content %}
+<section class="watch-page page-width">
+    <div class="section-heading"><div><a class="back-link" href="{{ url_for('movie_detail', movie_id=film.id) }}">{{ icon('back') }} О фильме</a><h1>{{ film.title }}</h1><p class="muted">{{ film.year }} · {{ film.duration_min }} мин · {{ film.age_rating }}</p></div><a class="btn btn-secondary" href="{{ url_for('watch_room', room_code='ROOM-359', movie=film.id) }}">{{ icon('users') }} Смотреть вместе</a></div>
+    <div class="cinema-screen" id="cinema-screen" data-player data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ url_for('static', filename='images/' ~ art[film.id].slug ~ '.jpg') }}" data-duration="{{ film.duration_min * 60 }}" style="--screen-image: url('{{ url_for('static', filename='images/' ~ (art[film.id].backdrop|default(art[film.id].slug)) ~ '.jpg') }}')">
+        <div class="screen-label"><span class="badge">Демо плеера</span><span>{{ film.age_rating }}</span></div><div class="screen-center"><button class="big-play" data-play aria-label="Воспроизвести демонстрацию">{{ icon('play') }}</button><h2>{{ film.title }}</h2><p class="muted" data-player-status>Видеопоток не подключён</p></div><div id="reaction-stage" class="reaction-stage"></div>
+        <div class="screen-controls"><label for="player-progress" class="sr-only">Прогресс воспроизведения</label><input id="player-progress" type="range" min="0" max="{{ film.duration_min * 60 }}" value="0"><div class="control-row"><button class="icon-button" data-play aria-label="Воспроизвести демонстрацию">{{ icon('play') }}</button><button class="icon-button seek-button" data-seek="-10" aria-label="Назад 10 секунд">−10</button><button class="icon-button seek-button" data-seek="10" aria-label="Вперёд 10 секунд">+10</button><span class="time-display"><span id="timeline">00:00</span> / {{ '%02d'|format(film.duration_min // 60) }}:{{ '%02d'|format(film.duration_min % 60) }}:00</span><button class="icon-button control-end" data-demo="Настройка звука появится после подключения видео." aria-label="Звук">{{ icon('volume') }}</button><button class="icon-button" data-fullscreen aria-label="Во весь экран">{{ icon('expand') }}</button></div></div>
+    </div>
+    <div class="watch-bottom"><div><h3>Моменты, которые хочется сохранить</h3><p class="muted">Соберите любимые фрагменты в своём профиле.</p></div><button class="btn btn-secondary" data-open-clip data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ url_for('static', filename='images/' ~ art[film.id].slug ~ '.jpg') }}" data-duration="{{ film.duration_min * 60 }}">{{ icon('scissors') }} Создать клип</button></div>
+</section>
+<script src="{{ url_for('static', filename='js/player.js') }}" defer></script>
+{% endblock %}

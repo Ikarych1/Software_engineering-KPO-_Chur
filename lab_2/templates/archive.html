@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Сохранённый чат · {{ session.title }}{% endblock %}
+{% block content %}
+<section class="archive-page page-width" data-archive-code="{{ session.code }}"><a class="back-link" href="{{ url_for('rooms') }}">{{ icon('back') }} Все киновечера</a><span class="eyebrow accent">ПОСЛЕ ТИТРОВ</span><h1>{{ session.title }}</h1><p class="muted">Завершён · {{ session.date }} · {{ session.members }}</p><div class="panel archive-chat"><h3>Сохранённый разговор</h3><p class="muted small-text">Пример архива чата завершённой комнаты.</p>{% for sender, message, timestamp in session.messages %}<div class="chat-message"><span class="avatar peach small">{{ sender[0] }}</span><div><strong>{{ sender }} <time>{{ timestamp }}</time></strong><p>{{ message }}</p></div></div>{% endfor %}</div><a class="btn btn-secondary" href="{{ url_for('movie_detail', movie_id=session.movie_id) }}">{{ icon('play') }} К фильму</a></section>
+<script src="{{ url_for('static', filename='js/room.js') }}" defer></script>
+{% endblock %}

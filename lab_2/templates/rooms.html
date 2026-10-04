@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Смотрим вместе{% endblock %}
+{% block content %}
+<section class="rooms-page page-width"><div class="rooms-intro"><span class="eyebrow accent">ВЕЧЕР С ВАШИМИ ЛЮДЬМИ</span><h1>Кино становится лучше,<br>когда вы вместе<span class="accent">.</span></h1><p class="muted">Создайте комнату, пригласите друзей и делитесь эмоциями.<br>Даже если между вами тысячи километров.</p><a class="btn" href="{{ url_for('watch_room', room_code='ROOM-359') }}">{{ icon('plus') }} Открыть демо-комнату</a><span class="small-text muted">Макет совместного просмотра</span></div>
+<div class="section-heading"><h2>Ваша комната</h2><span class="badge"><span class="status-dot"></span> Демо</span></div><a class="active-room-card" href="{{ url_for('watch_room', room_code='ROOM-359') }}"><img src="{{ url_for('static', filename='images/interstellar-backdrop.jpg') }}" alt="Киновечер"><div><span class="eyebrow">СОБИРАЕМСЯ НА КИНО</span><h2>Вечер с друзьями</h2><p>Начало · 2010 · ROOM-359</p><div class="avatar-stack"><span class="avatar peach small">ИГ</span><span class="avatar blue small">МК</span><span class="avatar purple small">СЛ</span><span>3 участника в макете</span></div><span class="btn btn-secondary">Войти в комнату {{ icon('arrow') }}</span></div></a>
+<div class="section-heading"><div><h2>После титров</h2><p class="muted">Завершённые сеансы и сохранённые разговоры</p></div></div><div class="archive-grid" data-local-room-history>{% for session in archive %}<a class="archive-card panel" href="{{ url_for('archived_room', code=session.code) }}"><img src="{{ url_for('static', filename='images/' ~ art[session.movie_id].slug ~ '.jpg') }}" alt=""><div><span class="badge">Завершён · {{ session.date }}</span><h3>{{ session.title }}</h3><p class="muted">{{ session.members }}</p><span class="text-link">Сохранённый чат {{ icon('arrow') }}</span></div></a>{% endfor %}</div>
+</section>
+<script src="{{ url_for('static', filename='js/room.js') }}" defer></script>
+{% endblock %}
