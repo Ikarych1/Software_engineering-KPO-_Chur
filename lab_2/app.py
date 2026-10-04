@@ -2,34 +2,50 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 import time
 import storage
 from models import Review, PaymentRecord
-from services import RecommendationService, RoomService
+from services import RoomService
+from ui_data import ART, EXTRA_FILMS, RAILS, PEOPLE, ARCHIVE
 
 app = Flask(__name__)
+storage.CATALOG.extend(m for m in EXTRA_FILMS if not any(x.id == m.id for x in storage.CATALOG))
+
+
+@app.context_processor
+def interface_context():
+    return dict(art=ART, catalog=[m for m in storage.CATALOG if not m.is_hidden], people=PEOPLE, archive=ARCHIVE,
+                demo_ratings=storage.USER_RATINGS.get(storage.CURRENT_USER.id, {}))
 
 # ----------------- СТРАНИЦЫ ИНТЕРФЕЙСА -----------------
 
 @app.route('/')
 def index():
     """Главная страница: каталог фильмов, поиск, фильтры и персональные рекомендации."""
-    genre_filter = request.args.get('genre', '')
+    genre_filters = request.args.getlist('genre')
     query = request.args.get('q', '').lower().strip()
 
     films = [m for m in storage.CATALOG if not m.is_hidden]
 
-    if genre_filter:
-        films = [m for m in films if genre_filter in m.genres]
+    if genre_filters:
+        films = [m for m in films if all(g in m.genres for g in genre_filters)]
     if query:
         films = [m for m in films if query in m.title.lower() or query in m.description.lower()]
 
-    recommendations = RecommendationService.get_recommendations(storage.CURRENT_USER.id)
-    all_genres = sorted(list({g for m in storage.CATALOG for g in m.genres}))
+    sort = request.args.get('sort', 'popular')
+    if sort == 'rating':
+        films.sort(key=lambda m: m.rating, reverse=True)
+    elif sort == 'year':
+        films.sort(key=lambda m: m.year, reverse=True)
+    rails = [dict(section, films=[m for mid in section['ids'] for m in storage.CATALOG if m.id == mid and not m.is_hidden]) for section in RAILS]
+    all_genres = sorted({g for m in storage.CATALOG if not m.is_hidden for g in m.genres})
 
     return render_template(
         'index.html',
         films=films,
-        recommendations=recommendations,
+        rails=rails,
         genres=all_genres,
-        active_genre=genre_filter,
+        active_genres=genre_filters,
+        sort=sort,
+        filtered=bool(genre_filters or query or request.args.get('view') == 'catalog' or sort != 'popular'),
+        featured=[storage.CATALOG[0], next(m for m in storage.CATALOG if m.id == 9)],
         query=query,
         user=storage.CURRENT_USER
     )
@@ -37,13 +53,9 @@ def index():
 @app.route('/movie/<int:movie_id>')
 def movie_detail(movie_id: int):
     """Страница отдельного фильма с плеером, описанием и отзывами."""
-    film = next((m for m in storage.CATALOG if m.id == movie_id), None)
+    film = next((m for m in storage.CATALOG if m.id == movie_id and not m.is_hidden), None)
     if not film:
         return "Фильм не найден", 404
-
-    # Фиксируем просмотр в истории
-    if film.id not in storage.USER_WATCHED.setdefault(storage.CURRENT_USER.id, []):
-        storage.USER_WATCHED[storage.CURRENT_USER.id].append(film.id)
 
     film_reviews = [r for r in storage.REVIEWS if r.media_id == film.id]
     user_score = storage.USER_RATINGS.get(storage.CURRENT_USER.id, {}).get(film.id, None)
@@ -56,6 +68,29 @@ def movie_detail(movie_id: int):
         user=storage.CURRENT_USER
     )
 
+
+@app.route('/watch/<int:movie_id>')
+def player(movie_id):
+    film = next((m for m in storage.CATALOG if m.id == movie_id and not m.is_hidden), None)
+    if not film:
+        return 'Фильм не найден', 404
+    return render_template('player.html', film=film, user=storage.CURRENT_USER)
+
+
+@app.route('/rooms')
+def rooms():
+    return render_template('rooms.html', user=storage.CURRENT_USER)
+
+
+@app.route('/rooms/archive/<code>')
+def archived_room(code):
+    session = next((r for r in ARCHIVE if r['code'] == code), None)
+    if code == 'local':
+        session = dict(code='local', title='Сохранённый чат', date='', members='', movie_id=1, messages=[])
+    if session is None:
+        return 'Сеанс не найден', 404
+    return render_template('archive.html', session=session, user=storage.CURRENT_USER)
+
 @app.route('/room/<room_code>')
 def watch_room(room_code: str):
     """Страница комнаты совместного просмотра."""
@@ -63,12 +98,10 @@ def watch_room(room_code: str):
     if not room:
         return "Комната не найдена или была закрыта", 404
 
-    if storage.CURRENT_USER.username not in room.members:
-        room.members.append(storage.CURRENT_USER.username)
-        room.add_message("Система", f"Пользователь {storage.CURRENT_USER.username} вошел в комнату.")
-
     is_host = (room.host_id == storage.CURRENT_USER.id)
-    return render_template('room.html', room=room, user=storage.CURRENT_USER, is_host=is_host)
+    movie_id = request.args.get('movie', type=int)
+    film = next((m for m in storage.CATALOG if m.id == movie_id and not m.is_hidden), room.media)
+    return render_template('room.html', room=room, film=film, user=storage.CURRENT_USER, is_host=is_host)
 
 @app.route('/profile')
 def profile():
@@ -78,7 +111,8 @@ def profile():
         'profile.html',
         user=storage.CURRENT_USER,
         payments=storage.PAYMENT_HISTORY,
-        watched=watched_films
+        watched=watched_films,
+        section=request.args.get('section', 'overview')
     )
 
 # ----------------- ДЕЙСТВИЯ И ДЕМО-ОПЕРАЦИИ -----------------
