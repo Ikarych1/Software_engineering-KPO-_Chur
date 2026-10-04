@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Каталог фильмов и Рекомендации{% endblock %}
+
+{% block content %}
+<!-- БЛОК ПЕРСОНАЛИЗИРОВАННЫХ РЕКОМЕНДАЦИЙ -->
+<section class="rec-box">
+    <h2 style="margin-bottom: 12px; color: var(--accent);">✨ Рекомендовано для вас (Подсистема AI)</h2>
+    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        Алгоритм учитывает ваши оценки выше 7 баллов и историю просмотров (согласно ТЗ).
+    </p>
+    <div class="movie-grid">
+        {% for rec in recommendations %}
+        <div class="movie-card">
+            <div>
+                <span class="rec-reason">{{ rec.reason }}</span>
+                <h3>{{ rec.item.title }} ({{ rec.item.year }})</h3>
+                <div class="movie-meta">⭐ {{ rec.item.rating }} • {{ rec.item.genres | join(', ') }}</div>
+                <div class="movie-desc">{{ rec.item.description }}</div>
+            </div>
+            <a href="{{ url_for('movie_detail', movie_id=rec.item.id) }}" class="btn" style="margin-top: 10px;">Смотреть фильм</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ПОИСК И ФИЛЬТРАЦИЯ КАТАЛОГА -->
+<section>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
+        <h2>📚 Каталог медиаконтента ({{ films|length }})</h2>
+        <form method="get" action="{{ url_for('index') }}" style="display: flex; gap: 8px; max-width: 400px; width: 100%;">
+            <input type="text" name="q" placeholder="Поиск по названию или описанию..." value="{{ query }}">
+            <button type="submit" class="btn">Найти</button>
+        </form>
+    </div>
+
+    <!-- Фильтры по жанрам -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+        <a href="{{ url_for('index') }}" class="badge" style="text-decoration:none; {% if not active_genre %}background: var(--accent); color:#000;{% endif %}">Все жанры</a>
+        {% for g in genres %}
+        <a href="{{ url_for('index', genre=g) }}" class="badge" style="text-decoration:none; {% if active_genre == g %}background: var(--accent); color:#000;{% endif %}">{{ g }}</a>
+        {% endfor %}
+    </div>
+
+    <!-- Сетка каталога -->
+    <div class="movie-grid">
+        {% for film in films %}
+        <a href="{{ url_for('movie_detail', movie_id=film.id) }}" class="movie-card">
+            <div>
+                <h3>{{ film.title }}</h3>
+                <div class="movie-meta">⭐ {{ film.rating }} • {{ film.year }} • {{ film.country }} • {{ film.age_rating }}</div>
+                <div class="movie-desc">{{ film.description }}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">{{ film.duration_min }} мин.</span>
+                <span class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;">Подробнее</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

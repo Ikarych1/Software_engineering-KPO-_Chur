@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}{{ film.title }}{% endblock %}
+
+{% block content %}
+<div class="film-header">
+    <div class="film-info">
+        <h1 style="font-size: 28px; margin-bottom: 8px;">{{ film.title }} ({{ film.year }})</h1>
+        <div class="movie-meta" style="font-size: 14px; margin-bottom: 16px;">
+            ⭐ Рейтинг: <b>{{ film.rating }}</b> | Жанры: <b>{{ film.genres | join(', ') }}</b> | Возраст: <b>{{ film.age_rating }}</b> | Время: <b>{{ film.duration_min }} мин.</b>
+        </div>
+        <p style="color: #cbd5e1; margin-bottom: 24px;">{{ film.description }}</p>
+
+        <!-- ПЛЕЕР -->
+        <div class="player-screen">
+            <div id="screen-icon" style="font-size: 48px; margin-bottom: 12px;">⏸️</div>
+            <div id="timeline" style="font-size: 24px; font-weight: bold;">00:00</div>
+            <div style="font-size: 12px; color: var(--accent); margin-top: 8px;">Демонстрационный потоковый плеер H.264/AAC</div>
+        </div>
+
+        <div class="player-controls">
+            <button class="btn" id="play-btn" onclick="togglePlay()">▶ Воспроизведение</button>
+            <button class="btn btn-secondary" onclick="seek(-10)">⏪ -10 сек</button>
+            <button class="btn btn-secondary" onclick="seek(10)">⏩ +10 сек</button>
+            <select style="max-width: 160px;">
+                <option>Качество: 720p</option>
+                <option>Качество: 480p</option>
+            </select>
+        </div>
+
+        <!-- КНОПКА СОЗДАНИЯ СОВМЕСТНОГО СЕАНСА -->
+        <div style="margin-top: 24px; background: var(--card-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3>Смотреть с друзьями онлайн</h3>
+                <p style="font-size: 12px; color: var(--text-muted);">Создайте приватную синхронную комнату с текстовым чатом.</p>
+            </div>
+            <form method="post" action="{{ url_for('create_room_action', movie_id=film.id) }}">
+                <button type="submit" class="btn">Создать комнату</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- БЛОК ОЦЕНОК И ОТЗЫВОВ -->
+    <div style="width: 380px;">
+        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+            <h3>Ваша оценка и отзыв</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Оценка влияет на формирование ваших персональных рекомендаций.</p>
+            <form method="post" action="{{ url_for('add_review', movie_id=film.id) }}">
+                <label style="font-size: 13px;">Оценка от 1 до 10:</label>
+                <select name="score" style="margin-bottom: 12px; margin-top: 4px;">
+                    {% for s in range(10, 0, -1) %}
+                    <option value="{{ s }}" {% if user_score == s %}selected{% endif %}>{{ s }} ⭐</option>
+                    {% endfor %}
+                </select>
+                <textarea name="comment" placeholder="Напишите ваш отзыв о фильме..."></textarea>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Сохранить отзыв</button>
+            </form>
+        </div>
+
+        <div>
+            <h3>Отзывы зрителей ({{ reviews|length }})</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+                {% for rev in reviews %}
+                <div style="background: var(--card-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
+                        <b>{{ rev.user_name }}</b>
+                        <span style="color: var(--accent);">{{ rev.score }} / 10 ⭐</span>
+                    </div>
+                    <p style="font-size: 13px; color: #cbd5e1;">{{ rev.comment }}</p>
+                    <span style="font-size: 10px; color: var(--text-muted);">{{ rev.created_at }}</span>
+                </div>
+                {% else %}
+                <p style="font-size: 13px; color: var(--text-muted);">Отзывов пока нет. Будьте первым!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/player.js') }}"></script>
+{% endblock %}
