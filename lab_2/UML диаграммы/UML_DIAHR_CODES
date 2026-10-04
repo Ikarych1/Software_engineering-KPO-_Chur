@@ -7,23 +7,20 @@ left to right direction
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-actor "Неавторизованный пользователь" as Guest
-actor "Зарегистрированный пользователь" as User
-actor "Создатель комнаты (Хост)" as RoomHost
+actor "Пользователь" as User
 actor "Администратор" as Admin
 
-User -up-|> Guest
-RoomHost -up-|> User
-
 rectangle "Онлайн-кинотеатр" {
-    usecase "Поиск и фильтрация каталога" as UC_Search
     usecase "Регистрация и авторизация" as UC_Auth
+    usecase "Поиск и фильтрация каталога" as UC_Search
     usecase "Просмотр карточки фильма" as UC_ViewCard
     usecase "Воспроизведение видео (плеер)" as UC_WatchVideo
-    usecase "Оценка (1-10) и отзыв" as UC_Rate
+    usecase "Выставление оценки по 10-балльной шкале" as UC_Rate10PointScale
+    usecase "Написание отзыва" as UC_RateReview
     usecase "Получение рекомендаций" as UC_Recs
     usecase "Управление подпиской (демо-оплата)" as UC_Subscription
 
+    usecase "Создание и управление комнатой совместного просмотра" as UC_CreateManageRoom
     usecase "Создание комнаты совместного просмотра" as UC_CreateRoom
     usecase "Подключение к комнате по коду" as UC_JoinRoom
     usecase "Управление синхронным плеером (Play/Pause/Seek)" as UC_SyncControl
@@ -34,19 +31,23 @@ rectangle "Онлайн-кинотеатр" {
     usecase "Просмотр статистики просмотров" as UC_AdminStats
 }
 
-Guest --> UC_Search
-Guest --> UC_Auth
-Guest --> UC_ViewCard
+User --> UC_Auth
+User --> UC_Search
+User --> UC_ViewCard
+
+User --> UC_Rate10PointScale
+User --> UC_RateReview
 
 User --> UC_WatchVideo
-User --> UC_Rate
 User --> UC_Recs
 User --> UC_Subscription
-User --> UC_CreateRoom
+
+User --> UC_CreateManageRoom
+UC_CreateManageRoom ..> UC_CreateRoom : <<include>>
+UC_CreateManageRoom ..> UC_SyncControl : <<include>>
+
 User --> UC_JoinRoom
 User --> UC_RoomChat
-
-RoomHost --> UC_SyncControl
 
 Admin --> UC_AdminCatalog
 Admin --> UC_AdminUsers
