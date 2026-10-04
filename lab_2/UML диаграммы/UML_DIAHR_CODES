@@ -138,7 +138,7 @@ WatchRoom "1" *-- "*" ChatMessage : сообщения
 WatchRoom --> MediaItem : транслирует
 RecommendationService ..> MediaItem : отбирает
 RecommendationService ..> User : анализирует
-
+@enduml
 
 Диаграмма последовательностей (Sequence Diagram)
 
