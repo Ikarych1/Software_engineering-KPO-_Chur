@@ -1,3 +1,5 @@
+**git remote **set**-url origin <новый_URL>**
+
 # Шпора: командная работа с GitHub через Pull Request
 
 Эта инструкция для участников команды, которые работают с общим
@@ -7,22 +9,27 @@
 
 Если у тебя ещё нет локальной копии проекта:
 
-``` bash
-git clone https://github.com/USERNAME/REPOSITORY.git
-cd REPOSITORY
+```bash
+git clone https://github.com/Ikarych1/Software_engineering-KPO-_Chur.git
+cd Software_engineering-KPO-_Chur
 ```
-
-Замени `USERNAME/REPOSITORY` на адрес общего репозитория.
 
 Если проект уже клонирован, просто перейди в его папку:
 
-``` bash
-cd REPOSITORY
+```bash
+cd Software_engineering-KPO-_Chur
+```
+
+Если у тебя был локальный репозиторий, связанный с гитхабным со старым названием - поменяй ссылку на текущую
+
+```bash
+git remote -v 
+git remote set-url origin https://github.com/Ikarych1/Software_engineering-KPO-_Chur
 ```
 
 Проверь состояние и удалённый репозиторий:
 
-``` bash
+```bash
 git status
 git remote -v
 git branch
@@ -30,19 +37,16 @@ git branch
 
 ## 2. Перед началом каждой задачи: обновить `main`
 
-``` bash
+```bash
 git switch main
 git pull origin main
 ```
-
-Если основная ветка проекта называется `master`, используй `master`
-вместо `main`.
 
 ## 3. Создать отдельную ветку для своей задачи
 
 Назови ветку по смыслу задачи. Например:
 
-``` bash
+```bash
 git switch -c feature/update-readme
 ```
 
@@ -55,14 +59,14 @@ git switch -c feature/update-readme
 
 Отредактируй нужные файлы любым редактором, затем проверь изменения:
 
-``` bash
+```bash
 git status
 git diff
 ```
 
 Добавь нужные файлы и создай коммит:
 
-``` bash
+```bash
 git add README.md
 git commit -m "Update project README"
 ```
@@ -73,33 +77,33 @@ git commit -m "Update project README"
 
 Убедись, что коммит создан:
 
-``` bash
+```bash
 git log --oneline -3
 git status
 ```
 
 ## 5. Отправить свою ветку на GitHub
 
-``` bash
+```bash
 git push -u origin feature/update-readme
 ```
 
 При первом `push` для новой ветки используй `-u`. В следующих отправках
 обычно достаточно:
 
-``` bash
+```bash
 git push
 ```
 
 ## 6. Создать Pull Request (PR) на GitHub
 
-1.  Открой общий репозиторий на GitHub в браузере.
-2.  Создай Pull Request: **base** --- `main`, **compare/head** --- твоя
-    ветка `feature/update-readme`.
-3.  Напиши понятный заголовок и кратко опиши, что изменено и как это
-    проверить.
-4.  Создай PR и отправь ссылку участнику команды, который проверяет
-    изменения.
+1. Открой общий репозиторий на GitHub в браузере.
+2. Создай Pull Request: **base** --- `main`, **compare/head** --- твоя
+   ветка `feature/update-readme`.
+3. Напиши понятный заголовок и кратко опиши, что изменено и как это
+   проверить.
+4. Создай PR и отправь ссылку участнику команды, который проверяет
+   изменения.
 
 Pull Request --- это запрос на включение изменений из твоей ветки в
 `main`. Сам по себе PR ещё не означает, что изменения уже попали в
@@ -126,14 +130,14 @@ changed**, оставить комментарии при необходимос
 
 После того как PR принят и слит в `main`:
 
-``` bash
+```bash
 git switch main
 git pull origin main
 ```
 
 Когда твоя ветка больше не нужна, можно удалить её локально:
 
-``` bash
+```bash
 git branch -d feature/update-readme
 ```
 
@@ -145,7 +149,7 @@ git branch -d feature/update-readme
 Сначала сохрани свою работу коммитом. Затем подтяни свежий `main` и
 обнови свою ветку:
 
-``` bash
+```bash
 git switch main
 git pull origin main
 git switch feature/update-readme
@@ -156,7 +160,7 @@ git merge main
 найди разделители `<<<<<<<`, `=======`, `>>>>>>>`, вручную оставь
 правильный итоговый вариант, затем выполни:
 
-``` bash
+```bash
 git add CONFLICTED_FILE
 git commit
 git push
@@ -170,7 +174,7 @@ git push
 
 ## 10. Полный короткий сценарий для каждой задачи
 
-``` bash
+```bash
 git switch main
 git pull origin main
 git switch -c feature/my-task
@@ -188,12 +192,12 @@ git push -u origin feature/my-task
 
 ## Важные правила команды
 
--   Один участник --- одна рабочая ветка на задачу.
--   Не коммить напрямую в `main`, если команда договорилась работать
-    через PR.
--   Перед началом задачи обновляй `main`.
--   Пиши понятные сообщения коммитов и описания PR.
--   Не включай в коммиты пароли, токены, `.env` и другие секреты.
--   Если `git status` показывает незакоммиченные изменения, не
-    переключайся и не удаляй ветки вслепую: сначала разберись, что
-    именно изменено.
+- Один участник --- одна рабочая ветка на задачу.
+- Не коммить напрямую в `main`, если команда договорилась работать
+  через PR.
+- Перед началом задачи обновляй `main`.
+- Пиши понятные сообщения коммитов и описания PR.
+- Не включай в коммиты пароли, токены, `.env` и другие секреты.
+- Если `git status` показывает незакоммиченные изменения, не
+  переключайся и не удаляй ветки вслепую: сначала разберись, что
+  именно изменено.
