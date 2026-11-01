@@ -57,3 +57,4 @@
 {% macro avatar(name, color='peach', size='') -%}
 <span class="avatar {{ color }} {{ size }}">{{ (name.split()[0][0] ~ (name.split()[1][0] if name.split()|length > 1 else ''))|upper if name else '?' }}</span>
 {%- endmacro %}
+

@@ -7,6 +7,8 @@ import time
 from flask import Flask, abort, flash, g, jsonify, redirect, render_template, request, url_for
 
 from accounts import init_accounts, login_required, store
+from onboarding import init_onboarding
+from pagination import paginate
 from database import Store
 from library import init_library
 from imdb_admin import init_imdb
@@ -26,6 +28,7 @@ storage.CATALOG.extend(m for m in EXTRA_FILMS if not any(x.id == m.id for x in s
 app.extensions['store'] = Store(Path(os.environ.get('CINEMA_DATABASE') or Path(app.root_path) / '.local/cinema.sqlite3'))
 app.extensions['store'].seed(storage.CATALOG, ART)
 init_accounts(app)
+init_onboarding(app)
 init_library(app)
 recommendation_web.init_recommendations(app)
 init_imdb(app)
@@ -261,13 +264,18 @@ def index():
             by_genre.setdefault(genre, []).append(film)
     for genre, items in sorted(by_genre.items(), key=lambda kv: -len(kv[1]))[:2]:
         if len(items) >= 4:
-            rails.append(dict(id=f'genre-{len(rails)}', title=genre, subtitle='Подборка по жанру', films=items))
+            rails.append(dict(id=f'genre-{len(rails)}', title=genre, subtitle='Подборка по жанру', films=items[:12]))
     featured = sorted(rows, key=lambda r: (not r['torrent'], not r['art'].get('hero_video'),
                                            not (r['art'].get('backdrop') or r['art'].get('backdrop_upload')), -r['film'].rating))
     featured = [row['film'] for row in featured if row['art'].get('backdrop') or row['art'].get('backdrop_upload') or row['art'].get('hero_video')][:4] or [r['film'] for r in rows[:1]]
     all_genres = sorted({gen for m in available_catalog() for gen in m.genres})
+    pagination = paginate(len(films), anchor='catalog')
+    total_films = len(films)
+    has_series = any(film.kind == 'series' for film in films)
+    films = films[pagination['offset']:pagination['offset']+pagination['size']]
     return render_template('index.html', films=films, rails=rails, genres=all_genres, active_genres=genre_filters,
-                           sort=sort, filtered=filtered, featured=featured, query=query, user=g.user, kind=kind)
+                           sort=sort, filtered=filtered, featured=featured, query=query, user=g.user, kind=kind,
+                           pagination=pagination, total_films=total_films, has_series=has_series)
 
 
 @app.route('/movie/<int:movie_id>')
@@ -394,6 +402,17 @@ def profile():
     context = dict(section=section, stats=stats, progress=[p for p in progress if p['movie_id'] in by_id],
                    reviews=reviews, account=store().account(user_id=g.user.id))
     watched_ids = set(state.get('watched', [])) | {p['movie_id'] for p in progress if p['completed']}
+    watchlist_ids = set(state.get('watchlist', []))
+    rating_ids = {int(i) for i in state.get('ratings', {})}
+    client_ids = watched_ids | watchlist_ids | rating_ids | {c['movieId'] for c in state.get('clips', [])}
+    context['catalog_client'] = [by_id[i]['film'] for i in sorted(client_ids) if i in by_id]
+    context['watchlist_preview'] = [by_id[i]['film'] for i in state.get('watchlist', []) if i in by_id][:12]
+    if section in ('watchlist', 'watched', 'ratings'):
+        ids = {'watchlist':watchlist_ids, 'watched':watched_ids, 'ratings':rating_ids}[section]
+        collection = [r['film'] for r in catalog_rows() if r['film'].id in ids]
+        paging = paginate(len(collection))
+        context['pagination'] = paging
+        context['collection_films'] = collection[paging['offset']:paging['offset']+paging['size']]
     context['watched'] = [by_id[i]['film'] for i in watched_ids if i in by_id]
     context['continue_items'] = [p for p in progress if in_progress(p) and p['movie_id'] in by_id][:8]
     if section in ('overview', 'rooms'):
@@ -469,6 +488,8 @@ if __name__ == '__main__':
         entries, selected = inspect_torrent(metadata)
         app.extensions['store'].set_source(1, metadata, arguments.torrent.name, entries, selected, info_hash(metadata))
     playback.port = arguments.port
+    print('>>> Подготовка статистики и индекса рекомендаций…', flush=True)
+    recommendation_web.warmup(app)
     print(f'>>> Сайт запущен: http://127.0.0.1:{arguments.port}/')
     try:
         if not ipaddress.ip_address(arguments.host).is_loopback:
@@ -476,3 +497,4 @@ if __name__ == '__main__':
     except ValueError:
         pass
     app.run(host=arguments.host, port=arguments.port, debug=False, threaded=True)
+

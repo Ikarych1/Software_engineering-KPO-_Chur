@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Ваш вкус в кино{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ asset_url('css/onboarding.css') }}">
+<script src="{{ asset_url('js/onboarding.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+<section class="page-width taste-page" data-preferences>
+    <div class="taste-intro"><span class="eyebrow accent">ВАША КИНОСФЕРА НАЧИНАЕТСЯ ЗДЕСЬ</span>
+        <h1>Какое кино вы любите?</h1>
+        <p class="muted">Выберите 3 любимых жанра и 3 фильма или сериала, которые вам понравились. Это поможет собрать первую подборку для вас.</p>
+        <p class="taste-note">Выбор можно изменить в меню профиля → «Мои предпочтения».</p>
+    </div>
+    {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+    <form method="post" class="taste-form" id="preferences-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="next" value="{{ next_url }}">
+        <div class="taste-step" data-step="genres">
+            <div class="taste-heading"><div><span class="eyebrow">ШАГ 1 ИЗ 2</span><h2>Любимые жанры</h2></div><span class="taste-counter" id="genre-count" aria-live="polite">{{ selected_genres|length }} / 3</span></div>
+            <div class="taste-genres">{% for genre in genres %}<label class="taste-genre"><input type="checkbox" name="genres" value="{{ genre }}" {{ 'checked' if genre in selected_genres }}><span>{{ genre }} <span aria-hidden="true">✓</span></span></label>{% endfor %}</div>
+            <div class="taste-actions"><span class="muted">Найдём истории под ваше настроение</span><button class="btn" type="button" id="taste-next" hidden>Дальше: любимые фильмы {{ icon('arrow') }}</button></div>
+        </div>
+        <div class="taste-step" data-step="movies">
+            <div class="taste-heading"><div><span class="eyebrow">ШАГ 2 ИЗ 2</span><h2>Истории, которые вам понравились</h2></div><span class="taste-counter" id="movie-count" aria-live="polite">{{ selected_movies|length }} / 3</span></div>
+            <div class="taste-search"><label for="taste-query">Поиск в каталоге</label><input id="taste-query" type="search" placeholder="Название фильма или сериала…" autocomplete="off"><button class="btn btn-secondary" id="taste-search" type="button" hidden>Найти</button></div>
+            <div class="taste-picked" id="taste-picked" aria-label="Выбранные фильмы" hidden></div>
+            <div class="taste-movies" id="taste-movies">{% for row in choices %}{% set film=row.film %}<label class="taste-movie" data-movie-id="{{ film.id }}"><input type="checkbox" name="movie_ids" value="{{ film.id }}" {{ 'checked' if film.id in selected_movies }}><span class="taste-poster"><img src="{{ film_image(film.id) }}" alt="" loading="lazy"><span class="taste-check" aria-hidden="true">✓</span></span><strong>{{ film.title }}</strong><small>{{ film.year }} · {{ film.genres[:2]|join(', ') }}</small></label>{% endfor %}</div>
+            <p id="taste-status" class="muted" role="status" aria-live="polite"></p>
+            <button class="btn btn-secondary" type="button" id="taste-more" hidden>Ещё фильмы</button>
+            <div id="taste-selected-inputs"></div>
+            <div class="taste-actions taste-submit"><button class="btn btn-secondary" type="button" id="taste-back" hidden>{{ icon('back') }} К жанрам</button><button class="btn" type="submit" id="taste-submit">{{ 'Сохранить предпочтения' if completed else 'Собрать мою подборку' }} {{ icon('arrow') }}</button></div>
+        </div>
+    </form>
+</section>
+{% endblock %}

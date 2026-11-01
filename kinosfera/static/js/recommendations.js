@@ -88,3 +88,4 @@
     setInterval(refresh, 45000);
     observe(current());
 })();
+

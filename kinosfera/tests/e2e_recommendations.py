@@ -45,9 +45,16 @@ def main():
                 page.locator('#password').fill('browser-test-password-123')
                 page.locator('#confirm').fill('browser-test-password-123')
                 page.get_by_role('button', name='Зарегистрироваться').click()
+                page.wait_for_url('**/auth/preferences**')
+                for i in range(3):
+                    page.locator('.taste-genre').nth(i).click()
+                page.locator('#taste-next').click()
+                for i in range(3):
+                    page.locator('#taste-movies .taste-movie').nth(i).click()
+                page.locator('#taste-submit').click()
                 page.wait_for_url(base+'/')
                 rail = page.locator('[data-recommendations]')
-                expect(rail).to_contain_text('Общая подборка')
+                expect(rail).to_contain_text('В вашем вкусе')
                 expect(rail.locator('.movie-card')).to_have_count(10)
                 expect(rail.locator('.card-reason')).to_have_count(0)
                 rail.scroll_into_view_if_needed()
@@ -128,3 +135,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

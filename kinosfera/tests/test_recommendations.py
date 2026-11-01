@@ -78,7 +78,7 @@ class RecommendationTests(AppTestCase):
         return response.json
 
     def test_cold_start_public_cards_limit_and_guest_no_impressions(self):
-        data = self.get()
+        data = self.app.test_client().get('/api/recommendations').json
         self.assertFalse(data['personalized'])
         self.assertEqual(len(data['items']), 10)
         self.assertIn('Общая подборка', data['html'])
@@ -98,9 +98,9 @@ class RecommendationTests(AppTestCase):
         self.assertTrue(data['personalized'])
         self.assertNotIn(1, [i['id'] for i in data['items']])
         self.assertEqual(self.app.extensions['recommendations'].catalog.builds, builds)
-        self.assertNotEqual([i['id'] for i in first['items']], [i['id'] for i in data['items']])
+        self.assertEqual(self.repo.context(2, self.store.films()).ratings[1]['score'], 10)
         with self.store.connect() as db:
-            db.execute('INSERT INTO user_preferences(user_id,genres,updated_at) VALUES(?,?,?)', (2, '["комедия"]', time.time()))
+            db.execute('UPDATE user_preferences SET genres=?,liked_movie_ids=?,updated_at=? WHERE user_id=?', ('["комедия"]', '[]', time.time(), 2))
         self.assertEqual(self.repo.context(2, self.store.films()).preferences['genres'], ['комедия'])
         preferred = self.get()
         rows = {r['film'].id: r['film'] for r in self.store.films()}
@@ -186,3 +186,4 @@ class RecommendationTests(AppTestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

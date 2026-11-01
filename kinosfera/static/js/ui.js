@@ -530,3 +530,4 @@
     window.addEventListener('kinosfera:recommendations-updated', () => syncBookmarks(read()));
     refresh();
 })();
+

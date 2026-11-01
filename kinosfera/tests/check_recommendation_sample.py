@@ -28,6 +28,8 @@ def main():
         from recommendation_store import RecommendationStore
         store = app.extensions['store']; repo = RecommendationStore(store)
         with store.connect() as db:
+            # This temporary copy models returning users who already completed signup.
+            db.execute('UPDATE user_preferences SET onboarding_completed_at=updated_at')
             users = [dict(r) for r in db.execute('SELECT id,session_version FROM users WHERE active=1')]
         timings, lists, personalized, unavailable = [], [], 0, 0
 
@@ -69,3 +71,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

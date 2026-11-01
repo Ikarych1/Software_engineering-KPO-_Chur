@@ -23,7 +23,7 @@ class RecommendationStore:
             prefs = db.execute('SELECT * FROM user_preferences WHERE user_id=?', (user_id,)).fetchone()
             preferences = {}
             if prefs:
-                for key in ('genres', 'content_types', 'languages', 'actor_ids', 'director_ids'):
+                for key in ('genres', 'content_types', 'languages', 'actor_ids', 'director_ids', 'liked_movie_ids'):
                     value = json.loads(prefs[key])
                     preferences[key] = value if isinstance(value, list) else []
             state_row = db.execute('SELECT data FROM user_state WHERE user_id=?', (user_id,)).fetchone()
@@ -100,3 +100,4 @@ class RecommendationStore:
                           ON CONFLICT(user_id,movie_id) DO UPDATE SET
                           is_active=excluded.is_active,reason=excluded.reason,updated_at=excluded.updated_at''',
                        (user_id, movie_id, int(active), 'user', time.time()))
+

@@ -22,9 +22,12 @@ def main():
             print('Создана рабочая копия мини-БД.', flush=True)
     os.environ['CINEMA_DATABASE'] = str(database)
     from app import app
+    from recommendation_web import warmup
+    warmup(app)
     print(f'КиноСфера: http://127.0.0.1:{args.port}/', flush=True)
     app.run(host='127.0.0.1', port=args.port, threaded=True, debug=False, use_reloader=False)
 
 
 if __name__ == '__main__':
     main()
+

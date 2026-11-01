@@ -164,7 +164,7 @@ def register():
             row = store().account(user_id=user_id)
             sign_in(row)
             flash('Аккаунт создан. Добро пожаловать в КиноСферу!')
-            return redirect(url_for('admin.dashboard') if row['role'] == 'ADMIN' else url_for('index'))
+            return redirect(url_for('onboarding.preferences', next=url_for('index')))
         except sqlite3.IntegrityError:
             error = 'Этот email уже зарегистрирован. Войдите в аккаунт.'
         except ValueError as exc:
@@ -192,7 +192,9 @@ def login():
                 with store().connect() as db:
                     db.execute('DELETE FROM login_attempts WHERE key=?', (key,))
                 sign_in(row)
-                return redirect(safe_next())
+                from onboarding import needs_onboarding
+                target = safe_next()
+                return redirect(url_for('onboarding.preferences', next=target) if needs_onboarding(row['id']) else target)
             failures = attempt['failures'] + 1 if attempt and now - attempt['last_at'] < 300 else 1
             with store().connect() as db:
                 db.execute('INSERT INTO login_attempts VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET failures=excluded.failures,last_at=excluded.last_at',

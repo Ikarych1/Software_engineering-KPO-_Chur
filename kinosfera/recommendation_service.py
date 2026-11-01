@@ -68,6 +68,7 @@ class RecommendationService:
             raise ValueError('limit must be between 1 and 10')
         context = context or UserContext()
         by_id = {r['film'].id: r for r in rows if not r['film'].is_hidden}
+        liked = [i for i in context.preferences.get('liked_movie_ids', []) if type(i) is int and i in by_id]
         snapshot = self.catalog.get(list(by_id.values()), namespace)
         snapshot_id = snapshot.stats()['snapshot_id'] if snapshot else None
         blocked = set(context.declined)
@@ -75,6 +76,7 @@ class RecommendationService:
         if not allow_rewatch:
             blocked.update(context.completed)
             blocked.update(context.ratings)
+            blocked.update(liked)
         eligible = set(by_id) - blocked
         if not eligible:
             return Result([], False, snapshot_id)
@@ -85,7 +87,7 @@ class RecommendationService:
                    if p['movie_id'] in by_id and p['watched_seconds'] > 0
                    and (p['completed'] or p['duration'] > 0 and p['watched_seconds'] >= .8*p['duration'])
                    and context.ratings.get(p['movie_id'], {}).get('score', 10) >= 7]
-        anchors = [i for i in dict.fromkeys(rated + watched + [i for i in context.watchlist if i in by_id])
+        anchors = [i for i in dict.fromkeys(rated + liked + watched + [i for i in context.watchlist if i in by_id])
                    if i not in context.declined and context.ratings.get(i, {}).get('score', 10) >= 7][:4]
         indexed = bool(snapshot and snapshot.stats()['informative_features'])
         anchors = anchors if indexed else []
@@ -150,3 +152,4 @@ class RecommendationService:
         if not snapshot or not snapshot.stats()['informative_features']:
             return []
         return [by_id[i] for i, _ in snapshot.search_by_id(movie_id, k=limit, allowed_ids=by_id)['items']]
+

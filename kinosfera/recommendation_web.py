@@ -18,6 +18,13 @@ def init_recommendations(app):
     app.register_blueprint(blueprint)
 
 
+def warmup(app):
+    """Prepare the expensive first aggregates and native snapshot before serving requests."""
+    repository = app.extensions['store']
+    repository.film_stats()
+    app.extensions['recommendations'].catalog.get(repository.films(), namespace=str(repository.path.resolve()))
+
+
 def recommend(rows, stats, *, surface='home', limit=10, allow_rewatch=False):
     repository = RecommendationStore(store())
     user_id = g.user.id if g.get('user') else None
@@ -105,3 +112,4 @@ def interest():
     except LookupError:
         abort(404)
     return jsonify(ok=True)
+

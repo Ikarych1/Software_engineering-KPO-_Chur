@@ -91,9 +91,19 @@ class AppTestCase(unittest.TestCase):
         with client.session_transaction() as session:
             return session['csrf']
 
-    def register(self, client, email, name='Test Viewer'):
-        return client.post('/auth/register', data=dict(email=email, username=name, password='test-password-123',
-                                                       confirm='test-password-123', csrf_token=self.csrf(client)))
+    def register(self, client, email, name='Test Viewer', onboard=True):
+        response = client.post('/auth/register', data=dict(email=email, username=name, password='test-password-123',
+                                                         confirm='test-password-123', csrf_token=self.csrf(client)))
+        if onboard and response.status_code == 302:
+            self.complete_onboarding(client)
+        return response
+
+    def complete_onboarding(self, client):
+        client.get('/auth/preferences')
+        rows = self.store.films()
+        genres = sorted({g for r in rows for g in r['film'].genres})[:3]
+        result = self.post(client, '/auth/preferences', data=dict(genres=genres, movie_ids=[r['film'].id for r in rows[:3]]))
+        self.assertEqual(result.status_code, 302, result.text)
 
     def post(self, client, url, **kwargs):
         return client.post(url, headers={'X-CSRF-Token': self.csrf(client)}, **kwargs)

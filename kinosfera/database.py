@@ -6,9 +6,11 @@ from pathlib import Path
 import secrets
 import sqlite3
 import time
+import threading
 
 from models import MediaItem, User
 from engagement_schema import SCHEMA as ENGAGEMENT_SCHEMA
+from film_stats_cache import SCHEMA as STATS_CACHE_SCHEMA
 
 EMPTY_STATE = dict(watched=[], ratings={}, watchlist=[], clips=[], settings={}, rooms={}, friends=[])
 
@@ -84,12 +86,19 @@ FILM_COLUMNS = {'magnet': 'TEXT', 'info_hash': 'TEXT', 'episodes': "TEXT NOT NUL
                 'tmdb_id': 'INTEGER', 'tmdb_kind': 'TEXT'}
 USER_COLUMNS = {'last_seen': 'REAL', 'plan': "TEXT NOT NULL DEFAULT 'free'", 'plan_until': 'REAL'}
 PROGRESS_COLUMNS = {'file_id': 'INTEGER'}      # series: the episode the film's progress row points to
+PREFERENCE_COLUMNS = {
+    'liked_movie_ids': "TEXT NOT NULL DEFAULT '[]' CHECK(json_valid(liked_movie_ids))",
+    'onboarding_completed_at': 'REAL',
+}
 
 
 class Store:
     def __init__(self, path):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._stats_lock = threading.Lock()
+        self._stats_version = None
+        self._stats_cache = None
         with self.connect() as db:
             db.execute('PRAGMA journal_mode=WAL')
             db.executescript(SCHEMA)
@@ -102,6 +111,11 @@ class Store:
             db.execute('CREATE UNIQUE INDEX IF NOT EXISTS films_imdb_id ON films(imdb_id) WHERE imdb_id IS NOT NULL')
             db.execute('CREATE UNIQUE INDEX IF NOT EXISTS films_tmdb_id ON films(tmdb_kind,tmdb_id) WHERE tmdb_id IS NOT NULL')
             db.executescript(ENGAGEMENT_SCHEMA)
+            db.executescript(STATS_CACHE_SCHEMA)
+            existing = {row['name'] for row in db.execute('PRAGMA table_info(user_preferences)')}
+            for name, kind in PREFERENCE_COLUMNS.items():
+                if name not in existing:
+                    db.execute(f'ALTER TABLE user_preferences ADD COLUMN {name} {kind}')
 
     @contextmanager
     def connect(self):
@@ -166,7 +180,7 @@ class Store:
                                 (email, username, password_hash, role))
             return cursor.lastrowid
 
-    def users(self, query=''):
+    def users(self, query='', limit=None, offset=0):
         sql = '''SELECT u.id,u.email,u.username,u.role,u.active,u.created_at,u.last_seen,u.plan,
                  (SELECT COUNT(*) FROM views v WHERE v.user_id=u.id) AS views,
                  (SELECT COUNT(*) FROM reviews r WHERE r.user_id=u.id) AS reviews
@@ -175,8 +189,19 @@ class Store:
         if query:
             sql += ' WHERE u.email LIKE ? OR u.username LIKE ?'
             args = (f'%{query}%', f'%{query}%')
+        sql += ' ORDER BY u.id'
+        if limit is not None:
+            sql += ' LIMIT ? OFFSET ?'
+            args = (*args, limit, offset)
         with self.connect() as db:
-            return [dict(r) for r in db.execute(sql + ' ORDER BY u.id', args)]
+            return [dict(r) for r in db.execute(sql, args)]
+
+    def users_count(self, query=''):
+        with self.connect() as db:
+            if query:
+                return db.execute('SELECT COUNT(*) FROM users WHERE email LIKE ? OR username LIKE ?',
+                                  (f'%{query}%', f'%{query}%')).fetchone()[0]
+            return db.execute('SELECT COUNT(*) FROM users').fetchone()[0]
 
     def touch_user(self, user_id):
         with self.connect() as db:
@@ -408,15 +433,21 @@ class Store:
                        (torrent, name, json.dumps(files, ensure_ascii=False), file_id, secrets.token_hex(12), info_hash, movie_id))
 
     def film_stats(self):
-        """Aggregate community data for every film in one query each."""
-        with self.connect() as db:
+        """Reuse aggregates until SQLite reports a rating, view or review change."""
+        with self._stats_lock, self.connect() as db:
+            db.execute('BEGIN')
+            version = db.execute("SELECT version FROM cache_versions WHERE name='film_stats'").fetchone()[0]
+            if self._stats_version == version and self._stats_cache is not None:
+                return {i: dict(value) for i, value in self._stats_cache.items()}
             ratings = {r['movie_id']: (r['avg'], r['n']) for r in db.execute(
                 'SELECT movie_id, AVG(score) AS avg, COUNT(*) AS n FROM ratings GROUP BY movie_id')}
             views = {r['movie_id']: r['n'] for r in db.execute('SELECT movie_id, COUNT(*) AS n FROM views GROUP BY movie_id')}
             reviews = {r['movie_id']: r['n'] for r in db.execute('SELECT movie_id, COUNT(*) AS n FROM reviews GROUP BY movie_id')}
-        ids = set(ratings) | set(views) | set(reviews)
-        return {i: dict(avg=round(ratings[i][0], 1) if i in ratings else None, votes=ratings.get(i, (0, 0))[1],
-                        views=views.get(i, 0), reviews=reviews.get(i, 0)) for i in ids}
+            ids = set(ratings) | set(views) | set(reviews)
+            result = {i: dict(avg=round(ratings[i][0], 1) if i in ratings else None, votes=ratings.get(i, (0, 0))[1],
+                            views=views.get(i, 0), reviews=reviews.get(i, 0)) for i in ids}
+            self._stats_version, self._stats_cache = version, result
+            return {i: dict(value) for i, value in result.items()}
 
     # ------------------------------------------------------------------ media info
     def media_info(self, key):

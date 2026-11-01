@@ -69,3 +69,4 @@ class CatalogIndex:
                         LOG.warning('Recommendation snapshot remains in memory; save failed', exc_info=True)
             self._key, self._snapshot = key, snapshot
             return snapshot
+
