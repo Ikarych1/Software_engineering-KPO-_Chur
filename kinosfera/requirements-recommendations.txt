@@ -1,0 +1,4 @@
+# Build mixdex from the tested revision; requires Git and a C++20 compiler.
+Flask==3.1.3
+numpy==2.5.4
+mixdex @ git+https://github.com/AlSky361/Mixdex.git@96c7f2e426c4a002316972550be8dba68b147b19

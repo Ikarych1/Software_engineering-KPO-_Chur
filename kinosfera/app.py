@@ -15,6 +15,7 @@ from playback import init_playback
 from rooms import init_rooms
 import series
 import services
+import recommendation_web
 import storage
 from torrent_meta import info_hash
 from ui_data import ART, EXTRA_FILMS
@@ -26,6 +27,7 @@ app.extensions['store'] = Store(Path(os.environ.get('CINEMA_DATABASE') or Path(a
 app.extensions['store'].seed(storage.CATALOG, ART)
 init_accounts(app)
 init_library(app)
+recommendation_web.init_recommendations(app)
 init_imdb(app)
 init_tmdb(app)
 playback = init_playback(app)
@@ -81,18 +83,26 @@ def asset_url(filename):
 def film_image(movie_id, backdrop=False):
     row = rows_by_id().get(movie_id)
     info = row['art'] if row else {}
-    if backdrop and info.get('backdrop_upload'):
+    if backdrop and info.get('backdrop_upload') and static_file_exists(info['backdrop_upload']):
         return url_for('static', filename=info['backdrop_upload'])
-    if backdrop and info.get('backdrop'):
+    if backdrop and info.get('backdrop') and static_file_exists(f"images/{info['backdrop']}.jpg"):
         return url_for('static', filename=f"images/{info['backdrop']}.jpg")
     if backdrop and info.get('tmdb_backdrop_url'):
         return info['tmdb_backdrop_url']
-    if info.get('poster'):
+    if info.get('poster') and static_file_exists(info['poster']):
         return url_for('static', filename=info['poster'])
     slug = info.get('slug', 'placeholder')
-    if slug == 'placeholder' and info.get('tmdb_poster_url'):
+    if static_file_exists('images/' + slug + ('.svg' if slug == 'placeholder' else '.jpg')) and slug != 'placeholder':
+        return url_for('static', filename='images/' + slug + '.jpg')
+    if info.get('tmdb_poster_url'):
         return info['tmdb_poster_url']
-    return url_for('static', filename='images/' + slug + ('.svg' if slug == 'placeholder' else '.jpg'))
+    return url_for('static', filename='images/placeholder.svg')
+
+
+def static_file_exists(filename):
+    root = Path(app.static_folder).resolve()
+    path = (root / filename).resolve()
+    return path.is_relative_to(root) and path.is_file()
 
 
 def series_info(movie_id):
@@ -167,6 +177,7 @@ def plural(n, one, few, many):
 
 
 app.jinja_env.globals.update(film_image=film_image, film_meta=film_meta, asset_url=asset_url, plural=plural,
+                             static_file_exists=static_file_exists,
                              series_info=series_info, episode_label=series.label)
 app.jinja_env.filters.update(duration=fmt_duration, filesize=fmt_size, date=fmt_date)
 
@@ -233,12 +244,9 @@ def index():
     shows = [row['film'] for row in rows if row['torrent'] and row['film'].kind == 'series']
     if shows:
         rails.append(dict(id='series', title='Сериалы', subtitle='Сезоны целиком — серия за серией, с того места, где остановились', films=shows, label='Сериалы'))
-    picks = services.recommend(rows, stats, state, my_progress() if g.user else [])
-    if picks:
-        rails.append(dict(id='for-you', title='В вашем вкусе' if g.user else 'Стоит посмотреть',
-                          subtitle='Подобрано по вашим оценкам и просмотрам' if g.user else 'Лучшее из каталога',
-                          films=[row['film'] for row, _ in picks], reasons={row['film'].id: reason for row, reason in picks},
-                          label='Подборка для вас'))
+    if not filtered:
+        result = recommendation_web.recommend(rows, stats)
+        rails.append(recommendation_web.rail_context(result, rows))
     popular = sorted((row['film'] for row in rows if stats.get(row['film'].id, {}).get('views')),
                      key=lambda m: -stats[m.id]['views'])
     if len(popular) >= 3:
@@ -282,7 +290,7 @@ def movie_detail(movie_id: int):
     return render_template('movie.html', film=film, row=row, reviews=reviews, my_review=my_review, user_score=user_score,
                            progress=progress, stats=film_stats().get(movie_id, {}), media=media,
                            episodes_done=episodes_done, current_episode=current,
-                           similar=[r['film'] for r in services.similar(catalog_rows(), film)],
+                           similar=[r['film'] for r in recommendation_web.similar(catalog_rows(), film.id)],
                            active_rooms=[r for r in store().active_rooms() if r['movie_id'] == movie_id][:3],
                            user=g.user)
 
@@ -355,7 +363,7 @@ def player(movie_id):
                            resume=resume, episode=episode, episodes_done=episodes_done,
                            next_episode=series.neighbour(row['episodes'], episode['file_id']) if episode else None,
                            prev_episode=series.neighbour(row['episodes'], episode['file_id'], -1) if episode else None,
-                           similar=[r['film'] for r in services.similar(catalog_rows(), row['film'], 8)])
+                           similar=[r['film'] for r in recommendation_web.similar(catalog_rows(), row['film'].id, 8)])
 
 
 @app.post('/progress/<int:movie_id>/hide')
@@ -402,8 +410,9 @@ def profile():
     if section == 'subscription':
         context['payments'] = store().payments(g.user.id)
     if section in ('overview', 'watchlist'):
-        picks = services.recommend(catalog_rows(), film_stats(), state, progress, limit=8)
-        context['picks'] = [row['film'] for row, _ in picks]
+        rows = catalog_rows()
+        result = recommendation_web.recommend(rows, film_stats(), surface='profile', limit=8)
+        context['recommendation_rail'] = recommendation_web.rail_context(result, rows, 'profile')
     return render_template('profile.html', **context)
 
 
