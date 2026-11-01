@@ -1,0 +1,13 @@
+{% from 'components.html' import icon, movie_card %}
+<section class="film-section{{ ' page-width' if rec.surface == 'home' else '' }}" id="for-you"
+         data-recommendations="{{ rec.surface }}" data-recommendation-request="{{ rec.request_id }}">
+    <div class="section-heading"><div><span class="eyebrow accent">Подборка для вас</span>
+        <h2>{{ rec.title }}</h2><p class="muted">{{ rec.subtitle }}</p></div>
+        <div class="rail-controls"><button class="icon-button" data-scroll="-1" aria-label="Предыдущие фильмы">{{ icon('back') }}</button><button class="icon-button" data-scroll="1" aria-label="Следующие фильмы">{{ icon('arrow') }}</button></div>
+    </div>
+    {% if user %}<label class="checkbox-label small-text"><input type="checkbox" data-recommendations-rewatch{% if rec.allow_rewatch %} checked{% endif %}> Показывать также просмотренное и оценённое</label>{% endif %}
+    <p class="muted small-text" data-recommendations-status role="status" aria-live="polite"></p>
+    <div class="film-rail">{% for film in rec.films %}{{ movie_card(film, art, recommendation=user is not none) }}{% else %}
+        <p class="muted">Все подходящие произведения уже просмотрены или исключены. <a href="{{ url_for('index', view='catalog') }}">Открыть каталог</a></p>
+    {% endfor %}</div>
+</section>

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset_url('css/features.css') }}">
     {% block head %}{% endblock %}
     <script src="{{ asset_url('js/ui.js') }}" defer></script>
+    <script src="{{ asset_url('js/recommendations.js') }}" defer></script>
 </head>
 <body data-user-id="{{ user.id if user else '' }}">
     <script id="account-state" type="application/json">{{ user_state|tojson }}</script>

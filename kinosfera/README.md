@@ -6,11 +6,17 @@
 
 ## Быстрый запуск
 
-Нужны Python 3.12, а для обработки видео — FFmpeg и FFprobe в `PATH`.
+Рекомендации используют Mixdex из отдельного GitHub-репозитория. Закреплённый
+коммит устанавливается автоматически через requirements.txt. Запуск на копии
+мини-БД и проверка рекомендаций описаны в [RECOMMENDATIONS.md](RECOMMENDATIONS.md).
+
+Нужны Python 3.12, Git, CMake >= 3.20 и компилятор C++20 для сборки Mixdex
+(на Windows — Visual Studio Build Tools с компонентом C++).
+Для обработки видео нужны FFmpeg и FFprobe в `PATH`.
 Команды выполняются из папки `kinosfera` после клонирования репозитория:
 
 ```powershell
-python -m venv .venv
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe app.py --port 5050
 ```

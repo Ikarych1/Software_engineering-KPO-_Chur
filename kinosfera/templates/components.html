@@ -24,7 +24,7 @@
 } %}<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ paths.get(name, paths['play']) }}"/></svg>
 {%- endmacro %}
 
-{% macro movie_card(film, art, social='', score=none, reason='') %}
+{% macro movie_card(film, art, social='', score=none, reason='', recommendation=false) %}
 {% set meta = film_meta(film.id) %}{% set show = series_info(film.id) %}
 <article class="movie-card{{ ' is-unavailable' if not meta.available }}{{ ' is-series' if show }}" data-movie-id="{{ film.id }}">
     <div class="poster-wrap">
@@ -39,6 +39,7 @@
     <a class="card-title" href="{{ url_for('movie_detail', movie_id=film.id) }}">{{ film.title }}</a>
     <div class="card-meta">{{ film.year }} · {% if show %}{{ show.count }} {{ plural(show.count, 'серия', 'серии', 'серий') }}{% else %}{{ film.genres[0] }}{% endif %} <span>{{ film.age_rating }}</span></div>
     {% if reason %}<div class="card-reason">{{ reason }}</div>{% endif %}
+    {% if recommendation %}<button type="button" class="recommendation-dismiss" data-recommendation-dismiss="{{ film.id }}" aria-label="Не рекомендовать «{{ film.title }}»">Не интересно</button>{% endif %}
     <div class="card-hover"><p>{{ film.description }}</p><div class="card-meta">{{ film.duration_min }} мин · {{ film.genres|join(', ') }}</div>
         {% if meta.progress %}<a class="btn btn-small" href="{{ url_for('player', movie_id=film.id) }}">{{ icon('play') }} Продолжить</a>
         {% elif meta.available %}<a class="btn btn-small" href="{{ url_for('player', movie_id=film.id) }}">{{ icon('play') }} Смотреть</a>

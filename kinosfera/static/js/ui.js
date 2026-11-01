@@ -24,6 +24,7 @@
                 const response = await fetch('/api/profile/state', {method: 'POST', keepalive: true,
                     headers: {'Content-Type': 'application/json', 'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content}, body: data});
                 if (!response.ok) throw new Error();
+                window.dispatchEvent(new Event('kinosfera:state-saved'));
             }
         } catch (_) { toast('Не удалось сохранить изменения в аккаунте. Обновите страницу и войдите снова.'); }
         finally { saving = false; }
@@ -526,5 +527,6 @@
         calm.addEventListener?.('change', syncHeroVideos);
         syncHeroVideos();
     }
+    window.addEventListener('kinosfera:recommendations-updated', () => syncBookmarks(read()));
     refresh();
 })();
