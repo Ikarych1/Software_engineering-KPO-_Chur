@@ -1,0 +1,32 @@
+.venv/
+__pycache__/
+*.py[cod]
+.torrent-cache/
+.idea/
+.npm-cache/
+.local/
+tests/artifacts/
+static/uploads/
+
+# Local configuration, tools and generated exports
+.env
+.env.*
+!.env.example
+.venv-*/
+tmp/
+exports/
+*.log
+*.key
+*.pem
+
+# Database files and generated dataset payloads are distributed separately
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+datasets/**/*.zip
+datasets/**/*.gz
+datasets/**/data/
+datasets/**/_profiles.json
+datasets/**/provenance.json
+datasets/**/TEST_LOGIN.md

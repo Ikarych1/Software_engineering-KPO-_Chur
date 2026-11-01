@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Регистрация' if mode == 'register' else 'Вход' }}{% endblock %}
+{% block content %}
+<section class="account-page page-width"><div class="account-intro"><span class="eyebrow accent">ВАША ВСЕЛЕННАЯ КИНО</span><h1>Хорошее кино.<br>Ваша история.</h1><p class="muted">Сохраняйте фильмы, делитесь впечатлениями и возвращайтесь к любимым моментам.</p></div>
+<div class="account-card panel"><h2>{{ 'Создать аккаунт' if mode == 'register' else 'С возвращением' }}</h2><p class="muted">{{ 'Всё любимое кино в одном месте' if mode == 'register' else 'Войдите, чтобы продолжить просмотр' }}</p>
+{% if first_account %}<p class="account-note">Первый аккаунт получит права администратора кинотеатра.</p>{% endif %}
+{% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+<form method="post" class="stacked-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="next" value="{{ request.args.get('next','') }}">
+{% if mode == 'register' %}<label for="username">Имя</label><input id="username" name="username" autocomplete="name" minlength="2" maxlength="60" value="{{ request.form.get('username','') }}" required>{% endif %}
+<label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" value="{{ request.form.get('email','') }}" required>
+<label for="password">Пароль</label><input id="password" name="password" type="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" minlength="{{ 10 if mode == 'register' else 1 }}" maxlength="128" required>
+{% if mode == 'login' %}<a class="forgot-link accent" href="{{ url_for('auth.forgot_password', email=request.form.get('email','') or None) }}">Забыли пароль?</a>{% endif %}
+{% if mode == 'register' %}<small class="muted">Не менее 10 символов</small><label for="confirm">Повторите пароль</label><input id="confirm" name="confirm" type="password" autocomplete="new-password" maxlength="128" required>{% endif %}
+<button class="btn" type="submit">{{ 'Зарегистрироваться' if mode == 'register' else 'Войти' }}</button></form>
+<p class="account-switch">{{ 'Уже есть аккаунт?' if mode == 'register' else 'Впервые здесь?' }} <a class="accent" href="{{ url_for('auth.login' if mode == 'register' else 'auth.register') }}">{{ 'Войти' if mode == 'register' else 'Создать аккаунт' }}</a></p></div></section>
+{% endblock %}

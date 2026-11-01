@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="850" viewBox="0 0 1670 850" role="img" aria-label="Аккаунты и профиль">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="850" fill="#f7f9fc" />
+<text x="40" y="40" font-size="24" font-weight="700">Аккаунты и профиль</text>
+<text x="40" y="69" font-size="13" fill="#596982">Коллекции, клипы и зеркало оценок — JSON user_state.data. Предпочтения — user_preferences.</text>
+<g data-parent="users" data-child="password_resets"><title>password_resets.user_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 582,200.0 582,274 1112,274 1112,224.0 1140,224.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M1140,217.0L1127,224.0L1140,231.0 M1140,224.0L1127,224.0" /><circle class="mark" cx="1119" cy="224.0" r="4" />
+</g>
+<g data-parent="users" data-child="payments"><title>payments.user_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 582,200.0 582,392 1112,392 1112,564.0 1140,564.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M1140,557.0L1127,564.0L1140,571.0 M1140,564.0L1127,564.0" /><circle class="mark" cx="1119" cy="564.0" r="4" />
+</g>
+<g data-parent="users" data-child="user_preferences"><title>user_preferences.user_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 572,200.0 572,480.0 600,480.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M593,473.0V487.0" /><circle class="mark" cx="581" cy="480.0" r="4" />
+</g>
+<g data-parent="users" data-child="user_state"><title>user_state.user_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 600,200.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M593,193.0V207.0" /><circle class="mark" cx="581" cy="200.0" r="4" />
+</g>
+<g data-entity="users"><rect x="40" y="140" width="460" height="322" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,140H493Q500,140 500,147V188H40V147Q40,140 47,140" fill="#6d28d9" />
+<text x="55" y="163" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="180" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="41" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="204">PK</text>
+<text class="field" x="113" y="204">id</text>
+<text class="type" x="490" y="204" text-anchor="end">integer</text>
+<text class="key" x="51" y="228">UK</text>
+<text class="field" x="113" y="228">email</text>
+<text class="type" x="490" y="228" text-anchor="end">text</text>
+<rect x="41" y="236" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="252" />
+<text class="field" x="113" y="252">username</text>
+<text class="type" x="490" y="252" text-anchor="end">text</text>
+<text class="key" x="51" y="276" />
+<text class="field" x="113" y="276">password_hash</text>
+<text class="type" x="490" y="276" text-anchor="end">text</text>
+<rect x="41" y="284" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="300" />
+<text class="field" x="113" y="300">role</text>
+<text class="type" x="490" y="300" text-anchor="end">text</text>
+<text class="key" x="51" y="324" />
+<text class="field" x="113" y="324">active</text>
+<text class="type" x="490" y="324" text-anchor="end">integer</text>
+<rect x="41" y="332" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="348" />
+<text class="field" x="113" y="348">session_version</text>
+<text class="type" x="490" y="348" text-anchor="end">integer</text>
+<text class="key" x="51" y="372" />
+<text class="field" x="113" y="372">created_at</text>
+<text class="type" x="490" y="372" text-anchor="end">text</text>
+<rect x="41" y="380" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="396" />
+<text class="field" x="113" y="396">last_seen ?</text>
+<text class="type" x="490" y="396" text-anchor="end">real</text>
+<text class="key" x="51" y="420" />
+<text class="field" x="113" y="420">plan</text>
+<text class="type" x="490" y="420" text-anchor="end">text</text>
+<rect x="41" y="428" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="444" />
+<text class="field" x="113" y="444">plan_until ?</text>
+<text class="type" x="490" y="444" text-anchor="end">real</text>
+</g>
+<g data-entity="user_state"><rect x="600" y="140" width="460" height="106" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M607,140H1053Q1060,140 1060,147V188H600V147Q600,140 607,140" fill="#6d28d9" />
+<text x="615" y="163" style="fill:white" font-size="17" font-weight="700">user_state</text>
+<text x="1046" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="615" y="180" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="601" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="204">PK/FK</text>
+<text class="field" x="673" y="204">user_id</text>
+<text class="type" x="1050" y="204" text-anchor="end">integer</text>
+<text class="key" x="611" y="228" />
+<text class="field" x="673" y="228">data</text>
+<text class="type" x="1050" y="228" text-anchor="end">text</text>
+</g>
+<g data-entity="user_preferences"><rect x="600" y="420" width="460" height="298" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M607,420H1053Q1060,420 1060,427V468H600V427Q600,420 607,420" fill="#6d28d9" />
+<text x="615" y="443" style="fill:white" font-size="17" font-weight="700">user_preferences</text>
+<text x="1046" y="443" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="615" y="460" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="601" y="468" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="484">PK/FK</text>
+<text class="field" x="673" y="484">user_id</text>
+<text class="type" x="1050" y="484" text-anchor="end">integer</text>
+<text class="key" x="611" y="508" />
+<text class="field" x="673" y="508">genres</text>
+<text class="type" x="1050" y="508" text-anchor="end">text</text>
+<rect x="601" y="516" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="532" />
+<text class="field" x="673" y="532">content_types</text>
+<text class="type" x="1050" y="532" text-anchor="end">text</text>
+<text class="key" x="611" y="556" />
+<text class="field" x="673" y="556">languages</text>
+<text class="type" x="1050" y="556" text-anchor="end">text</text>
+<rect x="601" y="564" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="580" />
+<text class="field" x="673" y="580">duration_min</text>
+<text class="type" x="1050" y="580" text-anchor="end">text</text>
+<text class="key" x="611" y="604" />
+<text class="field" x="673" y="604">actor_ids</text>
+<text class="type" x="1050" y="604" text-anchor="end">text</text>
+<rect x="601" y="612" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="628" />
+<text class="field" x="673" y="628">director_ids</text>
+<text class="type" x="1050" y="628" text-anchor="end">text</text>
+<text class="key" x="611" y="652" />
+<text class="field" x="673" y="652">locale</text>
+<text class="type" x="1050" y="652" text-anchor="end">text</text>
+<rect x="601" y="660" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="676" />
+<text class="field" x="673" y="676">timezone</text>
+<text class="type" x="1050" y="676" text-anchor="end">text</text>
+<text class="key" x="611" y="700" />
+<text class="field" x="673" y="700">updated_at</text>
+<text class="type" x="1050" y="700" text-anchor="end">real</text>
+</g>
+<g data-entity="password_resets"><rect x="1140" y="140" width="460" height="154" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1147,140H1593Q1600,140 1600,147V188H1140V147Q1140,140 1147,140" fill="#6d28d9" />
+<text x="1155" y="163" style="fill:white" font-size="17" font-weight="700">password_resets</text>
+<text x="1586" y="163" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="1155" y="180" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="1141" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="204">PK</text>
+<text class="field" x="1213" y="204">token_hash</text>
+<text class="type" x="1590" y="204" text-anchor="end">text</text>
+<text class="key" x="1151" y="228">FK</text>
+<text class="field" x="1213" y="228">user_id</text>
+<text class="type" x="1590" y="228" text-anchor="end">integer</text>
+<rect x="1141" y="236" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="252" />
+<text class="field" x="1213" y="252">created_at</text>
+<text class="type" x="1590" y="252" text-anchor="end">real</text>
+<text class="key" x="1151" y="276" />
+<text class="field" x="1213" y="276">expires_at</text>
+<text class="type" x="1590" y="276" text-anchor="end">real</text>
+</g>
+<g data-entity="payments"><rect x="1140" y="480" width="460" height="202" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1147,480H1593Q1600,480 1600,487V528H1140V487Q1140,480 1147,480" fill="#6d28d9" />
+<text x="1155" y="503" style="fill:white" font-size="17" font-weight="700">payments</text>
+<text x="1586" y="503" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="1155" y="520" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="1141" y="528" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="544">PK</text>
+<text class="field" x="1213" y="544">id</text>
+<text class="type" x="1590" y="544" text-anchor="end">integer</text>
+<text class="key" x="1151" y="568">FK</text>
+<text class="field" x="1213" y="568">user_id</text>
+<text class="type" x="1590" y="568" text-anchor="end">integer</text>
+<rect x="1141" y="576" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="592" />
+<text class="field" x="1213" y="592">tariff</text>
+<text class="type" x="1590" y="592" text-anchor="end">text</text>
+<text class="key" x="1151" y="616" />
+<text class="field" x="1213" y="616">amount</text>
+<text class="type" x="1590" y="616" text-anchor="end">real</text>
+<rect x="1141" y="624" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="640" />
+<text class="field" x="1213" y="640">status</text>
+<text class="type" x="1590" y="640" text-anchor="end">text</text>
+<text class="key" x="1151" y="664" />
+<text class="field" x="1213" y="664">created_at</text>
+<text class="type" x="1590" y="664" text-anchor="end">real</text>
+</g>
+<g data-entity="login_attempts"><rect x="40" y="620" width="460" height="130" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,620H493Q500,620 500,627V668H40V627Q40,620 47,620" fill="#6d28d9" />
+<text x="55" y="643" style="fill:white" font-size="17" font-weight="700">login_attempts</text>
+<text x="486" y="643" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="55" y="660" style="fill:#eef2ff" font-size="10">Аккаунты и профиль</text>
+<rect x="41" y="668" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="684">PK</text>
+<text class="field" x="113" y="684">key</text>
+<text class="type" x="490" y="684" text-anchor="end">text</text>
+<text class="key" x="51" y="708" />
+<text class="field" x="113" y="708">failures</text>
+<text class="type" x="490" y="708" text-anchor="end">integer</text>
+<rect x="41" y="716" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="732" />
+<text class="field" x="113" y="732">last_at</text>
+<text class="type" x="490" y="732" text-anchor="end">real</text>
+</g>
+<text x="40" y="820" font-size="12">LK — логическая ссылка без SQL FK · PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

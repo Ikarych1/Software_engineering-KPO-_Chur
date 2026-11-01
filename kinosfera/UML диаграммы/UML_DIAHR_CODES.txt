@@ -1,0 +1,205 @@
+Сайт: https://www.planttext.com/
+
+Диаграмма прецедентов (Use Case Diagram)
+
+@startuml OnlineCinema_UseCase
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Пользователь" as User
+actor "Администратор" as Admin
+
+rectangle "Онлайн-кинотеатр" {
+    usecase "Регистрация и авторизация" as UC_Auth
+    usecase "Поиск и фильтрация каталога" as UC_Search
+    usecase "Просмотр карточки фильма" as UC_ViewCard
+    usecase "Воспроизведение видео (плеер)" as UC_WatchVideo
+    usecase "Выставление оценки по 10-балльной шкале" as UC_Rate10PointScale
+    usecase "Написание отзыва" as UC_RateReview
+    usecase "Получение рекомендаций" as UC_Recs
+    usecase "Управление подпиской (демо-оплата)" as UC_Subscription
+
+    usecase "Создание и управление комнатой совместного просмотра" as UC_CreateManageRoom
+    usecase "Создание комнаты совместного просмотра" as UC_CreateRoom
+    usecase "Подключение к комнате по коду" as UC_JoinRoom
+    usecase "Управление синхронным плеером (Play/Pause/Seek)" as UC_SyncControl
+    usecase "Отправка сообщений в чат комнаты" as UC_RoomChat
+
+    usecase "Модерация каталога и метаданных" as UC_AdminCatalog
+    usecase "Блокировка пользователей и удаление отзывов" as UC_AdminUsers
+    usecase "Просмотр статистики просмотров" as UC_AdminStats
+}
+
+User --> UC_Auth
+User --> UC_Search
+User --> UC_ViewCard
+
+User --> UC_Rate10PointScale
+User --> UC_RateReview
+
+User --> UC_WatchVideo
+User --> UC_Recs
+User --> UC_Subscription
+
+User --> UC_CreateManageRoom
+UC_CreateManageRoom ..> UC_CreateRoom : <<include>>
+UC_CreateManageRoom ..> UC_SyncControl : <<include>>
+
+User --> UC_JoinRoom
+User --> UC_RoomChat
+
+Admin --> UC_AdminCatalog
+Admin --> UC_AdminUsers
+Admin --> UC_AdminStats
+@enduml
+
+
+Диаграмма классов (Class Diagram)
+
+@startuml OnlineCinema_Classes
+skinparam classAttributeIconSize 0
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+class User {
+    - id: int
+    - email: str
+    - username: str
+    - password_hash: str
+    - role: UserRole
+    - is_subscribed: bool
+    + check_password(password: str): bool
+    + update_subscription(status: bool): void
+}
+
+class MediaItem {
+    - id: int
+    - title: str
+    - description: str
+    - genres: List<str>
+    - year: int
+    - rating: float
+    - video_url: str
+    - is_hidden: bool
+    + get_short_info(): dict
+}
+
+class Review {
+    - id: int
+    - user_id: int
+    - media_id: int
+    - score: int
+    - comment: str
+    - created_at: str
+    + validate_score(): bool
+}
+
+class ChatMessage {
+    - id: int
+    - sender_name: str
+    - message_text: str
+    - timestamp: str
+}
+
+class PlaybackState {
+    + is_playing: bool
+    + current_time_sec: float
+    + last_updated_epoch: float
+}
+
+class WatchRoom {
+    - room_id: str
+    - host_user_id: int
+    - media_item: MediaItem
+    - state: PlaybackState
+    - chat_history: List<ChatMessage>
+    + join_member(user: User): bool
+    + leave_member(user: User): void
+    + update_playback(is_playing: bool, time_sec: float): void
+    + post_chat_message(sender: str, text: str): ChatMessage
+    + get_room_state(): dict
+}
+
+class RecommendationService {
+    + get_recommendations(user: User, limit: int): List<MediaItem>
+    - filter_watched_content(catalog: List<MediaItem>, user_id: int): List<MediaItem>
+    - rank_by_user_preferences(items: List<MediaItem>, user_id: int): List<MediaItem>
+}
+
+User "1" *-- "*" UserRole
+WatchRoom ..> User : подключается/отключается
+User "1" -- "*" Review : оставляет
+MediaItem "1" -- "*" Review : получает
+WatchRoom "1" *-- "1" PlaybackState : состояние плеера
+WatchRoom "1" *-- "*" ChatMessage : сообщения
+WatchRoom --> MediaItem : транслирует
+RecommendationService ..> MediaItem : отбирает
+RecommendationService ..> User : анализирует
+@enduml
+
+Диаграмма последовательностей (Sequence Diagram)
+
+@startuml OnlineCinema_Sequence
+autonumber
+actor "Хост (Создатель)" as Host
+actor "Участник комнаты" as Guest
+boundary "Веб-интерфейс (SPA/HTML) хоста" as HostUI
+boundary "Веб-интерфейс (SPA/HTML) участника" as GuestUI
+control "WatchRoom API / Controller" as Controller
+entity "WatchRoom (Сессия)" as Room
+
+Host -> HostUI: Нажимает "Пауза / Перемотка на 01:25"
+HostUI -> Controller: POST /api/room/{id}/playback (is_playing=false, time=85)
+Controller -> Room: update_playback(false, 85)
+Room -> Room: Обновление PlaybackState
+Room --> Controller: Состояние обновлено (200 OK)
+Controller --> HostUI: Смещение плеера хоста на 01:25 и установка на паузу
+HostUI --> Host: Отображение изменений
+
+GuestUI -> Controller: GET /api/room/{id}/sync
+Controller -> Room: get_room_state()
+Room --> Controller: {time: 85, is_playing: false}
+Controller --> GuestUI: Смещение плеера гостя на 01:25 и установка на паузу
+GuestUI --> Guest: Отображение изменений
+
+Guest -> GuestUI: Ввод сообщения в чат: "Отличный момент!"
+GuestUI -> Controller: POST /api/room/{id}/chat (text="Отличный момент!")
+Controller -> Room: post_chat_message(user, text)
+Room -> Room: Валидация и добавление ChatMessage
+Controller --> GuestUI: Чат обновлен (200 OK)
+GuestUI --> Guest: Отображение изменений
+Controller --> HostUI: Чат обновлен (200 OK)
+HostUI --> Host: Отображение изменений
+@enduml
+
+
+Диаграмма активностей (Activity Diagram)
+
+@startuml OnlineCinema_Activity
+start
+:Пользователь запрашивает персональные рекомендации;
+:Получить список всех фильмов из БД;
+:Исключить фильмы с признаком is_hidden = True;
+
+if (У пользователя есть история просмотров и оценки?) then (нет [холодный старт])
+    :Выбрать популярные фильмы с наивысшим рейтингом (Top-Rated);
+    :Добавить пометку: "Популярно в сервисе";
+else (да)
+    :Получить список просмотренных фильмов и выставленных оценок;
+    :Исключить из выдачи уже полностью просмотренный контент;
+    :Выделить любимые жанры (где оценка пользователя >= 7);
+    :Рассчитать релевантность оставшихся фильмов по совпадению жанров;
+    :Отсортировать кандидатов по убыванию соответствия;
+    if (Найдено менее 10 персонализированных фильмов?) then (да)
+        :Дополнить список фильмами с высоким общим рейтингом;
+    endif
+endif
+
+:Обрезать итоговый список до 10 позиций;
+:Сформировать JSON-ответ с карточками контента;
+stop
+@enduml

@@ -1,0 +1,87 @@
+{
+  "passed": true,
+  "file": "cinema_test.sqlite3",
+  "bytes": 2058260480,
+  "sha256": "c139fae7e053759c641ba57c1e24fd4ce5f6d0f33a50bad092fb7503be2f989b",
+  "tables": 24,
+  "fields": 205,
+  "foreign_keys": 56,
+  "explicit_indexes": 53,
+  "rows": 13414770,
+  "counts": {
+    "ratings": 6219466,
+    "movies": 3054,
+    "episodes": 8395,
+    "tags": 456375,
+    "movie_mapping": 2571,
+    "room_members": 19882,
+    "rooms": 5000,
+    "clips": 11604,
+    "reviews": 60895,
+    "episode_progress": 13675,
+    "progress": 233622,
+    "watched": 148509,
+    "not_interested": 84025,
+    "watchlist": 140359,
+    "bookmark_events": 275679,
+    "watch_sessions": 256230,
+    "searches": 70139,
+    "clicks": 300458,
+    "impressions": 1500000,
+    "recommendation_requests": 150000,
+    "events": 3351778,
+    "users": 50000,
+    "user_activity": 50000,
+    "movie_stats": 3054
+  },
+  "integrity_check": [
+    "ok"
+  ],
+  "foreign_key_violations": 0,
+  "example_queries": [
+    {
+      "rows": 1,
+      "seconds": 0.14
+    },
+    {
+      "rows": 20,
+      "seconds": 0.031
+    },
+    {
+      "rows": 20,
+      "seconds": 0.0
+    },
+    {
+      "rows": 50,
+      "seconds": 0.0
+    },
+    {
+      "rows": 50,
+      "seconds": 0.0
+    },
+    {
+      "rows": 2,
+      "seconds": 0.0
+    },
+    {
+      "rows": 30,
+      "seconds": 0.016
+    },
+    {
+      "rows": 3,
+      "seconds": 1.953
+    },
+    {
+      "rows": 20,
+      "seconds": 0.063
+    },
+    {
+      "rows": 24,
+      "seconds": 0.0
+    }
+  ],
+  "source_manifest_sha256": "a65fe7fc048fde411a44b7f35587aa503ba6c2c4a02cb8270a912d2227cb3195",
+  "sqlite_version": "3.45.3",
+  "verification_seconds": 297.8,
+  "application_database_accessed": false
+}

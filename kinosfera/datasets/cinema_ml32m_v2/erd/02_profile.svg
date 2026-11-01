@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="1218" viewBox="0 0 1670 1218" role="img" aria-label="Профили и предпочтения">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="1218" fill="#f7f9fc"/>
+<text x="40" y="40" font-size="24" font-weight="700">Профили и предпочтения</text>
+<text x="40" y="69" font-size="13" fill="#596982">watched/watchlist/not_interested — состояния; bookmark_events — история. user_activity — расчётная сводка.</text>
+<g data-parent="users" data-child="user_activity"><title>user_activity.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 572,200.0 572,880.0 600,880.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M593,873.0V887.0 M587,873.0V887.0"/>
+</g>
+<g data-parent="users" data-child="watched"><title>watched.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 582,200.0 582,112 1112,112 1112,190.0 1140,190.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M1140,183.0L1127,190.0L1140,197.0 M1140,190.0L1127,190.0"/><circle class="mark" cx="1119" cy="190.0" r="4"/>
+</g>
+<g data-parent="users" data-child="watchlist"><title>watchlist.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 572,200.0 572,190.0 600,190.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M600,183.0L587,190.0L600,197.0 M600,190.0L587,190.0"/><circle class="mark" cx="579" cy="190.0" r="4"/>
+</g>
+<g data-parent="users" data-child="not_interested"><title>not_interested.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 572,200.0 572,490.0 600,490.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M600,483.0L587,490.0L600,497.0 M600,490.0L587,490.0"/><circle class="mark" cx="579" cy="490.0" r="4"/>
+</g>
+<g data-parent="users" data-child="bookmark_events"><title>bookmark_events.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 582,200.0 582,402 1112,402 1112,544.0 1140,544.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M1140,537.0L1127,544.0L1140,551.0 M1140,544.0L1127,544.0"/><circle class="mark" cx="1119" cy="544.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="watched"><title>watched.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,760.0 1108,760.0 1108,214.0 1140,214.0"/>
+<path class="mark" d="M507,753.0V767.0 M513,753.0V767.0"/>
+<path class="mark" d="M1140,207.0L1127,214.0L1140,221.0 M1140,214.0L1127,214.0"/><circle class="mark" cx="1119" cy="214.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="watchlist"><title>watchlist.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,760.0 562,760.0 562,214.0 600,214.0"/>
+<path class="mark" d="M507,753.0V767.0 M513,753.0V767.0"/>
+<path class="mark" d="M600,207.0L587,214.0L600,221.0 M600,214.0L587,214.0"/><circle class="mark" cx="579" cy="214.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="not_interested"><title>not_interested.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,760.0 562,760.0 562,514.0 600,514.0"/>
+<path class="mark" d="M507,753.0V767.0 M513,753.0V767.0"/>
+<path class="mark" d="M600,507.0L587,514.0L600,521.0 M600,514.0L587,514.0"/><circle class="mark" cx="579" cy="514.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="bookmark_events"><title>bookmark_events.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,760.0 1112,760.0 1112,568.0 1140,568.0"/>
+<path class="mark" d="M507,753.0V767.0 M513,753.0V767.0"/>
+<path class="mark" d="M1140,561.0L1127,568.0L1140,575.0 M1140,568.0L1127,568.0"/><circle class="mark" cx="1119" cy="568.0" r="4"/>
+</g>
+<g data-entity="users"><rect x="40" y="140" width="460" height="394" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,140H493Q500,140 500,147V188H40V147Q40,140 47,140" fill="#6d28d9"/>
+<text x="55" y="163" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="180" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="41" y="188" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="204">PK</text>
+<text class="field" x="113" y="204">user_id</text>
+<text class="type" x="490" y="204" text-anchor="end">text</text>
+<text class="key" x="51" y="228">UK</text>
+<text class="field" x="113" y="228">source_user_id</text>
+<text class="type" x="490" y="228" text-anchor="end">bigint</text>
+<rect x="41" y="236" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="252"></text>
+<text class="field" x="113" y="252">display_name</text>
+<text class="type" x="490" y="252" text-anchor="end">text</text>
+<text class="key" x="51" y="276"></text>
+<text class="field" x="113" y="276">email</text>
+<text class="type" x="490" y="276" text-anchor="end">text</text>
+<rect x="41" y="284" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="300"></text>
+<text class="field" x="113" y="300">registered_at</text>
+<text class="type" x="490" y="300" text-anchor="end">bigint</text>
+<text class="key" x="51" y="324"></text>
+<text class="field" x="113" y="324">locale</text>
+<text class="type" x="490" y="324" text-anchor="end">text</text>
+<rect x="41" y="332" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="348"></text>
+<text class="field" x="113" y="348">timezone</text>
+<text class="type" x="490" y="348" text-anchor="end">text</text>
+<text class="key" x="51" y="372"></text>
+<text class="field" x="113" y="372">rating_count</text>
+<text class="type" x="490" y="372" text-anchor="end">bigint</text>
+<rect x="41" y="380" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="396"></text>
+<text class="field" x="113" y="396">preferred_genres</text>
+<text class="type" x="490" y="396" text-anchor="end">json</text>
+<text class="key" x="51" y="420"></text>
+<text class="field" x="113" y="420">preferred_content_types</text>
+<text class="type" x="490" y="420" text-anchor="end">json</text>
+<rect x="41" y="428" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="444"></text>
+<text class="field" x="113" y="444">preferred_languages</text>
+<text class="type" x="490" y="444" text-anchor="end">json</text>
+<text class="key" x="51" y="468"></text>
+<text class="field" x="113" y="468">preferred_duration_min</text>
+<text class="type" x="490" y="468" text-anchor="end">json</text>
+<rect x="41" y="476" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="492"></text>
+<text class="field" x="113" y="492">preferred_actor_ids</text>
+<text class="type" x="490" y="492" text-anchor="end">json</text>
+<text class="key" x="51" y="516"></text>
+<text class="field" x="113" y="516">preferred_director_ids</text>
+<text class="type" x="490" y="516" text-anchor="end">json</text>
+</g>
+<g data-entity="movies"><rect x="40" y="700" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,700H493Q500,700 500,707V748H40V707Q40,700 47,700" fill="#0f766e"/>
+<text x="55" y="723" style="fill:white" font-size="17" font-weight="700">movies</text>
+<text x="486" y="723" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="55" y="740" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="748" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="764">PK</text>
+<text class="field" x="113" y="764">movie_id</text>
+<text class="type" x="490" y="764" text-anchor="end">bigint</text>
+</g>
+<g data-entity="watchlist"><rect x="600" y="130" width="460" height="130" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,130H1053Q1060,130 1060,137V178H600V137Q600,130 607,130" fill="#6d28d9"/>
+<text x="615" y="153" style="fill:white" font-size="17" font-weight="700">watchlist</text>
+<text x="1046" y="153" text-anchor="end" style="fill:#fff" font-size="11">140,359</text>
+<text x="615" y="170" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="601" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="194">PK/FK</text>
+<text class="field" x="673" y="194">user_id</text>
+<text class="type" x="1050" y="194" text-anchor="end">text</text>
+<text class="key" x="611" y="218">PK/FK</text>
+<text class="field" x="673" y="218">movie_id</text>
+<text class="type" x="1050" y="218" text-anchor="end">bigint</text>
+<rect x="601" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="242"></text>
+<text class="field" x="673" y="242">added_at_ms</text>
+<text class="type" x="1050" y="242" text-anchor="end">bigint</text>
+</g>
+<g data-entity="watched"><rect x="1140" y="130" width="460" height="154" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,130H1593Q1600,130 1600,137V178H1140V137Q1140,130 1147,130" fill="#6d28d9"/>
+<text x="1155" y="153" style="fill:white" font-size="17" font-weight="700">watched</text>
+<text x="1586" y="153" text-anchor="end" style="fill:#fff" font-size="11">148,509</text>
+<text x="1155" y="170" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="1141" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="194">PK/FK</text>
+<text class="field" x="1213" y="194">user_id</text>
+<text class="type" x="1590" y="194" text-anchor="end">text</text>
+<text class="key" x="1151" y="218">PK/FK</text>
+<text class="field" x="1213" y="218">movie_id</text>
+<text class="type" x="1590" y="218" text-anchor="end">bigint</text>
+<rect x="1141" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="242"></text>
+<text class="field" x="1213" y="242">marked_at_ms</text>
+<text class="type" x="1590" y="242" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="266"></text>
+<text class="field" x="1213" y="266">reason</text>
+<text class="type" x="1590" y="266" text-anchor="end">text</text>
+</g>
+<g data-entity="not_interested"><rect x="600" y="430" width="460" height="178" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,430H1053Q1060,430 1060,437V478H600V437Q600,430 607,430" fill="#6d28d9"/>
+<text x="615" y="453" style="fill:white" font-size="17" font-weight="700">not_interested</text>
+<text x="1046" y="453" text-anchor="end" style="fill:#fff" font-size="11">84,025</text>
+<text x="615" y="470" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="601" y="478" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="494">PK/FK</text>
+<text class="field" x="673" y="494">user_id</text>
+<text class="type" x="1050" y="494" text-anchor="end">text</text>
+<text class="key" x="611" y="518">PK/FK</text>
+<text class="field" x="673" y="518">movie_id</text>
+<text class="type" x="1050" y="518" text-anchor="end">bigint</text>
+<rect x="601" y="526" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="542"></text>
+<text class="field" x="673" y="542">is_active</text>
+<text class="type" x="1050" y="542" text-anchor="end">boolean</text>
+<text class="key" x="611" y="566"></text>
+<text class="field" x="673" y="566">reason</text>
+<text class="type" x="1050" y="566" text-anchor="end">text</text>
+<rect x="601" y="574" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="590"></text>
+<text class="field" x="673" y="590">updated_at_ms</text>
+<text class="type" x="1050" y="590" text-anchor="end">bigint</text>
+</g>
+<g data-entity="bookmark_events"><rect x="1140" y="460" width="460" height="202" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,460H1593Q1600,460 1600,467V508H1140V467Q1140,460 1147,460" fill="#6d28d9"/>
+<text x="1155" y="483" style="fill:white" font-size="17" font-weight="700">bookmark_events</text>
+<text x="1586" y="483" text-anchor="end" style="fill:#fff" font-size="11">275,679</text>
+<text x="1155" y="500" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="1141" y="508" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="524">PK</text>
+<text class="field" x="1213" y="524">bookmark_event_id</text>
+<text class="type" x="1590" y="524" text-anchor="end">text</text>
+<text class="key" x="1151" y="548">FK</text>
+<text class="field" x="1213" y="548">user_id</text>
+<text class="type" x="1590" y="548" text-anchor="end">text</text>
+<rect x="1141" y="556" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="572">FK</text>
+<text class="field" x="1213" y="572">movie_id</text>
+<text class="type" x="1590" y="572" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="596"></text>
+<text class="field" x="1213" y="596">action</text>
+<text class="type" x="1590" y="596" text-anchor="end">text</text>
+<rect x="1141" y="604" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="620"></text>
+<text class="field" x="1213" y="620">event_at_ms</text>
+<text class="type" x="1590" y="620" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="644"></text>
+<text class="field" x="1213" y="644">collection</text>
+<text class="type" x="1590" y="644" text-anchor="end">text</text>
+</g>
+<g data-entity="user_activity"><rect x="600" y="820" width="460" height="298" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,820H1053Q1060,820 1060,827V868H600V827Q600,820 607,820" fill="#6d28d9"/>
+<text x="615" y="843" style="fill:white" font-size="17" font-weight="700">user_activity</text>
+<text x="1046" y="843" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="615" y="860" style="fill:#eef2ff" font-size="10">Профили и предпочтения</text>
+<rect x="601" y="868" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="884">PK/FK</text>
+<text class="field" x="673" y="884">user_id</text>
+<text class="type" x="1050" y="884" text-anchor="end">text</text>
+<text class="key" x="611" y="908"></text>
+<text class="field" x="673" y="908">first_activity_at</text>
+<text class="type" x="1050" y="908" text-anchor="end">bigint</text>
+<rect x="601" y="916" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="932"></text>
+<text class="field" x="673" y="932">last_rating_at</text>
+<text class="type" x="1050" y="932" text-anchor="end">bigint</text>
+<text class="key" x="611" y="956"></text>
+<text class="field" x="673" y="956">last_event_at_ms</text>
+<text class="type" x="1050" y="956" text-anchor="end">bigint</text>
+<rect x="601" y="964" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="980"></text>
+<text class="field" x="673" y="980">days_since_last_event</text>
+<text class="type" x="1050" y="980" text-anchor="end">decimal</text>
+<text class="key" x="611" y="1004"></text>
+<text class="field" x="673" y="1004">rating_count</text>
+<text class="type" x="1050" y="1004" text-anchor="end">bigint</text>
+<rect x="601" y="1012" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="1028"></text>
+<text class="field" x="673" y="1028">event_count</text>
+<text class="type" x="1050" y="1028" text-anchor="end">bigint</text>
+<text class="key" x="611" y="1052"></text>
+<text class="field" x="673" y="1052">sessions</text>
+<text class="type" x="1050" y="1052" text-anchor="end">bigint</text>
+<rect x="601" y="1060" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="1076"></text>
+<text class="field" x="673" y="1076">completed_sessions</text>
+<text class="type" x="1050" y="1076" text-anchor="end">bigint</text>
+<text class="key" x="611" y="1100"></text>
+<text class="field" x="673" y="1100">watched_seconds</text>
+<text class="type" x="1050" y="1100" text-anchor="end">decimal</text>
+</g>
+<text x="40" y="1188" font-size="12">PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

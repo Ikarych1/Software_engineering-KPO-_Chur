@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "file": "cinema_test.sqlite3",
+  "users": 50000,
+  "films": 3054,
+  "counts": {
+    "films": 3054,
+    "film_sources": 1,
+    "media_info": 9,
+    "users": 50000,
+    "user_preferences": 50000,
+    "ratings": 6219466,
+    "user_state": 50000,
+    "episodes": 8395,
+    "reviews": 60895,
+    "progress": 233622,
+    "episode_progress": 91,
+    "not_interested": 84025,
+    "rooms": 5000,
+    "room_members": 19882,
+    "recommendation_requests": 150000,
+    "views": 256230,
+    "watch_sessions": 256230,
+    "impressions": 1500000,
+    "clicks": 300458,
+    "searches": 70139,
+    "bookmark_events": 275679,
+    "tags": 456375,
+    "events": 3351778,
+    "room_messages": 44764
+  },
+  "source_manifest_sha256": "a65fe7fc048fde411a44b7f35587aa503ba6c2c4a02cb8270a912d2227cb3195",
+  "expected_ratings_sha256": "c1bd159c551353ad479f856d6bc0cf38315fcbce95c4fa8e55b889d411070b5f",
+  "credential": {
+    "email": "ml32m_000001@example.invalid",
+    "user_id": 1
+  },
+  "elapsed_seconds": 235.14,
+  "source_episode_progress_rows": 13675,
+  "as_of": 1793448000
+}

@@ -1,0 +1,97 @@
+erDiagram
+    direction LR
+    users {
+        text user_id PK
+        bigint source_user_id UK
+        text display_name
+        text email
+        bigint registered_at
+        text locale
+        text timezone
+        bigint rating_count
+        json preferred_genres
+        json preferred_content_types
+        json preferred_languages
+        json preferred_duration_min
+        json preferred_actor_ids
+        json preferred_director_ids
+    }
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+        bigint tmdb_id "nullable"
+        text catalog_kind
+        text content_type
+        text title
+        text original_title
+        json genres
+        text description
+        text tagline
+        bigint year
+        json countries
+        json country_codes
+        text original_language
+        json spoken_languages
+        bigint duration_min
+        text age_rating
+        json actors
+        json directors
+        bigint collection_id "nullable"
+        text collection_name "nullable"
+        decimal tmdb_rating
+        bigint tmdb_vote_count
+        decimal imdb_rating
+        bigint imdb_vote_count
+        decimal kinopoisk_rating
+        bigint kinopoisk_vote_count
+        bigint catalog_view_count
+        boolean has_video_source
+        boolean is_hidden
+    }
+    watchlist {
+        text user_id PK,FK
+        bigint movie_id PK,FK
+        bigint added_at_ms
+    }
+    watched {
+        text user_id PK,FK
+        bigint movie_id PK,FK
+        bigint marked_at_ms
+        text reason
+    }
+    not_interested {
+        text user_id PK,FK
+        bigint movie_id PK,FK
+        boolean is_active
+        text reason
+        bigint updated_at_ms
+    }
+    bookmark_events {
+        text bookmark_event_id PK
+        text user_id FK
+        bigint movie_id FK
+        text action
+        bigint event_at_ms
+        text collection
+    }
+    user_activity {
+        text user_id PK,FK
+        bigint first_activity_at
+        bigint last_rating_at
+        bigint last_event_at_ms
+        decimal days_since_last_event
+        bigint rating_count
+        bigint event_count
+        bigint sessions
+        bigint completed_sessions
+        decimal watched_seconds
+    }
+    users ||--|| user_activity : "user_id"
+    users ||--o{ watched : "user_id"
+    users ||--o{ watchlist : "user_id"
+    users ||--o{ not_interested : "user_id"
+    users ||..o{ bookmark_events : "user_id"
+    movies ||--o{ watched : "movie_id"
+    movies ||--o{ watchlist : "movie_id"
+    movies ||--o{ not_interested : "movie_id"
+    movies ||..o{ bookmark_events : "movie_id"

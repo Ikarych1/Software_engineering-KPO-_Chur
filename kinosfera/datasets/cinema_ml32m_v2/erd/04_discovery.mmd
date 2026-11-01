@@ -1,0 +1,126 @@
+erDiagram
+    direction LR
+    users {
+        text user_id PK
+        bigint source_user_id UK
+        text display_name
+        text email
+        bigint registered_at
+        text locale
+        text timezone
+        bigint rating_count
+        json preferred_genres
+        json preferred_content_types
+        json preferred_languages
+        json preferred_duration_min
+        json preferred_actor_ids
+        json preferred_director_ids
+    }
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+        bigint tmdb_id "nullable"
+        text catalog_kind
+        text content_type
+        text title
+        text original_title
+        json genres
+        text description
+        text tagline
+        bigint year
+        json countries
+        json country_codes
+        text original_language
+        json spoken_languages
+        bigint duration_min
+        text age_rating
+        json actors
+        json directors
+        bigint collection_id "nullable"
+        text collection_name "nullable"
+        decimal tmdb_rating
+        bigint tmdb_vote_count
+        decimal imdb_rating
+        bigint imdb_vote_count
+        decimal kinopoisk_rating
+        bigint kinopoisk_vote_count
+        bigint catalog_view_count
+        boolean has_video_source
+        boolean is_hidden
+    }
+    watch_sessions {
+        text session_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text room_id FK "nullable"
+        text request_id FK "nullable"
+        bigint started_at_ms
+        bigint ended_at_ms
+        bigint duration_seconds
+        decimal start_position
+        decimal end_position
+        decimal watched_seconds
+        bigint paused_seconds
+        bigint buffered_seconds
+        boolean completed
+        text start_kind
+        bigint view_number
+        text stop_reason
+    }
+    recommendation_requests {
+        text request_id PK
+        text user_id FK
+        bigint shown_at_ms
+        text surface
+        text policy
+    }
+    impressions {
+        text impression_id PK
+        text request_id FK
+        text user_id FK
+        bigint movie_id FK
+        bigint rank
+        bigint shown_at_ms
+        boolean clicked
+    }
+    clicks {
+        text click_id PK
+        text impression_id FK,UK
+        text request_id FK
+        text user_id FK
+        bigint movie_id FK
+        bigint clicked_at_ms
+    }
+    searches {
+        text search_id PK
+        text user_id FK
+        text query
+        text query_type
+        bigint searched_at_ms
+        bigint selected_movie_id FK
+    }
+    events {
+        text event_id PK
+        text user_id FK
+        bigint movie_id FK "nullable"
+        text event_type
+        bigint event_at_ms
+        text session_id FK "nullable"
+        text request_id FK "nullable"
+        json payload
+    }
+    users ||..o{ impressions : "user_id"
+    users ||..o{ clicks : "user_id"
+    users ||..o{ events : "user_id"
+    movies ||..o{ impressions : "movie_id"
+    movies ||..o{ clicks : "movie_id"
+    movies |o..o{ events : "movie_id"
+    users ||..o{ recommendation_requests : "user_id"
+    recommendation_requests ||..o{ impressions : "request_id"
+    recommendation_requests ||..o{ clicks : "request_id"
+    impressions ||..o| clicks : "impression_id"
+    users ||..o{ searches : "user_id"
+    movies ||..o{ searches : "selected_movie_id"
+    watch_sessions |o..o{ events : "session_id"
+    recommendation_requests |o..o{ events : "request_id"

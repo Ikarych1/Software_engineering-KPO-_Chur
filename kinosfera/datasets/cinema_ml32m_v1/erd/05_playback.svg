@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="1218" viewBox="0 0 1670 1218" role="img" aria-label="Сеансы и прогресс просмотра">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="1218" fill="#f7f9fc"/>
+<text x="40" y="40" font-size="24" font-weight="700">Сеансы и прогресс просмотра</text>
+<text x="40" y="69" font-size="13" fill="#596982">У сеанса могут отсутствовать episode_id, room_id и request_id. Прогресс — отдельные снимки состояния.</text>
+<g data-parent="users" data-child="watch_sessions"><title>watch_sessions.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 562,200.0 562,250 1112,250 1112,214.0 1140,214.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M1140,207.0L1127,214.0L1140,221.0 M1140,214.0L1127,214.0"/><circle class="mark" cx="1119" cy="214.0" r="4"/>
+</g>
+<g data-parent="users" data-child="progress"><title>progress.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 552,200.0 552,820.0 580,820.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M580,813.0L567,820.0L580,827.0 M580,820.0L567,820.0"/><circle class="mark" cx="559" cy="820.0" r="4"/>
+</g>
+<g data-parent="users" data-child="episode_progress"><title>episode_progress.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 562,200.0 562,732 1112,732 1112,880.0 1140,880.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M1140,873.0L1127,880.0L1140,887.0 M1140,880.0L1127,880.0"/><circle class="mark" cx="1119" cy="880.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="watch_sessions"><title>watch_sessions.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,520.0 558,520.0 558,238.0 1140,238.0"/>
+<path class="mark" d="M507,513.0V527.0 M513,513.0V527.0"/>
+<path class="mark" d="M1140,231.0L1127,238.0L1140,245.0 M1140,238.0L1127,238.0"/><circle class="mark" cx="1119" cy="238.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="progress"><title>progress.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,520.0 548,520.0 548,844.0 580,844.0"/>
+<path class="mark" d="M507,513.0V527.0 M513,513.0V527.0"/>
+<path class="mark" d="M580,837.0L567,844.0L580,851.0 M580,844.0L567,844.0"/><circle class="mark" cx="559" cy="844.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="episode_progress"><title>episode_progress.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,520.0 558,520.0 558,720 1102,720 1102,904.0 1140,904.0"/>
+<path class="mark" d="M507,513.0V527.0 M513,513.0V527.0"/>
+<path class="mark" d="M1140,897.0L1127,904.0L1140,911.0 M1140,904.0L1127,904.0"/><circle class="mark" cx="1119" cy="904.0" r="4"/>
+</g>
+<g data-parent="episodes" data-child="watch_sessions"><title>watch_sessions.episode_id → episodes.episode_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,840.0 542,840.0 542,262.0 1140,262.0"/>
+<path class="mark" d="M507,833.0V847.0"/><circle class="mark" cx="519" cy="840.0" r="4"/>
+<path class="mark" d="M1140,255.0L1127,262.0L1140,269.0 M1140,262.0L1127,262.0"/><circle class="mark" cx="1119" cy="262.0" r="4"/>
+</g>
+<g data-parent="episodes" data-child="progress"><title>progress.episode_id → episodes.episode_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,840.0 552,840.0 552,868.0 580,868.0"/>
+<path class="mark" d="M507,833.0V847.0"/><circle class="mark" cx="519" cy="840.0" r="4"/>
+<path class="mark" d="M580,861.0L567,868.0L580,875.0 M580,868.0L567,868.0"/><circle class="mark" cx="559" cy="868.0" r="4"/>
+</g>
+<g data-parent="episodes" data-child="episode_progress"><title>episode_progress.episode_id → episodes.episode_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="500,840.0 562,840.0 562,1134 1112,1134 1112,928.0 1140,928.0"/>
+<path class="mark" d="M507,833.0V847.0 M513,833.0V847.0"/>
+<path class="mark" d="M1140,921.0L1127,928.0L1140,935.0 M1140,928.0L1127,928.0"/><circle class="mark" cx="1119" cy="928.0" r="4"/>
+</g>
+<g data-parent="rooms" data-child="watch_sessions"><title>watch_sessions.room_id → rooms.room_id</title>
+<polyline class="edge" style="stroke:#4338ca;stroke-opacity:.65;stroke-dasharray:5 4" points="1040,200.0 1102,200.0 1102,286.0 1140,286.0"/>
+<path class="mark" d="M1047,193.0V207.0"/><circle class="mark" cx="1059" cy="200.0" r="4"/>
+<path class="mark" d="M1140,279.0L1127,286.0L1140,293.0 M1140,286.0L1127,286.0"/><circle class="mark" cx="1119" cy="286.0" r="4"/>
+</g>
+<g data-parent="recommendation_requests" data-child="watch_sessions"><title>watch_sessions.request_id → recommendation_requests.request_id</title>
+<polyline class="edge" style="stroke:#b45309;stroke-opacity:.65;stroke-dasharray:5 4" points="1040,510.0 1112,510.0 1112,310.0 1140,310.0"/>
+<path class="mark" d="M1047,503.0V517.0"/><circle class="mark" cx="1059" cy="510.0" r="4"/>
+<path class="mark" d="M1140,303.0L1127,310.0L1140,317.0 M1140,310.0L1127,310.0"/><circle class="mark" cx="1119" cy="310.0" r="4"/>
+</g>
+<g data-entity="users"><rect x="40" y="140" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,140H493Q500,140 500,147V188H40V147Q40,140 47,140" fill="#6d28d9"/>
+<text x="55" y="163" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="180" style="fill:#eef2ff" font-size="10">Профили и предпочтения · ссылка</text>
+<rect x="41" y="188" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="204">PK</text>
+<text class="field" x="113" y="204">user_id</text>
+<text class="type" x="490" y="204" text-anchor="end">text</text>
+</g>
+<g data-entity="movies"><rect x="40" y="460" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,460H493Q500,460 500,467V508H40V467Q40,460 47,460" fill="#0f766e"/>
+<text x="55" y="483" style="fill:white" font-size="17" font-weight="700">movies</text>
+<text x="486" y="483" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="55" y="500" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="508" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="524">PK</text>
+<text class="field" x="113" y="524">movie_id</text>
+<text class="type" x="490" y="524" text-anchor="end">bigint</text>
+</g>
+<g data-entity="episodes"><rect x="40" y="780" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,780H493Q500,780 500,787V828H40V787Q40,780 47,780" fill="#0f766e"/>
+<text x="55" y="803" style="fill:white" font-size="17" font-weight="700">episodes</text>
+<text x="486" y="803" text-anchor="end" style="fill:#fff" font-size="11">8,395</text>
+<text x="55" y="820" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="828" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="844">PK</text>
+<text class="field" x="113" y="844">episode_id</text>
+<text class="type" x="490" y="844" text-anchor="end">text</text>
+</g>
+<g data-entity="rooms"><rect x="580" y="140" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M587,140H1033Q1040,140 1040,147V188H580V147Q580,140 587,140" fill="#4338ca"/>
+<text x="595" y="163" style="fill:white" font-size="17" font-weight="700">rooms</text>
+<text x="1026" y="163" text-anchor="end" style="fill:#fff" font-size="11">5,000</text>
+<text x="595" y="180" style="fill:#eef2ff" font-size="10">Комнаты и клипы · ссылка</text>
+<rect x="581" y="188" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="204">PK</text>
+<text class="field" x="653" y="204">room_id</text>
+<text class="type" x="1030" y="204" text-anchor="end">text</text>
+</g>
+<g data-entity="recommendation_requests"><rect x="580" y="450" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M587,450H1033Q1040,450 1040,457V498H580V457Q580,450 587,450" fill="#b45309"/>
+<text x="595" y="473" style="fill:white" font-size="17" font-weight="700">recommendation_requests</text>
+<text x="1026" y="473" text-anchor="end" style="fill:#fff" font-size="11">150,000</text>
+<text x="595" y="490" style="fill:#eef2ff" font-size="10">Выдача и события · ссылка</text>
+<rect x="581" y="498" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="514">PK</text>
+<text class="field" x="653" y="514">request_id</text>
+<text class="type" x="1030" y="514" text-anchor="end">text</text>
+</g>
+<g data-entity="watch_sessions"><rect x="1140" y="130" width="460" height="562" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,130H1593Q1600,130 1600,137V178H1140V137Q1140,130 1147,130" fill="#be123c"/>
+<text x="1155" y="153" style="fill:white" font-size="17" font-weight="700">watch_sessions</text>
+<text x="1586" y="153" text-anchor="end" style="fill:#fff" font-size="11">256,230</text>
+<text x="1155" y="170" style="fill:#eef2ff" font-size="10">Воспроизведение</text>
+<rect x="1141" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="194">PK</text>
+<text class="field" x="1213" y="194">session_id</text>
+<text class="type" x="1590" y="194" text-anchor="end">text</text>
+<text class="key" x="1151" y="218">FK</text>
+<text class="field" x="1213" y="218">user_id</text>
+<text class="type" x="1590" y="218" text-anchor="end">text</text>
+<rect x="1141" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="242">FK</text>
+<text class="field" x="1213" y="242">movie_id</text>
+<text class="type" x="1590" y="242" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="266">FK</text>
+<text class="field" x="1213" y="266">episode_id ?</text>
+<text class="type" x="1590" y="266" text-anchor="end">text</text>
+<rect x="1141" y="274" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="290">FK</text>
+<text class="field" x="1213" y="290">room_id ?</text>
+<text class="type" x="1590" y="290" text-anchor="end">text</text>
+<text class="key" x="1151" y="314">FK</text>
+<text class="field" x="1213" y="314">request_id ?</text>
+<text class="type" x="1590" y="314" text-anchor="end">text</text>
+<rect x="1141" y="322" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="338"></text>
+<text class="field" x="1213" y="338">started_at_ms</text>
+<text class="type" x="1590" y="338" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="362"></text>
+<text class="field" x="1213" y="362">ended_at_ms</text>
+<text class="type" x="1590" y="362" text-anchor="end">bigint</text>
+<rect x="1141" y="370" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="386"></text>
+<text class="field" x="1213" y="386">duration_seconds</text>
+<text class="type" x="1590" y="386" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="410"></text>
+<text class="field" x="1213" y="410">start_position</text>
+<text class="type" x="1590" y="410" text-anchor="end">decimal</text>
+<rect x="1141" y="418" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="434"></text>
+<text class="field" x="1213" y="434">end_position</text>
+<text class="type" x="1590" y="434" text-anchor="end">decimal</text>
+<text class="key" x="1151" y="458"></text>
+<text class="field" x="1213" y="458">watched_seconds</text>
+<text class="type" x="1590" y="458" text-anchor="end">decimal</text>
+<rect x="1141" y="466" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="482"></text>
+<text class="field" x="1213" y="482">paused_seconds</text>
+<text class="type" x="1590" y="482" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="506"></text>
+<text class="field" x="1213" y="506">buffered_seconds</text>
+<text class="type" x="1590" y="506" text-anchor="end">bigint</text>
+<rect x="1141" y="514" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="530"></text>
+<text class="field" x="1213" y="530">completed</text>
+<text class="type" x="1590" y="530" text-anchor="end">boolean</text>
+<text class="key" x="1151" y="554"></text>
+<text class="field" x="1213" y="554">start_kind</text>
+<text class="type" x="1590" y="554" text-anchor="end">text</text>
+<rect x="1141" y="562" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="578"></text>
+<text class="field" x="1213" y="578">view_number</text>
+<text class="type" x="1590" y="578" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="602"></text>
+<text class="field" x="1213" y="602">stop_reason</text>
+<text class="type" x="1590" y="602" text-anchor="end">text</text>
+<rect x="1141" y="610" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="626"></text>
+<text class="field" x="1213" y="626">playback_source</text>
+<text class="type" x="1590" y="626" text-anchor="end">text</text>
+<text class="key" x="1151" y="650"></text>
+<text class="field" x="1213" y="650">source</text>
+<text class="type" x="1590" y="650" text-anchor="end">text</text>
+<rect x="1141" y="658" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="674"></text>
+<text class="field" x="1213" y="674">is_synthetic</text>
+<text class="type" x="1590" y="674" text-anchor="end">boolean</text>
+</g>
+<g data-entity="progress"><rect x="580" y="760" width="460" height="346" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M587,760H1033Q1040,760 1040,767V808H580V767Q580,760 587,760" fill="#be123c"/>
+<text x="595" y="783" style="fill:white" font-size="17" font-weight="700">progress</text>
+<text x="1026" y="783" text-anchor="end" style="fill:#fff" font-size="11">233,622</text>
+<text x="595" y="800" style="fill:#eef2ff" font-size="10">Воспроизведение</text>
+<rect x="581" y="808" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="824">PK/FK</text>
+<text class="field" x="653" y="824">user_id</text>
+<text class="type" x="1030" y="824" text-anchor="end">text</text>
+<text class="key" x="591" y="848">PK/FK</text>
+<text class="field" x="653" y="848">movie_id</text>
+<text class="type" x="1030" y="848" text-anchor="end">bigint</text>
+<rect x="581" y="856" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="872">FK</text>
+<text class="field" x="653" y="872">episode_id ?</text>
+<text class="type" x="1030" y="872" text-anchor="end">text</text>
+<text class="key" x="591" y="896"></text>
+<text class="field" x="653" y="896">position</text>
+<text class="type" x="1030" y="896" text-anchor="end">decimal</text>
+<rect x="581" y="904" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="920"></text>
+<text class="field" x="653" y="920">duration</text>
+<text class="type" x="1030" y="920" text-anchor="end">decimal</text>
+<text class="key" x="591" y="944"></text>
+<text class="field" x="653" y="944">watched_seconds</text>
+<text class="type" x="1030" y="944" text-anchor="end">decimal</text>
+<rect x="581" y="952" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="968"></text>
+<text class="field" x="653" y="968">completed</text>
+<text class="type" x="1030" y="968" text-anchor="end">boolean</text>
+<text class="key" x="591" y="992"></text>
+<text class="field" x="653" y="992">episodes_completed</text>
+<text class="type" x="1030" y="992" text-anchor="end">bigint</text>
+<rect x="581" y="1000" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="1016"></text>
+<text class="field" x="653" y="1016">episodes_modeled</text>
+<text class="type" x="1030" y="1016" text-anchor="end">bigint</text>
+<text class="key" x="591" y="1040"></text>
+<text class="field" x="653" y="1040">updated_at_ms</text>
+<text class="type" x="1030" y="1040" text-anchor="end">bigint</text>
+<rect x="581" y="1048" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="1064"></text>
+<text class="field" x="653" y="1064">source</text>
+<text class="type" x="1030" y="1064" text-anchor="end">text</text>
+<text class="key" x="591" y="1088"></text>
+<text class="field" x="653" y="1088">is_synthetic</text>
+<text class="type" x="1030" y="1088" text-anchor="end">boolean</text>
+</g>
+<g data-entity="episode_progress"><rect x="1140" y="820" width="460" height="298" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,820H1593Q1600,820 1600,827V868H1140V827Q1140,820 1147,820" fill="#be123c"/>
+<text x="1155" y="843" style="fill:white" font-size="17" font-weight="700">episode_progress</text>
+<text x="1586" y="843" text-anchor="end" style="fill:#fff" font-size="11">13,675</text>
+<text x="1155" y="860" style="fill:#eef2ff" font-size="10">Воспроизведение</text>
+<rect x="1141" y="868" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="884">PK/FK</text>
+<text class="field" x="1213" y="884">user_id</text>
+<text class="type" x="1590" y="884" text-anchor="end">text</text>
+<text class="key" x="1151" y="908">PK/FK</text>
+<text class="field" x="1213" y="908">movie_id</text>
+<text class="type" x="1590" y="908" text-anchor="end">bigint</text>
+<rect x="1141" y="916" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="932">PK/FK</text>
+<text class="field" x="1213" y="932">episode_id</text>
+<text class="type" x="1590" y="932" text-anchor="end">text</text>
+<text class="key" x="1151" y="956"></text>
+<text class="field" x="1213" y="956">position</text>
+<text class="type" x="1590" y="956" text-anchor="end">decimal</text>
+<rect x="1141" y="964" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="980"></text>
+<text class="field" x="1213" y="980">duration</text>
+<text class="type" x="1590" y="980" text-anchor="end">decimal</text>
+<text class="key" x="1151" y="1004"></text>
+<text class="field" x="1213" y="1004">watched_seconds</text>
+<text class="type" x="1590" y="1004" text-anchor="end">decimal</text>
+<rect x="1141" y="1012" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="1028"></text>
+<text class="field" x="1213" y="1028">completed</text>
+<text class="type" x="1590" y="1028" text-anchor="end">boolean</text>
+<text class="key" x="1151" y="1052"></text>
+<text class="field" x="1213" y="1052">updated_at_ms</text>
+<text class="type" x="1590" y="1052" text-anchor="end">bigint</text>
+<rect x="1141" y="1060" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="1076"></text>
+<text class="field" x="1213" y="1076">source</text>
+<text class="type" x="1590" y="1076" text-anchor="end">text</text>
+<text class="key" x="1151" y="1100"></text>
+<text class="field" x="1213" y="1100">is_synthetic</text>
+<text class="type" x="1590" y="1100" text-anchor="end">boolean</text>
+</g>
+<text x="40" y="1188" font-size="12">PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

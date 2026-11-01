@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Комната · {{ film.title }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ asset_url('css/torrent-player.css') }}">{% endblock %}
+{% block content %}
+<section class="room-page page-width" data-room-code="{{ room.code }}" data-is-host="{{ is_host|string|lower }}" data-user-id="{{ user.id }}" data-user-name="{{ user.username }}">
+    <div class="room-heading"><div><a class="back-link" href="{{ url_for('rooms.rooms_page') }}">{{ icon('back') }} Все комнаты</a>
+        <h1><span id="room-title">{{ room.title }}</span> <span class="badge live-badge"><span class="status-dot"></span> В эфире</span></h1>
+        <p class="muted"><span id="room-film">{{ film.title }}{% if episode %} · {{ episode_label(episode) }}{% endif %}</span> · хост <span id="room-host">…</span></p></div>
+        <div class="room-invite"><button class="room-code" type="button" data-copy-code="{{ room.code }}" title="Скопировать код">{{ icon('copy') }} <span>{{ room.code }}</span></button><button class="btn btn-small" type="button" data-invite>{{ icon('link') }} Пригласить</button></div></div>
+<div class="room-layout" id="room-layout">
+    <div class="room-main">
+        <div class="cinema-screen torrent-screen room-screen" id="cinema-screen" data-player data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ film_image(film.id) }}" data-duration="{{ film.duration_min * 60 }}"{% if episode %} data-episode="{{ episode.file_id }}"{% endif %}>
+            <video id="room-video" playsinline controls preload="none" poster="{{ film_image(film.id, true) }}" aria-label="{{ film.title }}"></video>
+            <div class="torrent-empty" id="room-join"><span class="badge">{{ icon('users') }} Совместный просмотр</span><h2>{{ film.title }}</h2>
+                {% if has_source %}<p id="room-join-text">Плеер синхронизируется с остальными участниками комнаты.</p><div class="prep-actions"><button class="btn" id="room-connect" type="button">{{ icon('play') }} Подключиться к просмотру</button></div>
+                <div class="prep-progress" id="room-prep" hidden><span class="spinner" aria-hidden="true"></span><span id="room-phase">Подключаемся…</span></div>
+                {% else %}<p>У этого фильма пока нет источника. Хост может выбрать другой фильм.</p>{% endif %}</div>
+            <div id="reaction-stage" class="reaction-stage" aria-hidden="true"></div>
+            <div class="screen-notice" id="screen-notice" role="status" aria-live="polite"></div>
+            <button class="icon-button screen-fullscreen" type="button" data-fullscreen aria-label="Кинозал на весь экран" title="На весь экран с чатом и реакциями">{{ icon('expand') }}</button>
+        </div>
+        <div class="room-statusbar"><span class="sync-state" id="sync-state"><span class="status-dot"></span> Ожидаем подключения</span><span class="muted small-text" id="room-controller"></span>
+            <div class="stream-stats compact" id="stream-stats" hidden><span>{{ icon('download') }} <b data-stat="rate">—</b></span><span>{{ icon('users') }} <b data-stat="peers">—</b></span><span>{{ icon('clock') }} <b data-stat="buffer">—</b></span></div></div>
+        <div class="room-toolbar">
+            <div class="reaction-bar" id="reaction-bar" role="group" aria-label="Реакции"></div>
+            <button class="tool-button" data-open-clip data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ film_image(film.id) }}" data-duration="{{ film.duration_min * 60 }}">{{ icon('scissors') }}<span>Клип</span></button>
+            <button class="tool-button" data-host-tools aria-expanded="false" {% if not is_host %}hidden{% endif %}>{{ icon('settings') }}<span>Настройки</span></button>
+            <button class="tool-button leave-button" data-end-room>{{ icon('close') }}<span>{{ 'Завершить' if is_host else 'Выйти' }}</span></button>
+        </div>
+        <div class="panel host-panel" id="host-panel" hidden>
+            <h3>Управление комнатой</h3>
+            <div class="host-grid">
+                <label>Название<input id="host-title" maxlength="80" value="{{ room.title }}"></label>
+                <label>Кто управляет плеером<select id="host-control"><option value="host">Только хост</option><option value="all">Все участники</option></select></label>
+                <label>Фильм<select id="host-movie">{% for item in films %}<option value="{{ item.film.id }}" {{ 'selected' if item.film.id == film.id }}>{{ item.film.title }}{{ ' (сериал)' if item.film.kind == 'series' }}</option>{% endfor %}</select></label>
+                {% if episodes %}<label>Серия<select id="host-episode">{% for ep in episodes %}<option value="{{ ep.file_id }}" {{ 'selected' if episode and ep.file_id == episode.file_id }}>{{ episode_label(ep) }}</option>{% endfor %}</select></label>{% endif %}
+                <label>Передать роль хоста<select id="host-transfer"><option value="">— выберите участника —</option></select></label>
+            </div>
+            <label class="checkbox-label"><input type="checkbox" id="host-wait"> Ждать всех: пауза, пока у кого-то догружается видео</label>
+            <label class="checkbox-label"><input type="checkbox" id="host-chat"> Разрешить сообщения в чате</label>
+            <label class="checkbox-label"><input type="checkbox" id="host-reactions"> Разрешить реакции</label>
+            <label class="checkbox-label"><input type="checkbox" id="host-locked"> Закрыть вход новым участникам</label>
+        </div>
+    </div>
+    <aside class="chat-pane" id="chat-pane">
+        <div class="pane-tabs" role="tablist"><button role="tab" aria-selected="true" data-pane="chat">{{ icon('chat') }} Чат</button><button role="tab" aria-selected="false" data-pane="people">{{ icon('users') }} Участники <span class="badge" id="member-count">1</span></button></div>
+        <div class="pane" data-pane-body="people" hidden><ul class="member-list" id="member-list"></ul><p class="muted small-text pane-hint">Зелёная точка — в сети. Статус показывает, что сейчас происходит у участника.</p></div>
+        <div class="pane chat-body" data-pane-body="chat"><div class="chat-messages" id="chat-messages"></div>
+            <form id="chat-form" class="chat-input-row"><label class="sr-only" for="chat-input">Сообщение</label><input id="chat-input" placeholder="Поделиться впечатлением…" maxlength="1000" required autocomplete="off"><button class="icon-button" type="submit" aria-label="Отправить">{{ icon('send') }}</button></form></div>
+    </aside>
+</div>
+</section>
+<script src="{{ asset_url('js/vendor/hls.min.js') }}" defer></script>
+<script src="{{ asset_url('js/player.js') }}" defer></script>
+<script src="{{ asset_url('js/room.js') }}" defer></script>
+{% endblock %}

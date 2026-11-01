@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="976" viewBox="0 0 1670 976" role="img" aria-label="Штатные комнаты, участники и сообщения">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="976" fill="#f7f9fc" />
+<text x="40" y="40" font-size="24" font-weight="700">Штатные комнаты, участники и сообщения</text>
+<text x="40" y="69" font-size="13" fill="#596982">Ключ rooms.code сохранён. Настройки и состояние комнаты — существующие JSON-поля.</text>
+<g data-parent="users" data-child="room_members"><title>room_members.user_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 582,200.0 582,112 1112,112 1112,224.0 1140,224.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M1140,217.0L1127,224.0L1140,231.0 M1140,224.0L1127,224.0" /><circle class="mark" cx="1119" cy="224.0" r="4" />
+</g>
+<g data-parent="rooms" data-child="room_members"><title>room_members.code → rooms.code</title>
+<polyline class="edge" style="stroke:#4338ca;stroke-opacity:.65" points="1060,200.0 1140,200.0" />
+<path class="mark" d="M1067,193.0V207.0 M1073,193.0V207.0" />
+<path class="mark" d="M1140,193.0L1127,200.0L1140,207.0 M1140,200.0L1127,200.0" /><circle class="mark" cx="1119" cy="200.0" r="4" />
+</g>
+<g data-parent="rooms" data-child="room_messages"><title>room_messages.code → rooms.code</title>
+<polyline class="edge" style="stroke:#4338ca;stroke-opacity:.65;stroke-dasharray:5 4" points="1060,200.0 1088,200.0 1088,734.0 1060,734.0" />
+<path class="mark" d="M1067,193.0V207.0 M1073,193.0V207.0" />
+<path class="mark" d="M1060,727.0L1073,734.0L1060,741.0 M1060,734.0L1073,734.0" /><circle class="mark" cx="1081" cy="734.0" r="4" />
+</g>
+<g data-parent="users" data-child="rooms"><title>rooms.host_id → users.id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 572,200.0 572,248.0 600,248.0" />
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0" />
+<path class="mark" d="M600,241.0L587,248.0L600,255.0 M600,248.0L587,248.0" /><circle class="mark" cx="579" cy="248.0" r="4" />
+</g>
+<g data-parent="films" data-child="rooms"><title>rooms.movie_id → films.id</title>
+<polyline class="edge" style="stroke:#64748b;stroke-opacity:.8;stroke-dasharray:2 5" points="500,500.0 562,500.0 562,224.0 600,224.0" />
+<path class="mark" d="M507,493.0V507.0 M513,493.0V507.0" />
+<path class="mark" d="M600,217.0L587,224.0L600,231.0 M600,224.0L587,224.0" /><circle class="mark" cx="579" cy="224.0" r="4" />
+</g>
+<g data-parent="users" data-child="room_messages"><title>room_messages.user_id → users.id</title>
+<polyline class="edge" style="stroke:#64748b;stroke-opacity:.8;stroke-dasharray:2 5" points="500,200.0 572,200.0 572,758.0 600,758.0" />
+<path class="mark" d="M507,193.0V207.0" /><circle class="mark" cx="519" cy="200.0" r="4" />
+<path class="mark" d="M600,751.0L587,758.0L600,765.0 M600,758.0L587,758.0" /><circle class="mark" cx="579" cy="758.0" r="4" />
+</g>
+<g data-entity="users"><rect x="40" y="140" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,140H493Q500,140 500,147V188H40V147Q40,140 47,140" fill="#6d28d9" />
+<text x="55" y="163" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="180" style="fill:#eef2ff" font-size="10">Аккаунты и профиль · ссылка</text>
+<rect x="41" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="204">PK</text>
+<text class="field" x="113" y="204">id</text>
+<text class="type" x="490" y="204" text-anchor="end">integer</text>
+</g>
+<g data-entity="films"><rect x="40" y="440" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,440H493Q500,440 500,447V488H40V447Q40,440 47,440" fill="#0f766e" />
+<text x="55" y="463" style="fill:white" font-size="17" font-weight="700">films</text>
+<text x="486" y="463" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="55" y="480" style="fill:#eef2ff" font-size="10">Каталог и источники · ссылка</text>
+<rect x="41" y="488" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="504">PK</text>
+<text class="field" x="113" y="504">id</text>
+<text class="type" x="490" y="504" text-anchor="end">integer</text>
+</g>
+<g data-entity="rooms"><rect x="600" y="140" width="460" height="250" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M607,140H1053Q1060,140 1060,147V188H600V147Q600,140 607,140" fill="#4338ca" />
+<text x="615" y="163" style="fill:white" font-size="17" font-weight="700">rooms</text>
+<text x="1046" y="163" text-anchor="end" style="fill:#fff" font-size="11">5,000</text>
+<text x="615" y="180" style="fill:#eef2ff" font-size="10">Комнаты и чат</text>
+<rect x="601" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="204">PK</text>
+<text class="field" x="673" y="204">code</text>
+<text class="type" x="1050" y="204" text-anchor="end">text</text>
+<text class="key" x="611" y="228">LK</text>
+<text class="field" x="673" y="228">movie_id</text>
+<text class="type" x="1050" y="228" text-anchor="end">integer</text>
+<rect x="601" y="236" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="252">FK</text>
+<text class="field" x="673" y="252">host_id</text>
+<text class="type" x="1050" y="252" text-anchor="end">integer</text>
+<text class="key" x="611" y="276" />
+<text class="field" x="673" y="276">title</text>
+<text class="type" x="1050" y="276" text-anchor="end">text</text>
+<rect x="601" y="284" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="300" />
+<text class="field" x="673" y="300">settings</text>
+<text class="type" x="1050" y="300" text-anchor="end">text</text>
+<text class="key" x="611" y="324" />
+<text class="field" x="673" y="324">state</text>
+<text class="type" x="1050" y="324" text-anchor="end">text</text>
+<rect x="601" y="332" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="348" />
+<text class="field" x="673" y="348">created_at</text>
+<text class="type" x="1050" y="348" text-anchor="end">real</text>
+<text class="key" x="611" y="372" />
+<text class="field" x="673" y="372">ended_at ?</text>
+<text class="type" x="1050" y="372" text-anchor="end">real</text>
+</g>
+<g data-entity="room_members"><rect x="1140" y="140" width="460" height="154" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1147,140H1593Q1600,140 1600,147V188H1140V147Q1140,140 1147,140" fill="#4338ca" />
+<text x="1155" y="163" style="fill:white" font-size="17" font-weight="700">room_members</text>
+<text x="1586" y="163" text-anchor="end" style="fill:#fff" font-size="11">19,882</text>
+<text x="1155" y="180" style="fill:#eef2ff" font-size="10">Комнаты и чат</text>
+<rect x="1141" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="204">PK/FK</text>
+<text class="field" x="1213" y="204">code</text>
+<text class="type" x="1590" y="204" text-anchor="end">text</text>
+<text class="key" x="1151" y="228">PK/FK</text>
+<text class="field" x="1213" y="228">user_id</text>
+<text class="type" x="1590" y="228" text-anchor="end">integer</text>
+<rect x="1141" y="236" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="252" />
+<text class="field" x="1213" y="252">joined_at</text>
+<text class="type" x="1590" y="252" text-anchor="end">real</text>
+<text class="key" x="1151" y="276" />
+<text class="field" x="1213" y="276">last_seen</text>
+<text class="type" x="1590" y="276" text-anchor="end">real</text>
+</g>
+<g data-entity="room_messages"><rect x="600" y="650" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M607,650H1053Q1060,650 1060,657V698H600V657Q600,650 607,650" fill="#4338ca" />
+<text x="615" y="673" style="fill:white" font-size="17" font-weight="700">room_messages</text>
+<text x="1046" y="673" text-anchor="end" style="fill:#fff" font-size="11">44,764</text>
+<text x="615" y="690" style="fill:#eef2ff" font-size="10">Комнаты и чат</text>
+<rect x="601" y="698" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="714">PK</text>
+<text class="field" x="673" y="714">id</text>
+<text class="type" x="1050" y="714" text-anchor="end">integer</text>
+<text class="key" x="611" y="738">FK</text>
+<text class="field" x="673" y="738">code</text>
+<text class="type" x="1050" y="738" text-anchor="end">text</text>
+<rect x="601" y="746" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="762">LK</text>
+<text class="field" x="673" y="762">user_id ?</text>
+<text class="type" x="1050" y="762" text-anchor="end">integer</text>
+<text class="key" x="611" y="786" />
+<text class="field" x="673" y="786">name</text>
+<text class="type" x="1050" y="786" text-anchor="end">text</text>
+<rect x="601" y="794" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="810" />
+<text class="field" x="673" y="810">kind</text>
+<text class="type" x="1050" y="810" text-anchor="end">text</text>
+<text class="key" x="611" y="834" />
+<text class="field" x="673" y="834">text</text>
+<text class="type" x="1050" y="834" text-anchor="end">text</text>
+<rect x="601" y="842" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="858" />
+<text class="field" x="673" y="858">created_at</text>
+<text class="type" x="1050" y="858" text-anchor="end">real</text>
+</g>
+<text x="40" y="946" font-size="12">LK — логическая ссылка без SQL FK · PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

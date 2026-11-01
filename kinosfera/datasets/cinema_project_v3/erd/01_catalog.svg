@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1650" height="830" viewBox="0 0 1650 830" role="img" aria-label="Каталог: действующий формат films.data / films.art">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1650" height="830" fill="#f7f9fc" />
+<text x="40" y="40" font-size="24" font-weight="700">Каталог: действующий формат films.data / films.art</text>
+<text x="40" y="69" font-size="13" fill="#596982">films.episodes — реальные файлы плеера; episodes — метаданные серий, file_id может отсутствовать.</text>
+<g data-parent="films" data-child="episodes"><title>episodes.movie_id → films.id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="580,200.0 528,200.0 528,254.0 500,254.0" />
+<path class="mark" d="M573,193.0V207.0 M567,193.0V207.0" />
+<path class="mark" d="M500,247.0L513,254.0L500,261.0 M500,254.0L513,254.0" /><circle class="mark" cx="521" cy="254.0" r="4" />
+</g>
+<g data-parent="films" data-child="film_sources"><title>film_sources.movie_id → films.id</title>
+<polyline class="edge" style="stroke:#64748b;stroke-opacity:.8;stroke-dasharray:2 5" points="1040,200.0 1092,200.0 1092,230.0 1120,230.0" />
+<path class="mark" d="M1047,193.0V207.0 M1053,193.0V207.0" />
+<path class="mark" d="M1120,223.0L1107,230.0L1120,237.0 M1120,230.0L1107,230.0" /><circle class="mark" cx="1099" cy="230.0" r="4" />
+</g>
+<g data-entity="films"><rect x="580" y="140" width="460" height="418" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M587,140H1033Q1040,140 1040,147V188H580V147Q580,140 587,140" fill="#0f766e" />
+<text x="595" y="163" style="fill:white" font-size="17" font-weight="700">films</text>
+<text x="1026" y="163" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="595" y="180" style="fill:#eef2ff" font-size="10">Каталог и источники</text>
+<rect x="581" y="188" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="204">PK</text>
+<text class="field" x="653" y="204">id</text>
+<text class="type" x="1030" y="204" text-anchor="end">integer</text>
+<text class="key" x="591" y="228" />
+<text class="field" x="653" y="228">data</text>
+<text class="type" x="1030" y="228" text-anchor="end">text</text>
+<rect x="581" y="236" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="252" />
+<text class="field" x="653" y="252">art</text>
+<text class="type" x="1030" y="252" text-anchor="end">text</text>
+<text class="key" x="591" y="276" />
+<text class="field" x="653" y="276">torrent ?</text>
+<text class="type" x="1030" y="276" text-anchor="end">blob</text>
+<rect x="581" y="284" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="300" />
+<text class="field" x="653" y="300">torrent_name ?</text>
+<text class="type" x="1030" y="300" text-anchor="end">text</text>
+<text class="key" x="591" y="324" />
+<text class="field" x="653" y="324">file_id ?</text>
+<text class="type" x="1030" y="324" text-anchor="end">integer</text>
+<rect x="581" y="332" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="348" />
+<text class="field" x="653" y="348">files</text>
+<text class="type" x="1030" y="348" text-anchor="end">text</text>
+<text class="key" x="591" y="372" />
+<text class="field" x="653" y="372">revision</text>
+<text class="type" x="1030" y="372" text-anchor="end">text</text>
+<rect x="581" y="380" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="396" />
+<text class="field" x="653" y="396">updated_at</text>
+<text class="type" x="1030" y="396" text-anchor="end">text</text>
+<text class="key" x="591" y="420" />
+<text class="field" x="653" y="420">magnet ?</text>
+<text class="type" x="1030" y="420" text-anchor="end">text</text>
+<rect x="581" y="428" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="444" />
+<text class="field" x="653" y="444">info_hash ?</text>
+<text class="type" x="1030" y="444" text-anchor="end">text</text>
+<text class="key" x="591" y="468" />
+<text class="field" x="653" y="468">episodes</text>
+<text class="type" x="1030" y="468" text-anchor="end">text</text>
+<rect x="581" y="476" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="492">UK</text>
+<text class="field" x="653" y="492">imdb_id ?</text>
+<text class="type" x="1030" y="492" text-anchor="end">text</text>
+<text class="key" x="591" y="516" />
+<text class="field" x="653" y="516">tmdb_id ?</text>
+<text class="type" x="1030" y="516" text-anchor="end">integer</text>
+<rect x="581" y="524" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="591" y="540" />
+<text class="field" x="653" y="540">tmdb_kind ?</text>
+<text class="type" x="1030" y="540" text-anchor="end">text</text>
+</g>
+<g data-entity="episodes"><rect x="40" y="170" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,170H493Q500,170 500,177V218H40V177Q40,170 47,170" fill="#0f766e" />
+<text x="55" y="193" style="fill:white" font-size="17" font-weight="700">episodes</text>
+<text x="486" y="193" text-anchor="end" style="fill:#fff" font-size="11">8,395</text>
+<text x="55" y="210" style="fill:#eef2ff" font-size="10">Каталог и источники</text>
+<rect x="41" y="218" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="234">PK</text>
+<text class="field" x="113" y="234">id</text>
+<text class="type" x="490" y="234" text-anchor="end">text</text>
+<text class="key" x="51" y="258">FK</text>
+<text class="field" x="113" y="258">movie_id</text>
+<text class="type" x="490" y="258" text-anchor="end">integer</text>
+<rect x="41" y="266" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="282" />
+<text class="field" x="113" y="282">season</text>
+<text class="type" x="490" y="282" text-anchor="end">integer</text>
+<text class="key" x="51" y="306" />
+<text class="field" x="113" y="306">episode</text>
+<text class="type" x="490" y="306" text-anchor="end">integer</text>
+<rect x="41" y="314" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="330" />
+<text class="field" x="113" y="330">title</text>
+<text class="type" x="490" y="330" text-anchor="end">text</text>
+<text class="key" x="51" y="354" />
+<text class="field" x="113" y="354">duration</text>
+<text class="type" x="490" y="354" text-anchor="end">real</text>
+<rect x="41" y="362" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="378" />
+<text class="field" x="113" y="378">file_id ?</text>
+<text class="type" x="490" y="378" text-anchor="end">integer</text>
+</g>
+<g data-entity="film_sources"><rect x="1120" y="170" width="460" height="250" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1127,170H1573Q1580,170 1580,177V218H1120V177Q1120,170 1127,170" fill="#0f766e" />
+<text x="1135" y="193" style="fill:white" font-size="17" font-weight="700">film_sources</text>
+<text x="1566" y="193" text-anchor="end" style="fill:#fff" font-size="11">1</text>
+<text x="1135" y="210" style="fill:#eef2ff" font-size="10">Каталог и источники</text>
+<rect x="1121" y="218" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="234">PK/LK</text>
+<text class="field" x="1193" y="234">movie_id</text>
+<text class="type" x="1570" y="234" text-anchor="end">integer</text>
+<text class="key" x="1131" y="258">PK</text>
+<text class="field" x="1193" y="258">source</text>
+<text class="type" x="1570" y="258" text-anchor="end">integer</text>
+<rect x="1121" y="266" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="282" />
+<text class="field" x="1193" y="282">torrent</text>
+<text class="type" x="1570" y="282" text-anchor="end">blob</text>
+<text class="key" x="1131" y="306" />
+<text class="field" x="1193" y="306">name</text>
+<text class="type" x="1570" y="306" text-anchor="end">text</text>
+<rect x="1121" y="314" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="330" />
+<text class="field" x="1193" y="330">files</text>
+<text class="type" x="1570" y="330" text-anchor="end">text</text>
+<text class="key" x="1131" y="354" />
+<text class="field" x="1193" y="354">info_hash</text>
+<text class="type" x="1570" y="354" text-anchor="end">text</text>
+<rect x="1121" y="362" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="378" />
+<text class="field" x="1193" y="378">magnet ?</text>
+<text class="type" x="1570" y="378" text-anchor="end">text</text>
+<text class="key" x="1131" y="402" />
+<text class="field" x="1193" y="402">added_at</text>
+<text class="type" x="1570" y="402" text-anchor="end">real</text>
+</g>
+<g data-entity="media_info"><rect x="1120" y="600" width="460" height="130" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1127,600H1573Q1580,600 1580,607V648H1120V607Q1120,600 1127,600" fill="#0f766e" />
+<text x="1135" y="623" style="fill:white" font-size="17" font-weight="700">media_info</text>
+<text x="1566" y="623" text-anchor="end" style="fill:#fff" font-size="11">9</text>
+<text x="1135" y="640" style="fill:#eef2ff" font-size="10">Каталог и источники</text>
+<rect x="1121" y="648" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="664">PK</text>
+<text class="field" x="1193" y="664">key</text>
+<text class="type" x="1570" y="664" text-anchor="end">text</text>
+<text class="key" x="1131" y="688" />
+<text class="field" x="1193" y="688">data</text>
+<text class="type" x="1570" y="688" text-anchor="end">text</text>
+<rect x="1121" y="696" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1131" y="712" />
+<text class="field" x="1193" y="712">updated_at</text>
+<text class="type" x="1570" y="712" text-anchor="end">real</text>
+</g>
+<text x="40" y="800" font-size="12">LK — логическая ссылка без SQL FK · PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

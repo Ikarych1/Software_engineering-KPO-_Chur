@@ -1,0 +1,369 @@
+Project cinema_project { database_type: 'SQLite' }
+
+Table bookmark_events {
+  id text [pk, not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  action text [not null]
+  created_at real [not null]
+  collection text [not null]
+}
+
+Table clicks {
+  id text [pk, not null]
+  impression_id text [not null, unique]
+  request_id text [not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  clicked_at real [not null]
+}
+
+Table episode_progress {
+  user_id integer [not null]
+  movie_id integer [not null]
+  file_id integer [not null]
+  position real [not null]
+  duration real [not null]
+  completed integer [not null]
+  updated_at real [not null]
+  indexes {
+    (user_id, movie_id, file_id) [pk]
+  }
+}
+
+Table episodes {
+  id text [pk, not null]
+  movie_id integer [not null]
+  season integer [not null]
+  episode integer [not null]
+  title text [not null]
+  duration real [not null]
+  file_id integer
+  indexes {
+    (movie_id, season, episode) [unique]
+  }
+}
+
+Table events {
+  id text [pk, not null]
+  user_id integer [not null]
+  movie_id integer
+  event_type text [not null]
+  created_at real [not null]
+  session_id text
+  request_id text
+  payload text [not null]
+}
+
+Table film_sources {
+  movie_id integer [not null]
+  source integer [not null]
+  torrent blob [not null]
+  name text [not null]
+  files text [not null]
+  info_hash text [not null]
+  magnet text
+  added_at real [not null]
+  indexes {
+    (movie_id, source) [pk]
+  }
+}
+
+Table films {
+  id integer [pk, not null]
+  data text [not null]
+  art text [not null]
+  torrent blob
+  torrent_name text
+  file_id integer
+  files text [not null]
+  revision text [not null]
+  updated_at text [not null]
+  magnet text
+  info_hash text
+  episodes text [not null]
+  imdb_id text [unique]
+  tmdb_id integer
+  tmdb_kind text
+  indexes {
+    (tmdb_kind, tmdb_id) [unique]
+  }
+}
+
+Table impressions {
+  id text [pk, not null]
+  request_id text [not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  rank integer [not null]
+  shown_at real [not null]
+  clicked integer [not null]
+  indexes {
+    (request_id, movie_id) [unique]
+    (request_id, rank) [unique]
+  }
+}
+
+Table login_attempts {
+  key text [pk, not null]
+  failures integer [not null]
+  last_at real [not null]
+}
+
+Table media_info {
+  key text [pk, not null]
+  data text [not null]
+  updated_at real [not null]
+}
+
+Table not_interested {
+  user_id integer [not null]
+  movie_id integer [not null]
+  is_active integer [not null]
+  reason text [not null]
+  updated_at real [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+}
+
+Table password_resets {
+  token_hash text [pk, not null]
+  user_id integer [not null]
+  created_at real [not null]
+  expires_at real [not null]
+}
+
+Table payments {
+  id integer [pk, not null]
+  user_id integer [not null]
+  tariff text [not null]
+  amount real [not null]
+  status text [not null]
+  created_at real [not null]
+}
+
+Table progress {
+  user_id integer [not null]
+  movie_id integer [not null]
+  position real [not null]
+  duration real [not null]
+  completed integer [not null]
+  watched_seconds real [not null]
+  updated_at real [not null]
+  hidden integer [not null]
+  file_id integer
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+}
+
+Table ratings {
+  user_id integer [not null]
+  movie_id integer [not null]
+  score integer [not null]
+  updated_at real [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+}
+
+Table recommendation_requests {
+  id text [pk, not null]
+  user_id integer [not null]
+  created_at real [not null]
+  surface text [not null]
+  policy text [not null]
+}
+
+Table reviews {
+  id integer [pk, not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  score integer [not null]
+  text text [not null]
+  created_at real [not null]
+  updated_at real [not null]
+  indexes {
+    (user_id, movie_id) [unique]
+  }
+}
+
+Table room_members {
+  code text [not null]
+  user_id integer [not null]
+  joined_at real [not null]
+  last_seen real [not null]
+  indexes {
+    (code, user_id) [pk]
+  }
+}
+
+Table room_messages {
+  id integer [pk, not null]
+  code text [not null]
+  user_id integer
+  name text [not null]
+  kind text [not null]
+  text text [not null]
+  created_at real [not null]
+}
+
+Table rooms {
+  code text [pk, not null]
+  movie_id integer [not null]
+  host_id integer [not null]
+  title text [not null]
+  settings text [not null]
+  state text [not null]
+  created_at real [not null]
+  ended_at real
+}
+
+Table searches {
+  id text [pk, not null]
+  user_id integer [not null]
+  query text [not null]
+  query_type text [not null]
+  searched_at real [not null]
+  selected_movie_id integer
+}
+
+Table tags {
+  id text [pk, not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  tag text [not null]
+  created_at real [not null]
+}
+
+Table tmdb_cache {
+  key text [pk, not null]
+  data text [not null]
+  updated real [not null]
+}
+
+Table tmdb_jobs {
+  id text [pk, not null]
+  state text [not null]
+  total integer [not null]
+  options text [not null]
+  message text [not null]
+  cancel integer [not null]
+  created real [not null]
+  updated real [not null]
+}
+
+Table tmdb_rows {
+  job_id text [not null]
+  position integer [not null]
+  entry text [not null]
+  status text [not null]
+  result text
+  indexes {
+    (job_id, position) [pk]
+  }
+}
+
+Table user_preferences {
+  user_id integer [pk, not null]
+  genres text [not null]
+  content_types text [not null]
+  languages text [not null]
+  duration_min text [not null]
+  actor_ids text [not null]
+  director_ids text [not null]
+  locale text [not null]
+  timezone text [not null]
+  updated_at real [not null]
+}
+
+Table user_state {
+  user_id integer [pk, not null]
+  data text [not null]
+}
+
+Table users {
+  id integer [pk, not null]
+  email text [not null, unique]
+  username text [not null]
+  password_hash text [not null]
+  role text [not null]
+  active integer [not null]
+  session_version integer [not null]
+  created_at text [not null]
+  last_seen real
+  plan text [not null]
+  plan_until real
+}
+
+Table views {
+  id integer [pk, not null]
+  user_id integer [not null]
+  movie_id integer [not null]
+  room_code text
+  started_at real [not null]
+}
+
+Table watch_sessions {
+  id text [pk, not null]
+  view_id integer [not null, unique]
+  user_id integer [not null]
+  movie_id integer [not null]
+  episode_id text
+  room_code text
+  request_id text
+  started_at real [not null]
+  ended_at real [not null]
+  duration real [not null]
+  start_position real [not null]
+  end_position real [not null]
+  watched_seconds real [not null]
+  paused_seconds real [not null]
+  buffered_seconds real [not null]
+  completed integer [not null]
+  start_kind text [not null]
+  view_number integer [not null]
+  stop_reason text [not null]
+}
+
+Ref: films.id < bookmark_events.movie_id
+Ref: users.id < bookmark_events.user_id
+Ref: films.id < clicks.movie_id
+Ref: users.id < clicks.user_id
+Ref: recommendation_requests.id < clicks.request_id
+Ref: impressions.id - clicks.impression_id
+Ref: users.id < episode_progress.user_id
+Ref: films.id < episodes.movie_id
+Ref: recommendation_requests.id < events.request_id
+Ref: watch_sessions.id < events.session_id
+Ref: films.id < events.movie_id
+Ref: users.id < events.user_id
+Ref: films.id < impressions.movie_id
+Ref: users.id < impressions.user_id
+Ref: recommendation_requests.id < impressions.request_id
+Ref: films.id < not_interested.movie_id
+Ref: users.id < not_interested.user_id
+Ref: users.id < password_resets.user_id
+Ref: users.id < payments.user_id
+Ref: users.id < progress.user_id
+Ref: users.id < ratings.user_id
+Ref: users.id < recommendation_requests.user_id
+Ref: users.id < reviews.user_id
+Ref: users.id < room_members.user_id
+Ref: rooms.code < room_members.code
+Ref: rooms.code < room_messages.code
+Ref: users.id < rooms.host_id
+Ref: films.id < searches.selected_movie_id
+Ref: users.id < searches.user_id
+Ref: films.id < tags.movie_id
+Ref: users.id < tags.user_id
+Ref: tmdb_jobs.id < tmdb_rows.job_id
+Ref: users.id - user_preferences.user_id
+Ref: users.id - user_state.user_id
+Ref: recommendation_requests.id < watch_sessions.request_id
+Ref: rooms.code < watch_sessions.room_code
+Ref: episodes.id < watch_sessions.episode_id
+Ref: films.id < watch_sessions.movie_id
+Ref: users.id < watch_sessions.user_id
+Ref: views.id - watch_sessions.view_id

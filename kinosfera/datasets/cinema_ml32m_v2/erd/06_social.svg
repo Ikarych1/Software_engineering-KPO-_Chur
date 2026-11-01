@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="1202" viewBox="0 0 1670 1202" role="img" aria-label="Комнаты, участники и клипы">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="1202" fill="#f7f9fc"/>
+<text x="40" y="40" font-size="24" font-weight="700">Комнаты, участники и клипы</text>
+<text x="40" y="69" font-size="13" fill="#596982">room_members связывает пользователей и комнаты (N:M) и указывает соответствующий сеанс просмотра.</text>
+<g data-parent="users" data-child="room_members"><title>room_members.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65" points="500,200.0 582,200.0 582,112 1112,112 1112,214.0 1140,214.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M1140,207.0L1127,214.0L1140,221.0 M1140,214.0L1127,214.0"/><circle class="mark" cx="1119" cy="214.0" r="4"/>
+</g>
+<g data-parent="users" data-child="clips"><title>clips.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 572,200.0 572,734.0 600,734.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M600,727.0L587,734.0L600,741.0 M600,734.0L587,734.0"/><circle class="mark" cx="579" cy="734.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="clips"><title>clips.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,500.0 562,500.0 562,758.0 600,758.0"/>
+<path class="mark" d="M507,493.0V507.0 M513,493.0V507.0"/>
+<path class="mark" d="M600,751.0L587,758.0L600,765.0 M600,758.0L587,758.0"/><circle class="mark" cx="579" cy="758.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="rooms"><title>rooms.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,500.0 562,500.0 562,214.0 600,214.0"/>
+<path class="mark" d="M507,493.0V507.0 M513,493.0V507.0"/>
+<path class="mark" d="M600,207.0L587,214.0L600,221.0 M600,214.0L587,214.0"/><circle class="mark" cx="579" cy="214.0" r="4"/>
+</g>
+<g data-parent="episodes" data-child="rooms"><title>rooms.episode_id → episodes.episode_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,800.0 558,800.0 558,238.0 600,238.0"/>
+<path class="mark" d="M507,793.0V807.0"/><circle class="mark" cx="519" cy="800.0" r="4"/>
+<path class="mark" d="M600,231.0L587,238.0L600,245.0 M600,238.0L587,238.0"/><circle class="mark" cx="579" cy="238.0" r="4"/>
+</g>
+<g data-parent="episodes" data-child="clips"><title>clips.episode_id → episodes.episode_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,800.0 572,800.0 572,782.0 600,782.0"/>
+<path class="mark" d="M507,793.0V807.0"/><circle class="mark" cx="519" cy="800.0" r="4"/>
+<path class="mark" d="M600,775.0L587,782.0L600,789.0 M600,782.0L587,782.0"/><circle class="mark" cx="579" cy="782.0" r="4"/>
+</g>
+<g data-parent="users" data-child="rooms"><title>rooms.host_user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,200.0 572,200.0 572,262.0 600,262.0"/>
+<path class="mark" d="M507,193.0V207.0 M513,193.0V207.0"/>
+<path class="mark" d="M600,255.0L587,262.0L600,269.0 M600,262.0L587,262.0"/><circle class="mark" cx="579" cy="262.0" r="4"/>
+</g>
+<g data-parent="rooms" data-child="room_members"><title>room_members.room_id → rooms.room_id</title>
+<polyline class="edge" style="stroke:#4338ca;stroke-opacity:.65" points="1060,190.0 1140,190.0"/>
+<path class="mark" d="M1067,183.0V197.0 M1073,183.0V197.0"/>
+<path class="mark" d="M1140,183.0L1127,190.0L1140,197.0 M1140,190.0L1127,190.0"/><circle class="mark" cx="1119" cy="190.0" r="4"/>
+</g>
+<g data-parent="watch_sessions" data-child="room_members"><title>room_members.session_id → watch_sessions.session_id</title>
+<polyline class="edge" style="stroke:#be123c;stroke-opacity:.65;stroke-dasharray:5 4" points="500,1080.0 1112,1080.0 1112,238.0 1140,238.0"/>
+<path class="mark" d="M507,1073.0V1087.0 M513,1073.0V1087.0"/>
+<path class="mark" d="M1133,231.0V245.0"/><circle class="mark" cx="1121" cy="238.0" r="4"/>
+</g>
+<g data-parent="watch_sessions" data-child="clips"><title>clips.session_id → watch_sessions.session_id</title>
+<polyline class="edge" style="stroke:#be123c;stroke-opacity:.65;stroke-dasharray:5 4" points="500,1080.0 572,1080.0 572,806.0 600,806.0"/>
+<path class="mark" d="M507,1073.0V1087.0 M513,1073.0V1087.0"/>
+<path class="mark" d="M600,799.0L587,806.0L600,813.0 M600,806.0L587,806.0"/><circle class="mark" cx="579" cy="806.0" r="4"/>
+</g>
+<g data-entity="users"><rect x="40" y="140" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,140H493Q500,140 500,147V188H40V147Q40,140 47,140" fill="#6d28d9"/>
+<text x="55" y="163" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="163" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="180" style="fill:#eef2ff" font-size="10">Профили и предпочтения · ссылка</text>
+<rect x="41" y="188" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="204">PK</text>
+<text class="field" x="113" y="204">user_id</text>
+<text class="type" x="490" y="204" text-anchor="end">text</text>
+</g>
+<g data-entity="movies"><rect x="40" y="440" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,440H493Q500,440 500,447V488H40V447Q40,440 47,440" fill="#0f766e"/>
+<text x="55" y="463" style="fill:white" font-size="17" font-weight="700">movies</text>
+<text x="486" y="463" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="55" y="480" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="488" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="504">PK</text>
+<text class="field" x="113" y="504">movie_id</text>
+<text class="type" x="490" y="504" text-anchor="end">bigint</text>
+</g>
+<g data-entity="episodes"><rect x="40" y="740" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,740H493Q500,740 500,747V788H40V747Q40,740 47,740" fill="#0f766e"/>
+<text x="55" y="763" style="fill:white" font-size="17" font-weight="700">episodes</text>
+<text x="486" y="763" text-anchor="end" style="fill:#fff" font-size="11">8,395</text>
+<text x="55" y="780" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="788" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="804">PK</text>
+<text class="field" x="113" y="804">episode_id</text>
+<text class="type" x="490" y="804" text-anchor="end">text</text>
+</g>
+<g data-entity="watch_sessions"><rect x="40" y="1020" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,1020H493Q500,1020 500,1027V1068H40V1027Q40,1020 47,1020" fill="#be123c"/>
+<text x="55" y="1043" style="fill:white" font-size="17" font-weight="700">watch_sessions</text>
+<text x="486" y="1043" text-anchor="end" style="fill:#fff" font-size="11">256,230</text>
+<text x="55" y="1060" style="fill:#eef2ff" font-size="10">Воспроизведение · ссылка</text>
+<rect x="41" y="1068" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="1084">PK</text>
+<text class="field" x="113" y="1084">session_id</text>
+<text class="type" x="490" y="1084" text-anchor="end">text</text>
+</g>
+<g data-entity="rooms"><rect x="600" y="130" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,130H1053Q1060,130 1060,137V178H600V137Q600,130 607,130" fill="#4338ca"/>
+<text x="615" y="153" style="fill:white" font-size="17" font-weight="700">rooms</text>
+<text x="1046" y="153" text-anchor="end" style="fill:#fff" font-size="11">5,000</text>
+<text x="615" y="170" style="fill:#eef2ff" font-size="10">Комнаты и клипы</text>
+<rect x="601" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="194">PK</text>
+<text class="field" x="673" y="194">room_id</text>
+<text class="type" x="1050" y="194" text-anchor="end">text</text>
+<text class="key" x="611" y="218">FK</text>
+<text class="field" x="673" y="218">movie_id</text>
+<text class="type" x="1050" y="218" text-anchor="end">bigint</text>
+<rect x="601" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="242">FK</text>
+<text class="field" x="673" y="242">episode_id ?</text>
+<text class="type" x="1050" y="242" text-anchor="end">text</text>
+<text class="key" x="611" y="266">FK</text>
+<text class="field" x="673" y="266">host_user_id</text>
+<text class="type" x="1050" y="266" text-anchor="end">text</text>
+<rect x="601" y="274" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="290"></text>
+<text class="field" x="673" y="290">title</text>
+<text class="type" x="1050" y="290" text-anchor="end">text</text>
+<text class="key" x="611" y="314"></text>
+<text class="field" x="673" y="314">created_at_ms</text>
+<text class="type" x="1050" y="314" text-anchor="end">bigint</text>
+<rect x="601" y="322" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="338"></text>
+<text class="field" x="673" y="338">ended_at_ms</text>
+<text class="type" x="1050" y="338" text-anchor="end">bigint</text>
+</g>
+<g data-entity="room_members"><rect x="1140" y="130" width="460" height="202" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,130H1593Q1600,130 1600,137V178H1140V137Q1140,130 1147,130" fill="#4338ca"/>
+<text x="1155" y="153" style="fill:white" font-size="17" font-weight="700">room_members</text>
+<text x="1586" y="153" text-anchor="end" style="fill:#fff" font-size="11">19,882</text>
+<text x="1155" y="170" style="fill:#eef2ff" font-size="10">Комнаты и клипы</text>
+<rect x="1141" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="194">PK/FK</text>
+<text class="field" x="1213" y="194">room_id</text>
+<text class="type" x="1590" y="194" text-anchor="end">text</text>
+<text class="key" x="1151" y="218">PK/FK</text>
+<text class="field" x="1213" y="218">user_id</text>
+<text class="type" x="1590" y="218" text-anchor="end">text</text>
+<rect x="1141" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="242">FK/UK</text>
+<text class="field" x="1213" y="242">session_id</text>
+<text class="type" x="1590" y="242" text-anchor="end">text</text>
+<text class="key" x="1151" y="266"></text>
+<text class="field" x="1213" y="266">is_host</text>
+<text class="type" x="1590" y="266" text-anchor="end">boolean</text>
+<rect x="1141" y="274" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="290"></text>
+<text class="field" x="1213" y="290">joined_at_ms</text>
+<text class="type" x="1590" y="290" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="314"></text>
+<text class="field" x="1213" y="314">left_at_ms</text>
+<text class="type" x="1590" y="314" text-anchor="end">bigint</text>
+</g>
+<g data-entity="clips"><rect x="600" y="650" width="460" height="346" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,650H1053Q1060,650 1060,657V698H600V657Q600,650 607,650" fill="#4338ca"/>
+<text x="615" y="673" style="fill:white" font-size="17" font-weight="700">clips</text>
+<text x="1046" y="673" text-anchor="end" style="fill:#fff" font-size="11">11,604</text>
+<text x="615" y="690" style="fill:#eef2ff" font-size="10">Комнаты и клипы</text>
+<rect x="601" y="698" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="714">PK</text>
+<text class="field" x="673" y="714">clip_id</text>
+<text class="type" x="1050" y="714" text-anchor="end">text</text>
+<text class="key" x="611" y="738">FK</text>
+<text class="field" x="673" y="738">user_id</text>
+<text class="type" x="1050" y="738" text-anchor="end">text</text>
+<rect x="601" y="746" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="762">FK</text>
+<text class="field" x="673" y="762">movie_id</text>
+<text class="type" x="1050" y="762" text-anchor="end">bigint</text>
+<text class="key" x="611" y="786">FK</text>
+<text class="field" x="673" y="786">episode_id ?</text>
+<text class="type" x="1050" y="786" text-anchor="end">text</text>
+<rect x="601" y="794" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="810">FK</text>
+<text class="field" x="673" y="810">session_id</text>
+<text class="type" x="1050" y="810" text-anchor="end">text</text>
+<text class="key" x="611" y="834"></text>
+<text class="field" x="673" y="834">title</text>
+<text class="type" x="1050" y="834" text-anchor="end">text</text>
+<rect x="601" y="842" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="858"></text>
+<text class="field" x="673" y="858">start_seconds</text>
+<text class="type" x="1050" y="858" text-anchor="end">decimal</text>
+<text class="key" x="611" y="882"></text>
+<text class="field" x="673" y="882">end_seconds</text>
+<text class="type" x="1050" y="882" text-anchor="end">decimal</text>
+<rect x="601" y="890" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="906"></text>
+<text class="field" x="673" y="906">format</text>
+<text class="type" x="1050" y="906" text-anchor="end">text</text>
+<text class="key" x="611" y="930"></text>
+<text class="field" x="673" y="930">pinned</text>
+<text class="type" x="1050" y="930" text-anchor="end">boolean</text>
+<rect x="601" y="938" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="954"></text>
+<text class="field" x="673" y="954">created_at_ms</text>
+<text class="type" x="1050" y="954" text-anchor="end">bigint</text>
+<text class="key" x="611" y="978"></text>
+<text class="field" x="673" y="978">updated_at_ms</text>
+<text class="type" x="1050" y="978" text-anchor="end">bigint</text>
+</g>
+<text x="40" y="1172" font-size="12">PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

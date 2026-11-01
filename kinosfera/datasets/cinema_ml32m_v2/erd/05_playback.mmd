@@ -1,0 +1,128 @@
+erDiagram
+    direction LR
+    users {
+        text user_id PK
+        bigint source_user_id UK
+        text display_name
+        text email
+        bigint registered_at
+        text locale
+        text timezone
+        bigint rating_count
+        json preferred_genres
+        json preferred_content_types
+        json preferred_languages
+        json preferred_duration_min
+        json preferred_actor_ids
+        json preferred_director_ids
+    }
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+        bigint tmdb_id "nullable"
+        text catalog_kind
+        text content_type
+        text title
+        text original_title
+        json genres
+        text description
+        text tagline
+        bigint year
+        json countries
+        json country_codes
+        text original_language
+        json spoken_languages
+        bigint duration_min
+        text age_rating
+        json actors
+        json directors
+        bigint collection_id "nullable"
+        text collection_name "nullable"
+        decimal tmdb_rating
+        bigint tmdb_vote_count
+        decimal imdb_rating
+        bigint imdb_vote_count
+        decimal kinopoisk_rating
+        bigint kinopoisk_vote_count
+        bigint catalog_view_count
+        boolean has_video_source
+        boolean is_hidden
+    }
+    episodes {
+        text episode_id PK
+        bigint movie_id FK
+        bigint season
+        bigint episode
+        text title
+        bigint duration_seconds
+        bigint source_file_id "nullable"
+    }
+    rooms {
+        text room_id PK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text host_user_id FK
+        text title
+        bigint created_at_ms
+        bigint ended_at_ms
+    }
+    recommendation_requests {
+        text request_id PK
+        text user_id FK
+        bigint shown_at_ms
+        text surface
+        text policy
+    }
+    watch_sessions {
+        text session_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text room_id FK "nullable"
+        text request_id FK "nullable"
+        bigint started_at_ms
+        bigint ended_at_ms
+        bigint duration_seconds
+        decimal start_position
+        decimal end_position
+        decimal watched_seconds
+        bigint paused_seconds
+        bigint buffered_seconds
+        boolean completed
+        text start_kind
+        bigint view_number
+        text stop_reason
+    }
+    progress {
+        text user_id PK,FK
+        bigint movie_id PK,FK
+        text episode_id FK "nullable"
+        decimal position
+        decimal duration
+        decimal watched_seconds
+        boolean completed
+        bigint episodes_completed
+        bigint episode_count
+        bigint updated_at_ms
+    }
+    episode_progress {
+        text user_id PK,FK
+        bigint movie_id PK,FK
+        text episode_id PK,FK
+        decimal position
+        decimal duration
+        decimal watched_seconds
+        boolean completed
+        bigint updated_at_ms
+    }
+    users ||..o{ watch_sessions : "user_id"
+    users ||--o{ progress : "user_id"
+    users ||--o{ episode_progress : "user_id"
+    movies ||..o{ watch_sessions : "movie_id"
+    movies ||--o{ progress : "movie_id"
+    movies ||--o{ episode_progress : "movie_id"
+    episodes |o..o{ watch_sessions : "episode_id"
+    episodes |o..o{ progress : "episode_id"
+    episodes ||--o{ episode_progress : "episode_id"
+    rooms |o..o{ watch_sessions : "room_id"
+    recommendation_requests |o..o{ watch_sessions : "request_id"

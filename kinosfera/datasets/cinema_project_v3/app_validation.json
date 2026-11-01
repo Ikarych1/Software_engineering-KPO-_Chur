@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "real_flask_app": true,
+  "login": true,
+  "routes": {
+    "/": 200,
+    "/?view=catalog": 200,
+    "/movie/1": 200,
+    "/profile?section=ratings": 200,
+    "/profile?section=history": 200,
+    "/profile?section=clips": 200,
+    "/profile?section=rooms": 200,
+    "/api/profile/state": 200,
+    "/admin/": 200
+  },
+  "fixture_unchanged": true
+}

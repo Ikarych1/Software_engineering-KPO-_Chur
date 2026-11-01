@@ -1,0 +1,136 @@
+erDiagram
+    direction LR
+    users {
+        text user_id PK
+        bigint source_user_id UK
+        text display_name
+        text email
+        bigint registered_at
+        text locale
+        text timezone
+        bigint real_rating_count
+        json preferred_genres
+        json preferred_content_types
+        json preferred_languages
+        json preferred_duration_min
+        json preferred_actor_ids
+        json preferred_director_ids
+        text profile_source
+        boolean is_synthetic_profile
+    }
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+        bigint tmdb_id "nullable"
+        text catalog_kind
+        text content_type
+        text title
+        text original_title
+        json genres
+        text description
+        text tagline
+        bigint year
+        json countries
+        json country_codes
+        text original_language
+        json spoken_languages
+        bigint duration_min
+        text age_rating
+        json actors
+        json directors
+        bigint collection_id "nullable"
+        text collection_name "nullable"
+        decimal tmdb_rating
+        bigint tmdb_vote_count
+        decimal imdb_rating
+        bigint imdb_vote_count
+        decimal kinopoisk_rating
+        bigint kinopoisk_vote_count
+        bigint catalog_view_count
+        boolean has_video_source
+        boolean simulated_playback_available
+        boolean is_hidden
+        json metadata_provenance
+        json synthetic_fields
+    }
+    episodes {
+        text episode_id PK
+        bigint movie_id FK
+        bigint season
+        bigint episode
+        text title
+        bigint duration_seconds
+        bigint source_file_id "nullable"
+        text source
+        boolean is_synthetic
+    }
+    watch_sessions {
+        text session_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text room_id FK "nullable"
+        text request_id FK "nullable"
+        bigint started_at_ms
+        bigint ended_at_ms
+        bigint duration_seconds
+        decimal start_position
+        decimal end_position
+        decimal watched_seconds
+        bigint paused_seconds
+        bigint buffered_seconds
+        boolean completed
+        text start_kind
+        bigint view_number
+        text stop_reason
+        text playback_source
+        text source
+        boolean is_synthetic
+    }
+    rooms {
+        text room_id PK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text host_user_id FK
+        text title
+        bigint created_at_ms
+        bigint ended_at_ms
+        text source
+        boolean is_synthetic
+    }
+    room_members {
+        text room_id PK,FK
+        text user_id PK,FK
+        text session_id FK,UK
+        boolean is_host
+        bigint joined_at_ms
+        bigint left_at_ms
+        text source
+        boolean is_synthetic
+    }
+    clips {
+        text clip_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text session_id FK
+        text title
+        decimal start_seconds
+        decimal end_seconds
+        text format
+        boolean pinned
+        bigint created_at_ms
+        bigint updated_at_ms
+        text source
+        boolean is_synthetic
+    }
+    users ||--o{ room_members : "user_id"
+    users ||..o{ clips : "user_id"
+    movies ||..o{ clips : "movie_id"
+    movies ||..o{ rooms : "movie_id"
+    episodes |o..o{ rooms : "episode_id"
+    episodes |o..o{ clips : "episode_id"
+    users ||..o{ rooms : "host_user_id"
+    rooms ||--o{ room_members : "room_id"
+    watch_sessions ||..o| room_members : "session_id"
+    watch_sessions ||..o{ clips : "session_id"

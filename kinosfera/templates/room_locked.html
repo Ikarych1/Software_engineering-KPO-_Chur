@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Комната закрыта{% endblock %}
+{% block content %}
+<section class="page-width error-page"><span class="error-icon">{{ icon('lock') }}</span><h1>Вход в комнату закрыт</h1><p class="muted">Хост комнаты «{{ room.title }}» закрыл вход для новых участников. Попросите его открыть комнату и попробуйте снова.</p><a class="btn btn-secondary" href="{{ url_for('rooms.rooms_page') }}">К списку комнат</a></section>
+{% endblock %}

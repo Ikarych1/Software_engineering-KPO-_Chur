@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon, rail %}
+{% block title %}Смотреть · {{ film.title }}{% if episode %} · {{ episode_label(episode, true) }}{% endif %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ asset_url('css/torrent-player.css') }}">{% endblock %}
+{% block content %}
+<section class="watch-page page-width">
+    <div class="section-heading"><div><a class="back-link" href="{{ url_for('movie_detail', movie_id=film.id) }}">{{ icon('back') }} {{ 'О сериале' if episode else 'О фильме' }}</a><h1>{{ film.title }}</h1>{% if episode %}<p class="episode-heading"><span class="badge">{{ episode_label(episode, true) }}</span> {{ episode.title or (episode.episode ~ ' серия') }}</p>{% endif %}<p class="muted">{{ film.year }} · {{ film.duration_min }} мин{{ ' серия' if episode }} · {{ film.age_rating }}</p></div>
+        <div class="watch-heading-actions">{% if episode %}{% if prev_episode %}<a class="btn btn-secondary btn-small" href="{{ url_for('player', movie_id=film.id, ep=prev_episode.file_id) }}" title="{{ episode_label(prev_episode) }}">{{ icon('back') }} Предыдущая</a>{% endif %}{% if next_episode %}<a class="btn btn-secondary btn-small" href="{{ url_for('player', movie_id=film.id, ep=next_episode.file_id) }}" title="{{ episode_label(next_episode) }}" data-next-episode-link>Следующая {{ icon('arrow') }}</a>{% endif %}{% endif %}
+        {% if has_source %}<form method="post" action="{{ url_for('rooms.create_room') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="movie_id" value="{{ film.id }}">{% if episode %}<input type="hidden" name="episode" value="{{ episode.file_id }}">{% endif %}<button class="btn btn-secondary btn-small" type="submit">{{ icon('users') }} Смотреть вместе</button></form>{% endif %}</div></div>
+    <div class="cinema-screen torrent-screen" id="cinema-screen" data-player data-torrent-player data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ film_image(film.id) }}" data-duration="{{ film.duration_min * 60 }}" data-resume="{{ resume|round(1) }}"{% if episode %} data-episode="{{ episode.file_id }}"{% endif %}{% if next_episode %} data-next-url="{{ url_for('player', movie_id=film.id, ep=next_episode.file_id, autoplay=1) }}" data-next-label="{{ episode_label(next_episode) }}"{% endif %}>
+        <video id="torrent-video" playsinline controls preload="none" poster="{{ film_image(film.id, true) }}" aria-label="{{ film.title }}"></video>
+        <div class="next-episode-card" id="next-episode-card" hidden><span class="muted small-text">Следующая серия через <b id="next-episode-count">10</b> с</span><strong id="next-episode-title"></strong><div><a class="btn btn-small" id="next-episode-go" href="#">{{ icon('play') }} Смотреть</a><button class="btn btn-secondary btn-small" id="next-episode-cancel" type="button">Отмена</button></div></div>
+        <div class="torrent-empty" id="torrent-empty"><span class="badge">КиноСфера</span><h2>{{ film.title }}{% if episode %} · {{ episode_label(episode, true) }}{% endif %}</h2>
+            {% if has_source %}<p id="prep-message">{{ 'Продолжим с ' ~ (resume|duration) ~ '?' if resume else 'Устраивайтесь поудобнее. Всё готово к вашему киновечеру.' }}</p>
+            <div class="prep-actions"><button class="btn" id="watch-start" type="button">{{ icon('play') }} {{ 'Продолжить' if resume else 'Смотреть серию' if episode else 'Смотреть фильм' }}</button>{% if resume %}<button class="btn btn-secondary" id="watch-restart" type="button">С начала</button>{% endif %}</div>
+            <div class="prep-progress" id="prep-progress" hidden><span class="spinner" aria-hidden="true"></span><span id="prep-phase">Подключаемся…</span></div>
+            {% else %}<p>Видео пока не добавлено в библиотеку.</p>{% if user.role == 'ADMIN' %}<a class="btn btn-secondary" href="{{ url_for('admin.edit_film', movie_id=film.id) }}">Добавить видео</a>{% endif %}{% endif %}</div>
+    </div>
+    <div class="torrent-now-playing">
+        <span class="torrent-playback-state muted" id="torrent-playback-status" role="status" aria-live="polite">{{ 'Готово к просмотру' if has_source else 'Скоро в библиотеке' }}</span>
+        <div class="stream-stats" id="stream-stats" hidden>
+            <span title="Скорость загрузки">{{ icon('download') }} <b data-stat="rate">—</b></span>
+            <span title="Участники раздачи">{{ icon('users') }} <b data-stat="peers">—</b></span>
+            <span title="Сколько секунд фильма уже загружено вперёд">{{ icon('clock') }} буфер <b data-stat="buffer">—</b></span>
+            <span title="Сколько фильма уже на диске">{{ icon('film') }} <b data-stat="progress">—</b></span>
+            <span title="Способ доставки видео" class="stream-mode" data-stat="mode">—</span>
+        </div>
+        <button type="button" class="btn btn-secondary btn-small" id="torrent-retry" hidden>{{ icon('refresh') }} Повторить</button>
+    </div>
+    {% if episode %}{% set show = series_info(film.id) %}<section class="watch-episodes"><div class="section-heading"><h2>Серии</h2><span class="muted small-text">{{ show.text }}</span></div>
+        {% for number, items in show.by_season.items() %}<div class="watch-season"><span class="eyebrow">{{ number }} СЕЗОН</span><div class="episode-strip">{% for ep in items %}{% set done = episodes_done.get(ep.file_id) %}<a class="episode-chip{{ ' is-current' if ep.file_id == episode.file_id }}{{ ' is-watched' if done and done.completed }}" href="{{ url_for('player', movie_id=film.id, ep=ep.file_id) }}" {{ 'aria-current="true"'|safe if ep.file_id == episode.file_id }} title="{{ episode_label(ep) }}"><span>{{ ep.episode }}</span><small>{{ ep.title or 'Серия ' ~ ep.episode }}</small>{% if done and done.duration and not done.completed and done.position > 30 %}<i style="width: {{ (done.position / done.duration * 100)|round(1) }}%"></i>{% endif %}</a>{% endfor %}</div></div>{% endfor %}</section>{% endif %}
+    <div class="watch-bottom"><div><h3>Моменты, которые хочется сохранить</h3><p class="muted">Сохраните фрагмент до минуты и поделитесь ссылкой. <span class="kbd-hint">Клавиши: <kbd>Пробел</kbd> пауза · <kbd>←</kbd><kbd>→</kbd> 10 с · <kbd>F</kbd> экран · <kbd>M</kbd> звук</span></p></div><button class="btn btn-secondary" id="torrent-clip" type="button" disabled>{{ icon('scissors') }} Создать клип</button></div>
+</section>
+{% if similar %}{{ rail('Посмотреть дальше', similar, art, 'next-movies', 'Похожие по жанру') }}{% endif %}
+<script src="{{ asset_url('js/vendor/hls.min.js') }}" defer></script>
+<script src="{{ asset_url('js/player.js') }}" defer></script>
+<script src="{{ asset_url('js/torrent-player.js') }}" defer></script>
+{% endblock %}

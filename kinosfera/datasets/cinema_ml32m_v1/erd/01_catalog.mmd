@@ -1,0 +1,71 @@
+erDiagram
+    direction LR
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+        bigint tmdb_id "nullable"
+        text catalog_kind
+        text content_type
+        text title
+        text original_title
+        json genres
+        text description
+        text tagline
+        bigint year
+        json countries
+        json country_codes
+        text original_language
+        json spoken_languages
+        bigint duration_min
+        text age_rating
+        json actors
+        json directors
+        bigint collection_id "nullable"
+        text collection_name "nullable"
+        decimal tmdb_rating
+        bigint tmdb_vote_count
+        decimal imdb_rating
+        bigint imdb_vote_count
+        decimal kinopoisk_rating
+        bigint kinopoisk_vote_count
+        bigint catalog_view_count
+        boolean has_video_source
+        boolean simulated_playback_available
+        boolean is_hidden
+        json metadata_provenance
+        json synthetic_fields
+    }
+    episodes {
+        text episode_id PK
+        bigint movie_id FK
+        bigint season
+        bigint episode
+        text title
+        bigint duration_seconds
+        bigint source_file_id "nullable"
+        text source
+        boolean is_synthetic
+    }
+    movie_mapping {
+        bigint source_movie_id PK
+        bigint movie_id FK
+        text match_source
+    }
+    movie_stats {
+        bigint movie_id PK,FK
+        bigint real_rating_count
+        decimal real_rating_mean "nullable"
+        bigint synthetic_rating_count
+        decimal synthetic_rating_mean "nullable"
+        bigint impressions
+        bigint clicks
+        bigint sessions
+        bigint completed_sessions
+        decimal total_watched_seconds
+        bigint active_watchlist_users
+        bigint active_not_interested_users
+        text source
+    }
+    movies ||..o{ episodes : "movie_id"
+    movies ||..o{ movie_mapping : "movie_id"
+    movies ||--|| movie_stats : "movie_id"

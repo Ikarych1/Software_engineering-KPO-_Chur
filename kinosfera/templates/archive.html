@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon, avatar %}
+{% block title %}Сохранённый чат · {{ room.title }}{% endblock %}
+{% block content %}
+<section class="archive-page page-width"><a class="back-link" href="{{ url_for('rooms.rooms_page') }}">{{ icon('back') }} Все киновечера</a><span class="eyebrow accent">ПОСЛЕ ТИТРОВ</span><h1>{{ room.title }}</h1>
+    <p class="muted">{{ film.title if film else 'Фильм удалён' }} · {{ 'завершён ' ~ (room.ended_at|date) if room.ended_at else 'идёт сейчас' }} · {{ members|map(attribute='username')|join(', ') }}</p>
+    <div class="panel archive-chat"><h3>Сохранённый разговор</h3><p class="muted small-text">{{ messages|selectattr('kind', 'equalto', 'chat')|list|length }} сообщений</p>
+        {% for m in messages %}{% if m.kind == 'system' %}<div class="chat-system">{{ m.text }} <time>{{ m.created_at|date }}</time></div>{% else %}<div class="chat-message">{{ avatar(m.name, ['peach','blue','purple','green','gold'][(m.user_id or 0) % 5], 'small') }}<div><strong>{{ m.name }} <time>{{ m.created_at|date }}</time></strong><p>{{ m.text }}</p></div></div>{% endif %}{% else %}<p class="muted">В этом киновечере сообщений не было.</p>{% endfor %}</div>
+    <div class="detail-actions">{% if film %}<a class="btn btn-secondary" href="{{ url_for('movie_detail', movie_id=film.id) }}">{{ icon('play') }} К фильму</a>{% endif %}{% if not room.ended_at %}<a class="btn" href="{{ url_for('rooms.room_page', code=room.code) }}">Вернуться в комнату</a>{% endif %}</div>
+</section>
+{% endblock %}
