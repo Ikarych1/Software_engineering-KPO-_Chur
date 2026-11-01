@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1650" height="1018" viewBox="0 0 1650 1018" role="img" aria-label="Каталог и внешние идентификаторы">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1650" height="1018" fill="#f7f9fc"/>
+<text x="40" y="40" font-size="24" font-weight="700">Каталог и внешние идентификаторы</text>
+<text x="40" y="69" font-size="13" fill="#596982">movies — общая сущность для фильма, сериала и мини-сериала. JSON-поля сохранены без нормализации.</text>
+<g data-parent="movies" data-child="episodes"><title>episodes.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="580,200.0 528,200.0 528,254.0 500,254.0"/>
+<path class="mark" d="M573,193.0V207.0 M567,193.0V207.0"/>
+<path class="mark" d="M500,247.0L513,254.0L500,261.0 M500,254.0L513,254.0"/><circle class="mark" cx="521" cy="254.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="movie_mapping"><title>movie_mapping.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="1040,200.0 1092,200.0 1092,234.0 1120,234.0"/>
+<path class="mark" d="M1047,193.0V207.0 M1053,193.0V207.0"/>
+<path class="mark" d="M1120,227.0L1107,234.0L1120,241.0 M1120,234.0L1107,234.0"/><circle class="mark" cx="1099" cy="234.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="movie_stats"><title>movie_stats.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65" points="1040,200.0 1092,200.0 1092,540.0 1120,540.0"/>
+<path class="mark" d="M1047,193.0V207.0 M1053,193.0V207.0"/>
+<path class="mark" d="M1113,533.0V547.0 M1107,533.0V547.0"/>
+</g>
+<g data-entity="movies"><rect x="580" y="140" width="460" height="778" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M587,140H1033Q1040,140 1040,147V188H580V147Q580,140 587,140" fill="#0f766e"/>
+<text x="595" y="163" style="fill:white" font-size="17" font-weight="700">movies</text>
+<text x="1026" y="163" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="595" y="180" style="fill:#eef2ff" font-size="10">Каталог</text>
+<rect x="581" y="188" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="204">PK</text>
+<text class="field" x="653" y="204">movie_id</text>
+<text class="type" x="1030" y="204" text-anchor="end">bigint</text>
+<text class="key" x="591" y="228">UK</text>
+<text class="field" x="653" y="228">imdb_id ?</text>
+<text class="type" x="1030" y="228" text-anchor="end">text</text>
+<rect x="581" y="236" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="252"></text>
+<text class="field" x="653" y="252">tmdb_id ?</text>
+<text class="type" x="1030" y="252" text-anchor="end">bigint</text>
+<text class="key" x="591" y="276"></text>
+<text class="field" x="653" y="276">catalog_kind</text>
+<text class="type" x="1030" y="276" text-anchor="end">text</text>
+<rect x="581" y="284" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="300"></text>
+<text class="field" x="653" y="300">content_type</text>
+<text class="type" x="1030" y="300" text-anchor="end">text</text>
+<text class="key" x="591" y="324"></text>
+<text class="field" x="653" y="324">title</text>
+<text class="type" x="1030" y="324" text-anchor="end">text</text>
+<rect x="581" y="332" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="348"></text>
+<text class="field" x="653" y="348">original_title</text>
+<text class="type" x="1030" y="348" text-anchor="end">text</text>
+<text class="key" x="591" y="372"></text>
+<text class="field" x="653" y="372">genres</text>
+<text class="type" x="1030" y="372" text-anchor="end">json</text>
+<rect x="581" y="380" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="396"></text>
+<text class="field" x="653" y="396">description</text>
+<text class="type" x="1030" y="396" text-anchor="end">text</text>
+<text class="key" x="591" y="420"></text>
+<text class="field" x="653" y="420">tagline</text>
+<text class="type" x="1030" y="420" text-anchor="end">text</text>
+<rect x="581" y="428" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="444"></text>
+<text class="field" x="653" y="444">year</text>
+<text class="type" x="1030" y="444" text-anchor="end">bigint</text>
+<text class="key" x="591" y="468"></text>
+<text class="field" x="653" y="468">countries</text>
+<text class="type" x="1030" y="468" text-anchor="end">json</text>
+<rect x="581" y="476" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="492"></text>
+<text class="field" x="653" y="492">country_codes</text>
+<text class="type" x="1030" y="492" text-anchor="end">json</text>
+<text class="key" x="591" y="516"></text>
+<text class="field" x="653" y="516">original_language</text>
+<text class="type" x="1030" y="516" text-anchor="end">text</text>
+<rect x="581" y="524" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="540"></text>
+<text class="field" x="653" y="540">spoken_languages</text>
+<text class="type" x="1030" y="540" text-anchor="end">json</text>
+<text class="key" x="591" y="564"></text>
+<text class="field" x="653" y="564">duration_min</text>
+<text class="type" x="1030" y="564" text-anchor="end">bigint</text>
+<rect x="581" y="572" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="588"></text>
+<text class="field" x="653" y="588">age_rating</text>
+<text class="type" x="1030" y="588" text-anchor="end">text</text>
+<text class="key" x="591" y="612"></text>
+<text class="field" x="653" y="612">actors</text>
+<text class="type" x="1030" y="612" text-anchor="end">json</text>
+<rect x="581" y="620" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="636"></text>
+<text class="field" x="653" y="636">directors</text>
+<text class="type" x="1030" y="636" text-anchor="end">json</text>
+<text class="key" x="591" y="660"></text>
+<text class="field" x="653" y="660">collection_id ?</text>
+<text class="type" x="1030" y="660" text-anchor="end">bigint</text>
+<rect x="581" y="668" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="684"></text>
+<text class="field" x="653" y="684">collection_name ?</text>
+<text class="type" x="1030" y="684" text-anchor="end">text</text>
+<text class="key" x="591" y="708"></text>
+<text class="field" x="653" y="708">tmdb_rating</text>
+<text class="type" x="1030" y="708" text-anchor="end">decimal</text>
+<rect x="581" y="716" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="732"></text>
+<text class="field" x="653" y="732">tmdb_vote_count</text>
+<text class="type" x="1030" y="732" text-anchor="end">bigint</text>
+<text class="key" x="591" y="756"></text>
+<text class="field" x="653" y="756">imdb_rating</text>
+<text class="type" x="1030" y="756" text-anchor="end">decimal</text>
+<rect x="581" y="764" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="780"></text>
+<text class="field" x="653" y="780">imdb_vote_count</text>
+<text class="type" x="1030" y="780" text-anchor="end">bigint</text>
+<text class="key" x="591" y="804"></text>
+<text class="field" x="653" y="804">kinopoisk_rating</text>
+<text class="type" x="1030" y="804" text-anchor="end">decimal</text>
+<rect x="581" y="812" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="828"></text>
+<text class="field" x="653" y="828">kinopoisk_vote_count</text>
+<text class="type" x="1030" y="828" text-anchor="end">bigint</text>
+<text class="key" x="591" y="852"></text>
+<text class="field" x="653" y="852">catalog_view_count</text>
+<text class="type" x="1030" y="852" text-anchor="end">bigint</text>
+<rect x="581" y="860" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="591" y="876"></text>
+<text class="field" x="653" y="876">has_video_source</text>
+<text class="type" x="1030" y="876" text-anchor="end">boolean</text>
+<text class="key" x="591" y="900"></text>
+<text class="field" x="653" y="900">is_hidden</text>
+<text class="type" x="1030" y="900" text-anchor="end">boolean</text>
+</g>
+<g data-entity="episodes"><rect x="40" y="170" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,170H493Q500,170 500,177V218H40V177Q40,170 47,170" fill="#0f766e"/>
+<text x="55" y="193" style="fill:white" font-size="17" font-weight="700">episodes</text>
+<text x="486" y="193" text-anchor="end" style="fill:#fff" font-size="11">8,395</text>
+<text x="55" y="210" style="fill:#eef2ff" font-size="10">Каталог</text>
+<rect x="41" y="218" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="234">PK</text>
+<text class="field" x="113" y="234">episode_id</text>
+<text class="type" x="490" y="234" text-anchor="end">text</text>
+<text class="key" x="51" y="258">FK</text>
+<text class="field" x="113" y="258">movie_id</text>
+<text class="type" x="490" y="258" text-anchor="end">bigint</text>
+<rect x="41" y="266" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="282"></text>
+<text class="field" x="113" y="282">season</text>
+<text class="type" x="490" y="282" text-anchor="end">bigint</text>
+<text class="key" x="51" y="306"></text>
+<text class="field" x="113" y="306">episode</text>
+<text class="type" x="490" y="306" text-anchor="end">bigint</text>
+<rect x="41" y="314" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="330"></text>
+<text class="field" x="113" y="330">title</text>
+<text class="type" x="490" y="330" text-anchor="end">text</text>
+<text class="key" x="51" y="354"></text>
+<text class="field" x="113" y="354">duration_seconds</text>
+<text class="type" x="490" y="354" text-anchor="end">bigint</text>
+<rect x="41" y="362" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="378"></text>
+<text class="field" x="113" y="378">source_file_id ?</text>
+<text class="type" x="490" y="378" text-anchor="end">bigint</text>
+</g>
+<g data-entity="movie_mapping"><rect x="1120" y="150" width="460" height="130" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1127,150H1573Q1580,150 1580,157V198H1120V157Q1120,150 1127,150" fill="#0f766e"/>
+<text x="1135" y="173" style="fill:white" font-size="17" font-weight="700">movie_mapping</text>
+<text x="1566" y="173" text-anchor="end" style="fill:#fff" font-size="11">2,571</text>
+<text x="1135" y="190" style="fill:#eef2ff" font-size="10">Каталог</text>
+<rect x="1121" y="198" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="214">PK</text>
+<text class="field" x="1193" y="214">source_movie_id</text>
+<text class="type" x="1570" y="214" text-anchor="end">bigint</text>
+<text class="key" x="1131" y="238">FK</text>
+<text class="field" x="1193" y="238">movie_id</text>
+<text class="type" x="1570" y="238" text-anchor="end">bigint</text>
+<rect x="1121" y="246" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="262"></text>
+<text class="field" x="1193" y="262">match_source</text>
+<text class="type" x="1570" y="262" text-anchor="end">text</text>
+</g>
+<g data-entity="movie_stats"><rect x="1120" y="480" width="460" height="298" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1127,480H1573Q1580,480 1580,487V528H1120V487Q1120,480 1127,480" fill="#0f766e"/>
+<text x="1135" y="503" style="fill:white" font-size="17" font-weight="700">movie_stats</text>
+<text x="1566" y="503" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="1135" y="520" style="fill:#eef2ff" font-size="10">Каталог</text>
+<rect x="1121" y="528" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="544">PK/FK</text>
+<text class="field" x="1193" y="544">movie_id</text>
+<text class="type" x="1570" y="544" text-anchor="end">bigint</text>
+<text class="key" x="1131" y="568"></text>
+<text class="field" x="1193" y="568">rating_count</text>
+<text class="type" x="1570" y="568" text-anchor="end">bigint</text>
+<rect x="1121" y="576" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="592"></text>
+<text class="field" x="1193" y="592">rating_mean ?</text>
+<text class="type" x="1570" y="592" text-anchor="end">decimal</text>
+<text class="key" x="1131" y="616"></text>
+<text class="field" x="1193" y="616">impressions</text>
+<text class="type" x="1570" y="616" text-anchor="end">bigint</text>
+<rect x="1121" y="624" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="640"></text>
+<text class="field" x="1193" y="640">clicks</text>
+<text class="type" x="1570" y="640" text-anchor="end">bigint</text>
+<text class="key" x="1131" y="664"></text>
+<text class="field" x="1193" y="664">sessions</text>
+<text class="type" x="1570" y="664" text-anchor="end">bigint</text>
+<rect x="1121" y="672" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="688"></text>
+<text class="field" x="1193" y="688">completed_sessions</text>
+<text class="type" x="1570" y="688" text-anchor="end">bigint</text>
+<text class="key" x="1131" y="712"></text>
+<text class="field" x="1193" y="712">total_watched_seconds</text>
+<text class="type" x="1570" y="712" text-anchor="end">decimal</text>
+<rect x="1121" y="720" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1131" y="736"></text>
+<text class="field" x="1193" y="736">active_watchlist_users</text>
+<text class="type" x="1570" y="736" text-anchor="end">bigint</text>
+<text class="key" x="1131" y="760"></text>
+<text class="field" x="1193" y="760">active_not_interested_users</text>
+<text class="type" x="1570" y="760" text-anchor="end">bigint</text>
+</g>
+<text x="40" y="988" font-size="12">PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

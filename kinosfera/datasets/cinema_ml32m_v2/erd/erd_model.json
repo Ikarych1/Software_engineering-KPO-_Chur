@@ -1,0 +1,2117 @@
+{
+  "title": "КиноСфера · тестовый датасет",
+  "kind": "Logical ERD of CSV tables; constraints are documented, not executed",
+  "tables": {
+    "ratings": {
+      "domain": "feedback",
+      "row_count": 6219466,
+      "primary_key": [
+        "rating_id"
+      ],
+      "unique_keys": [
+        [
+          "user_id",
+          "movie_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "rating_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "score",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "rated_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "source_movie_id",
+          "type": "bigint",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "split",
+          "type": "text",
+          "nullable": true,
+          "keys": ""
+        }
+      ],
+      "note": "Единая оценка пары user/movie по шкале 1–10. Исходная оценка имеет приоритет; дополняются только отсутствующие пары."
+    },
+    "movies": {
+      "domain": "catalog",
+      "row_count": 3054,
+      "primary_key": [
+        "movie_id"
+      ],
+      "unique_keys": [
+        [
+          "imdb_id"
+        ],
+        [
+          "catalog_kind",
+          "tmdb_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "imdb_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "UK"
+        },
+        {
+          "name": "tmdb_id",
+          "type": "bigint",
+          "nullable": true,
+          "keys": ""
+        },
+        {
+          "name": "catalog_kind",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "content_type",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "original_title",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "genres",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "tagline",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "year",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "countries",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "country_codes",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "original_language",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "spoken_languages",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "duration_min",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "age_rating",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "actors",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "directors",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "collection_id",
+          "type": "bigint",
+          "nullable": true,
+          "keys": ""
+        },
+        {
+          "name": "collection_name",
+          "type": "text",
+          "nullable": true,
+          "keys": ""
+        },
+        {
+          "name": "tmdb_rating",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "tmdb_vote_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "imdb_rating",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "imdb_vote_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "kinopoisk_rating",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "kinopoisk_vote_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "catalog_view_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "has_video_source",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "is_hidden",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Коллекции, персоны, жанры и языки хранятся в полях/JSON, а не в отдельных таблицах."
+    },
+    "episodes": {
+      "domain": "catalog",
+      "row_count": 8395,
+      "primary_key": [
+        "episode_id"
+      ],
+      "unique_keys": [
+        [
+          "movie_id",
+          "season",
+          "episode"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "season",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "episode",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "duration_seconds",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "source_file_id",
+          "type": "bigint",
+          "nullable": true,
+          "keys": ""
+        }
+      ],
+      "note": "source_file_id — внешняя ссылка на источник каталога, без отдельной таблицы в датасете."
+    },
+    "tags": {
+      "domain": "feedback",
+      "row_count": 456375,
+      "primary_key": [
+        "tag_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "tag_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "tag",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "created_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "source_movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        }
+      ],
+      "note": ""
+    },
+    "movie_mapping": {
+      "domain": "catalog",
+      "row_count": 2571,
+      "primary_key": [
+        "source_movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "source_movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "match_source",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "room_members": {
+      "domain": "social",
+      "row_count": 19882,
+      "primary_key": [
+        "room_id",
+        "user_id"
+      ],
+      "unique_keys": [
+        [
+          "session_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "room_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "session_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK,UK"
+        },
+        {
+          "name": "is_host",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "joined_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "left_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Связующая таблица N:M. Один участник комнаты связан с одним модельным сеансом."
+    },
+    "rooms": {
+      "domain": "social",
+      "row_count": 5000,
+      "primary_key": [
+        "room_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "room_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "host_user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "created_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "ended_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "clips": {
+      "domain": "social",
+      "row_count": 11604,
+      "primary_key": [
+        "clip_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "clip_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "session_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "start_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "end_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "format",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "pinned",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "created_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "updated_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "reviews": {
+      "domain": "feedback",
+      "row_count": 60895,
+      "primary_key": [
+        "review_id"
+      ],
+      "unique_keys": [
+        [
+          "rating_id"
+        ],
+        [
+          "user_id",
+          "movie_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "review_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "rating_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK,UK"
+        },
+        {
+          "name": "score",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "created_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Отзыв ссылается на единую таблицу ratings; оценка и владелец должны совпадать."
+    },
+    "episode_progress": {
+      "domain": "playback",
+      "row_count": 13675,
+      "primary_key": [
+        "user_id",
+        "movie_id",
+        "episode_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "position",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "duration",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "watched_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "updated_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Последний снимок user/movie/episode; накопленное время может превышать длительность."
+    },
+    "progress": {
+      "domain": "playback",
+      "row_count": 233622,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "position",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "duration",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "watched_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "episodes_completed",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "episode_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "updated_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Последний снимок user/movie; episode_id — текущая серия при наличии."
+    },
+    "watched": {
+      "domain": "profile",
+      "row_count": 148509,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "marked_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "not_interested": {
+      "domain": "profile",
+      "row_count": 84025,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "updated_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Одна последняя запись состояния на пару user/movie."
+    },
+    "watchlist": {
+      "domain": "profile",
+      "row_count": 140359,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "added_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Текущее состояние. Восстанавливается из bookmark_events, прямого FK к истории нет."
+    },
+    "bookmark_events": {
+      "domain": "profile",
+      "row_count": 275679,
+      "primary_key": [
+        "bookmark_event_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "bookmark_event_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "action",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "event_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "collection",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "watch_sessions": {
+      "domain": "playback",
+      "row_count": 256230,
+      "primary_key": [
+        "session_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "session_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "room_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "started_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "ended_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "duration_seconds",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "start_position",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "end_position",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "watched_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "paused_seconds",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "buffered_seconds",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "start_kind",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "view_number",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "stop_reason",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "episode_id, room_id и request_id необязательны. Одна строка — один сеанс."
+    },
+    "searches": {
+      "domain": "discovery",
+      "row_count": 70139,
+      "primary_key": [
+        "search_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "search_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "query",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "query_type",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "searched_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "selected_movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        }
+      ],
+      "note": ""
+    },
+    "clicks": {
+      "domain": "discovery",
+      "row_count": 300458,
+      "primary_key": [
+        "click_id"
+      ],
+      "unique_keys": [
+        [
+          "impression_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "click_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "impression_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK,UK"
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "clicked_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "impressions": {
+      "domain": "discovery",
+      "row_count": 1500000,
+      "primary_key": [
+        "impression_id"
+      ],
+      "unique_keys": [
+        [
+          "request_id",
+          "rank"
+        ],
+        [
+          "request_id",
+          "movie_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "impression_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "rank",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "shown_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "clicked",
+          "type": "boolean",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "recommendation_requests": {
+      "domain": "discovery",
+      "row_count": 150000,
+      "primary_key": [
+        "request_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "shown_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "surface",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "policy",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": ""
+    },
+    "events": {
+      "domain": "discovery",
+      "row_count": 3351778,
+      "primary_key": [
+        "event_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "event_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK"
+        },
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "event_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "session_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK"
+        },
+        {
+          "name": "payload",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Общая лента. Ссылки внутри payload полиморфны и не являются обычными FK."
+    },
+    "users": {
+      "domain": "profile",
+      "row_count": 50000,
+      "primary_key": [
+        "user_id"
+      ],
+      "unique_keys": [
+        [
+          "source_user_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK"
+        },
+        {
+          "name": "source_user_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "UK"
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "registered_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "locale",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "timezone",
+          "type": "text",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "rating_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_genres",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_content_types",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_languages",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_duration_min",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_actor_ids",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "preferred_director_ids",
+          "type": "json",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Отдельные обезличенные ID MovieLens; это не аккаунты сайта."
+    },
+    "user_activity": {
+      "domain": "profile",
+      "row_count": 50000,
+      "primary_key": [
+        "user_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "first_activity_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "last_rating_at",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "last_event_at_ms",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "days_since_last_event",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "rating_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "event_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "sessions",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "completed_sessions",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "watched_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Расчётная сводка 1:1; даты в разных единицах согласно именам столбцов."
+    },
+    "movie_stats": {
+      "domain": "catalog",
+      "row_count": 3054,
+      "primary_key": [
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "movie_id",
+          "type": "bigint",
+          "nullable": false,
+          "keys": "PK,FK"
+        },
+        {
+          "name": "rating_count",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "rating_mean",
+          "type": "decimal(18,6)",
+          "nullable": true,
+          "keys": ""
+        },
+        {
+          "name": "impressions",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "clicks",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "sessions",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "completed_sessions",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "total_watched_seconds",
+          "type": "decimal(18,6)",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "active_watchlist_users",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        },
+        {
+          "name": "active_not_interested_users",
+          "type": "bigint",
+          "nullable": false,
+          "keys": ""
+        }
+      ],
+      "note": "Расчётная сводка 1:1; не независимые взаимодействия."
+    }
+  },
+  "foreign_keys": [
+    {
+      "child": "episodes",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "movie_mapping",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "movie_stats",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": true,
+      "total": true,
+      "identifying": true
+    },
+    {
+      "child": "user_activity",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": true,
+      "total": true,
+      "identifying": true
+    },
+    {
+      "child": "ratings",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "tags",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "reviews",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watched",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "watchlist",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "not_interested",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "bookmark_events",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "impressions",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clicks",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watch_sessions",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "progress",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "episode_progress",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "room_members",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "clips",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "events",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "ratings",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "tags",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "reviews",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watched",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "watchlist",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "not_interested",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "bookmark_events",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "impressions",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clicks",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watch_sessions",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "progress",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "episode_progress",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "clips",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "events",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "rooms",
+      "column": "movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "ratings",
+      "column": "source_movie_id",
+      "parent": "movie_mapping",
+      "target": "source_movie_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "tags",
+      "column": "source_movie_id",
+      "parent": "movie_mapping",
+      "target": "source_movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "reviews",
+      "column": "rating_id",
+      "parent": "ratings",
+      "target": "rating_id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "recommendation_requests",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "impressions",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "request_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clicks",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "request_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clicks",
+      "column": "impression_id",
+      "parent": "impressions",
+      "target": "impression_id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "searches",
+      "column": "user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "searches",
+      "column": "selected_movie_id",
+      "parent": "movies",
+      "target": "movie_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watch_sessions",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "episode_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "progress",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "episode_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "episode_progress",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "episode_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "rooms",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "episode_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clips",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "episode_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watch_sessions",
+      "column": "room_id",
+      "parent": "rooms",
+      "target": "room_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "watch_sessions",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "request_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "rooms",
+      "column": "host_user_id",
+      "parent": "users",
+      "target": "user_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "room_members",
+      "column": "room_id",
+      "parent": "rooms",
+      "target": "room_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true
+    },
+    {
+      "child": "room_members",
+      "column": "session_id",
+      "parent": "watch_sessions",
+      "target": "session_id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "clips",
+      "column": "session_id",
+      "parent": "watch_sessions",
+      "target": "session_id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "events",
+      "column": "session_id",
+      "parent": "watch_sessions",
+      "target": "session_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    },
+    {
+      "child": "events",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "request_id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false
+    }
+  ]
+}

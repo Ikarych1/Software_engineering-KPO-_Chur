@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}{{ code }}{% endblock %}
+{% block content %}
+<section class="page-width error-page"><span class="error-code">{{ code }}</span><h1>{{ 'Страница не найдена' if code == 404 else 'Доступ ограничен' }}</h1><p class="muted">{{ message }}</p><a class="btn" href="{{ url_for('index') }}">{{ icon('back') }} На главную</a></section>
+{% endblock %}

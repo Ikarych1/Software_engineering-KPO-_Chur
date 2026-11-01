@@ -1,0 +1,305 @@
+erDiagram
+    direction LR
+    bookmark_events {
+        text id PK
+        integer user_id FK
+        integer movie_id FK
+        text action
+        real created_at
+        text collection
+    }
+    clicks {
+        text id PK
+        text impression_id FK, UK
+        text request_id FK
+        integer user_id FK
+        integer movie_id FK
+        real clicked_at
+    }
+    episode_progress {
+        integer user_id PK, FK
+        integer movie_id PK
+        integer file_id PK
+        real position
+        real duration
+        integer completed
+        real updated_at
+    }
+    episodes {
+        text id PK
+        integer movie_id FK
+        integer season
+        integer episode
+        text title
+        real duration
+        integer file_id
+    }
+    events {
+        text id PK
+        integer user_id FK
+        integer movie_id FK
+        text event_type
+        real created_at
+        text session_id FK
+        text request_id FK
+        text payload
+    }
+    film_sources {
+        integer movie_id PK
+        integer source PK
+        blob torrent
+        text name
+        text files
+        text info_hash
+        text magnet
+        real added_at
+    }
+    films {
+        integer id PK
+        text data
+        text art
+        blob torrent
+        text torrent_name
+        integer file_id
+        text files
+        text revision
+        text updated_at
+        text magnet
+        text info_hash
+        text episodes
+        text imdb_id UK
+        integer tmdb_id
+        text tmdb_kind
+    }
+    impressions {
+        text id PK
+        text request_id FK
+        integer user_id FK
+        integer movie_id FK
+        integer rank
+        real shown_at
+        integer clicked
+    }
+    login_attempts {
+        text key PK
+        integer failures
+        real last_at
+    }
+    media_info {
+        text key PK
+        text data
+        real updated_at
+    }
+    not_interested {
+        integer user_id PK, FK
+        integer movie_id PK, FK
+        integer is_active
+        text reason
+        real updated_at
+    }
+    password_resets {
+        text token_hash PK
+        integer user_id FK
+        real created_at
+        real expires_at
+    }
+    payments {
+        integer id PK
+        integer user_id FK
+        text tariff
+        real amount
+        text status
+        real created_at
+    }
+    progress {
+        integer user_id PK, FK
+        integer movie_id PK
+        real position
+        real duration
+        integer completed
+        real watched_seconds
+        real updated_at
+        integer hidden
+        integer file_id
+    }
+    ratings {
+        integer user_id PK, FK
+        integer movie_id PK
+        integer score
+        real updated_at
+    }
+    recommendation_requests {
+        text id PK
+        integer user_id FK
+        real created_at
+        text surface
+        text policy
+    }
+    reviews {
+        integer id PK
+        integer user_id FK
+        integer movie_id
+        integer score
+        text text
+        real created_at
+        real updated_at
+    }
+    room_members {
+        text code PK, FK
+        integer user_id PK, FK
+        real joined_at
+        real last_seen
+    }
+    room_messages {
+        integer id PK
+        text code FK
+        integer user_id
+        text name
+        text kind
+        text text
+        real created_at
+    }
+    rooms {
+        text code PK
+        integer movie_id
+        integer host_id FK
+        text title
+        text settings
+        text state
+        real created_at
+        real ended_at
+    }
+    searches {
+        text id PK
+        integer user_id FK
+        text query
+        text query_type
+        real searched_at
+        integer selected_movie_id FK
+    }
+    tags {
+        text id PK
+        integer user_id FK
+        integer movie_id FK
+        text tag
+        real created_at
+    }
+    tmdb_cache {
+        text key PK
+        text data
+        real updated
+    }
+    tmdb_jobs {
+        text id PK
+        text state
+        integer total
+        text options
+        text message
+        integer cancel
+        real created
+        real updated
+    }
+    tmdb_rows {
+        text job_id PK, FK
+        integer position PK
+        text entry
+        text status
+        text result
+    }
+    user_preferences {
+        integer user_id PK, FK
+        text genres
+        text content_types
+        text languages
+        text duration_min
+        text actor_ids
+        text director_ids
+        text locale
+        text timezone
+        real updated_at
+    }
+    user_state {
+        integer user_id PK, FK
+        text data
+    }
+    users {
+        integer id PK
+        text email UK
+        text username
+        text password_hash
+        text role
+        integer active
+        integer session_version
+        text created_at
+        real last_seen
+        text plan
+        real plan_until
+    }
+    views {
+        integer id PK
+        integer user_id
+        integer movie_id
+        text room_code
+        real started_at
+    }
+    watch_sessions {
+        text id PK
+        integer view_id FK, UK
+        integer user_id FK
+        integer movie_id FK
+        text episode_id FK
+        text room_code FK
+        text request_id FK
+        real started_at
+        real ended_at
+        real duration
+        real start_position
+        real end_position
+        real watched_seconds
+        real paused_seconds
+        real buffered_seconds
+        integer completed
+        text start_kind
+        integer view_number
+        text stop_reason
+    }
+    films ||..o{ bookmark_events : "movie_id"
+    users ||..o{ bookmark_events : "user_id"
+    films ||..o{ clicks : "movie_id"
+    users ||..o{ clicks : "user_id"
+    recommendation_requests ||..o{ clicks : "request_id"
+    impressions ||..o| clicks : "impression_id"
+    users ||--o{ episode_progress : "user_id"
+    films ||..o{ episodes : "movie_id"
+    recommendation_requests |o..o{ events : "request_id"
+    watch_sessions |o..o{ events : "session_id"
+    films |o..o{ events : "movie_id"
+    users ||..o{ events : "user_id"
+    films ||..o{ impressions : "movie_id"
+    users ||..o{ impressions : "user_id"
+    recommendation_requests ||..o{ impressions : "request_id"
+    films ||--o{ not_interested : "movie_id"
+    users ||--o{ not_interested : "user_id"
+    users ||..o{ password_resets : "user_id"
+    users ||..o{ payments : "user_id"
+    users ||--o{ progress : "user_id"
+    users ||--o{ ratings : "user_id"
+    users ||..o{ recommendation_requests : "user_id"
+    users ||..o{ reviews : "user_id"
+    users ||--o{ room_members : "user_id"
+    rooms ||--o{ room_members : "code"
+    rooms ||..o{ room_messages : "code"
+    users ||..o{ rooms : "host_id"
+    films |o..o{ searches : "selected_movie_id"
+    users ||..o{ searches : "user_id"
+    films ||..o{ tags : "movie_id"
+    users ||..o{ tags : "user_id"
+    tmdb_jobs ||--o{ tmdb_rows : "job_id"
+    users ||--o| user_preferences : "user_id"
+    users ||--o| user_state : "user_id"
+    recommendation_requests |o..o{ watch_sessions : "request_id"
+    rooms |o..o{ watch_sessions : "room_code"
+    episodes |o..o{ watch_sessions : "episode_id"
+    films ||..o{ watch_sessions : "movie_id"
+    users ||..o{ watch_sessions : "user_id"
+    views ||..o| watch_sessions : "view_id"

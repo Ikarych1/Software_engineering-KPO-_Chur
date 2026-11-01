@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Смотрим вместе{% endblock %}
+{% block content %}
+<section class="rooms-page page-width">
+    <div class="rooms-hero">
+        <div class="rooms-intro"><span class="eyebrow accent">ВЕЧЕР С ВАШИМИ ЛЮДЬМИ</span><h1>Кино становится лучше,<br>когда вы вместе<span class="accent">.</span></h1><p class="muted">Создайте комнату и отправьте друзьям код. Плеер у всех идёт синхронно, а фильм скачивается один раз для всей комнаты.</p>
+            <ul class="feature-list"><li>{{ icon('refresh') }} Синхронизация до долей секунды</li><li>{{ icon('clock') }} Пауза, пока кто-то догружает видео</li><li>{{ icon('chat') }} Чат и реакции поверх фильма</li></ul></div>
+        <div class="rooms-actions">
+            {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+            <form class="panel stacked-form" method="post" action="{{ url_for('rooms.create_room') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <h2>Новая комната</h2>
+                {% if films %}<label for="room-movie">Фильм</label><select id="room-movie" name="movie_id" required>{% for row in films %}<option value="{{ row.film.id }}" {{ 'selected' if preselect == row.film.id }}>{{ row.film.title }} · {{ row.film.year }}</option>{% endfor %}</select>
+                <label for="room-title">Название вечера <span class="muted">(необязательно)</span></label><input id="room-title" name="title" maxlength="80" placeholder="Пятничный киновечер">
+                <button class="btn" type="submit">{{ icon('plus') }} Создать комнату</button>
+                {% else %}<p class="muted">В библиотеке пока нет фильмов с видео. Администратор может добавить .torrent или magnet-ссылку.</p>{% endif %}
+            </form>
+            <form class="panel join-form" method="post" action="{{ url_for('rooms.join_room') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <h2>Есть код приглашения?</h2><div class="join-row"><label class="sr-only" for="room-code">Код комнаты</label><input id="room-code" name="code" maxlength="12" placeholder="Например, K7QF2M" autocomplete="off" required pattern="[A-Za-z0-9]{4,12}"><button class="btn btn-secondary" type="submit">Войти</button></div></form>
+        </div>
+    </div>
+    <div class="section-heading"><h2>Ваши активные комнаты</h2>{% if active %}<span class="badge"><span class="status-dot"></span> {{ active|length }}</span>{% endif %}</div>
+    {% if active %}<div class="room-cards">{% for r in active %}<a class="active-room-card" href="{{ url_for('rooms.room_page', code=r.code) }}"><img src="{{ film_image(r.movie_id, true) }}" alt="" loading="lazy"><div><span class="eyebrow">{{ 'ВЫ ХОСТ' if r.host_id == user.id else 'ХОСТ · ' ~ r.host_name|upper }}</span><h2>{{ r.title }}</h2><p>{{ [catalog|selectattr('id', 'equalto', r.movie_id)|map(attribute='title')|first, 'код ' ~ r.code]|select|join(' · ') }}</p><div class="avatar-stack"><span>{{ r.members }} {{ plural(r.members, 'участник', 'участника', 'участников') }} · {{ r.messages }} {{ plural(r.messages, 'сообщение', 'сообщения', 'сообщений') }}</span></div><span class="btn btn-secondary">Войти в комнату {{ icon('arrow') }}</span></div></a>{% endfor %}</div>
+    {% else %}<div class="panel empty-inline">{{ icon('users') }} Активных комнат нет. Создайте свою — это займёт пару секунд.</div>{% endif %}
+    <div class="section-heading"><div><h2>После титров</h2><p class="muted">Завершённые киновечера и сохранённые разговоры</p></div></div>
+    <div class="archive-grid">{% for r in history %}<a class="archive-card panel" href="{{ url_for('rooms.archive', code=r.code) }}"><img src="{{ film_image(r.movie_id) }}" alt="" loading="lazy"><div><span class="badge">Завершён · {{ r.ended_at|date }}</span><h3>{{ r.title }}</h3><p class="muted">{{ r.members }} {{ plural(r.members, 'участник', 'участника', 'участников') }} · {{ r.messages }} {{ plural(r.messages, 'сообщение', 'сообщения', 'сообщений') }}</p><span class="text-link">Сохранённый чат {{ icon('arrow') }}</span></div></a>{% else %}<p class="muted">Здесь появятся завершённые киновечера.</p>{% endfor %}</div>
+</section>
+{% endblock %}

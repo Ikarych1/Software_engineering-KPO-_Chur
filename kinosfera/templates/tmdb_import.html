@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Импорт из TMDB{% endblock %}
+{% block content %}
+<section class="admin-page page-width imdb-import tmdb-import" data-tmdb-import data-start-url="{{ url_for('tmdb.start') }}" data-job-url="{{ url_for('tmdb.status', token='JOB') }}">
+    <a class="back-link" href="{{ url_for('admin.dashboard', tab='films') }}">{{ icon('back') }} Библиотека</a>
+    <div class="section-heading"><div><span class="eyebrow accent">ПОПОЛНЯЕМ КАТАЛОГ</span><h1>Импорт из TMDB</h1><p class="muted">Описания, обложки и сведения о фильмах — из официального API.</p></div><a class="btn btn-secondary" href="{{ url_for('tmdb.example') }}">{{ icon('download') }} Пример CSV</a></div>
+    <div class="imdb-layout"><div>
+        <form class="panel stacked-form" id="tmdb-settings" action="{{ url_for('tmdb.settings') }}" method="post">
+            <h2>Подключение TMDB</h2><p class="muted small-text" id="tmdb-connection" role="status">{{ 'Ключ настроен. Можно запускать импорт.' if connected else 'Для импорта нужен бесплатный ключ TMDB.' }}</p>
+            {% if environment_key %}<p class="muted small-text">Ключ задан в настройках сервера через переменную окружения. Его можно заменить там же.</p>{% endif %}
+            <label for="tmdb-credential">API Read Access Token или API Key</label><input id="tmdb-credential" name="credential" type="password" maxlength="4096" autocomplete="off" required {{ 'disabled' if environment_key }} placeholder="{{ 'Введите новый ключ, чтобы заменить текущий' if connected else 'Вставьте ключ из настроек TMDB' }}">
+            <p class="muted small-text">Ключ хранится на сервере и не попадает в карточки или отчёты. <a class="text-link" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Получить ключ TMDB →</a></p>
+            <button class="btn btn-secondary" type="submit" {{ 'disabled' if environment_key }}>Проверить и сохранить ключ</button>
+        </form>
+        <form class="panel stacked-form" id="tmdb-form" enctype="multipart/form-data">
+            <h2>Список фильмов</h2><label for="tmdb-list">CSV в UTF-8, до 20 000 строк и 10 МБ</label><input id="tmdb-list" name="list" type="file" accept=".csv,text/csv" required>
+            <p class="muted small-text">Подходит прежний список с IMDb ID. Также можно указать TMDB ID и type (movie или series) либо название и год. Неоднозначные совпадения будут пропущены.</p>
+            <pre class="imdb-example">imdb_id,title,year
+tt0816692,Интерстеллар,2014
+tt3659388,Марсианин,2015</pre>
+            <label class="checkbox-label"><input type="checkbox" name="publish" checked> Опубликовать новые карточки в каталоге</label>
+            <label class="checkbox-label"><input type="checkbox" name="refresh"> Запросить свежие данные вместо кеша</label>
+            <button class="btn" id="tmdb-submit" type="submit">{{ icon('plus') }} Импортировать в каталог</button>
+        </form>
+    </div><aside class="panel imdb-details"><h2>Что заполняется</h2><ul><li>Название и оригинальное название</li><li>Описание и слоган</li><li>Постер и фоновое изображение</li><li>Год, жанры, страны и длительность</li><li>Актёры и режиссёры</li><li>Российское возрастное ограничение, если указано</li><li>Рейтинг TMDB и число голосов</li></ul>
+        <p class="muted">Рейтинг TMDB подписывается отдельно. Рейтинги IMDb и Кинопоиска сохраняются; TMDB их не предоставляет. Для рейтинга IMDb доступен <a class="text-link" href="{{ url_for('imdb.page') }}">импорт официальных наборов IMDb</a>.</p>
+        <p class="muted">Сначала запрашивается русский текст. Если описания нет, используется английский. Отсутствующие сведения остаются незаполненными. Видеоисточники и фрагмент для главной добавляются отдельно.</p>
+        <p class="muted">Повторный импорт обновляет ранее полученные поля, сохраняя ручные правки, загруженные изображения и раздачи. Прогресс сохраняется в базе: после остановки или перезапуска можно продолжить с оставшихся строк.</p>
+        <p class="muted small-text">Импорт идёт на сервере, даже если закрыть страницу. При отмене готовые карточки остаются в библиотеке. Большие списки обрабатываются постепенно с учётом ограничений TMDB.</p>
+        <a class="text-link" href="{{ url_for('data_sources') }}">Источники данных и условия использования {{ icon('arrow') }}</a>
+    </aside></div>
+    {% if recent %}<nav class="panel tmdb-recent" aria-label="Последние импорты"><h2>Последние импорты</h2>{% for job in recent %}<a class="text-link" href="{{ url_for('tmdb.page', job=job.id) }}">{{ loop.index }}. {{ job.total }} строк · {{ {'running':'выполняется','done':'завершён','interrupted':'можно продолжить','cancelled':'остановлен','error':'ошибка — можно продолжить'}.get(job.state,job.state) }}</a>{% endfor %}</nav>{% endif %}
+    <section class="panel imdb-status" id="tmdb-status" hidden aria-live="polite"><div class="section-heading"><div><h2 id="tmdb-status-heading">Подготовка импорта</h2><p class="muted" id="tmdb-message"></p></div><div class="imdb-admin-actions"><button class="btn btn-secondary btn-small" id="tmdb-cancel" type="button" hidden>Остановить</button><button class="btn btn-small" id="tmdb-resume" type="button" hidden>Продолжить импорт</button></div></div><progress id="tmdb-progress" max="1" value="0" aria-label="Прогресс импорта"></progress><p class="muted small-text" id="tmdb-detail"></p><a class="text-link" id="tmdb-report" hidden>Скачать отчёт CSV {{ icon('download') }}</a><div id="tmdb-results" class="imdb-results"></div><nav id="tmdb-pagination" class="tmdb-pagination" aria-label="Страницы результатов" hidden><button class="btn btn-secondary btn-small" id="tmdb-prev" type="button">Назад</button><span id="tmdb-page" class="muted small-text"></span><button class="btn btn-secondary btn-small" id="tmdb-next" type="button">Далее</button></nav></section>
+    <p class="form-error" id="tmdb-error" role="alert" hidden></p>
+</section>
+<script src="{{ asset_url('js/tmdb-import.js') }}" defer></script>
+{% endblock %}

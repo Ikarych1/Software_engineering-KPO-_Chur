@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "schema_matches_project": true,
+  "tables": 30,
+  "views": [
+    "episode_activity"
+  ],
+  "counts": {
+    "bookmark_events": 275679,
+    "clicks": 300458,
+    "episode_progress": 91,
+    "episodes": 8395,
+    "events": 3351778,
+    "film_sources": 1,
+    "films": 3054,
+    "impressions": 1500000,
+    "login_attempts": 0,
+    "media_info": 9,
+    "not_interested": 84025,
+    "password_resets": 0,
+    "payments": 0,
+    "progress": 233622,
+    "ratings": 6219466,
+    "recommendation_requests": 150000,
+    "reviews": 60895,
+    "room_members": 19882,
+    "room_messages": 44764,
+    "rooms": 5000,
+    "searches": 70139,
+    "tags": 456375,
+    "tmdb_cache": 0,
+    "tmdb_jobs": 0,
+    "tmdb_rows": 0,
+    "user_preferences": 50000,
+    "user_state": 50000,
+    "users": 50000,
+    "views": 256230,
+    "watch_sessions": 256230
+  },
+  "ratings_verified": 6219466,
+  "watched_records": 148509,
+  "watchlist_records": 140359,
+  "clips": 11604,
+  "episode_snapshots": 13675,
+  "integrity_check": [
+    "ok"
+  ],
+  "checks": [
+    "Exact same 30 tables, columns, types, defaults, PK, UK, indexes, foreign keys and view as the current project database",
+    "All source business records retained and mapped; one native profile per user and one native view per session",
+    "Every one of 6,219,466 adapted ratings verified by ordered value hash; native JSON mirrors every score; all watched/bookmark/clip records retained",
+    "All 13,675 episode snapshots reproduced by episode_activity; 91 source-backed snapshots use native episode_progress; no fabricated video file IDs",
+    "Session/view, click/impression and room membership consistency; all foreign keys and full SQLite integrity_check",
+    "Native Store.films/MediaItem, account/User, JSON state, ratings_of, progress and rooms work without an adapter"
+  ],
+  "sha256": "d2aa4f13ba16b0cbee29867d1c5f4f30f58ed3460476da4a9b314553feacb53b",
+  "bytes": 1621360640
+}

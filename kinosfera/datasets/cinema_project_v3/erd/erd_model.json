@@ -1,0 +1,2330 @@
+{
+  "title": "Общая схема проекта и совместимой тестовой базы",
+  "kind": "Physical SQLite schema plus explicitly marked unenforced logical links",
+  "tables": {
+    "bookmark_events": {
+      "domain": "discovery",
+      "row_count": 275679,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "action",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "collection",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'watchlist'"
+        }
+      ]
+    },
+    "clicks": {
+      "domain": "discovery",
+      "row_count": 300458,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "impression_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "impression_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK,UK",
+          "default": null
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "clicked_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "episode_progress": {
+      "domain": "playback",
+      "row_count": 91,
+      "primary_key": [
+        "user_id",
+        "movie_id",
+        "file_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,LK",
+          "default": null
+        },
+        {
+          "name": "file_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "position",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "duration",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "completed",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "episodes": {
+      "domain": "catalog",
+      "row_count": 8395,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "movie_id",
+          "season",
+          "episode"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "season",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "episode",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "duration",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "file_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "events": {
+      "domain": "discovery",
+      "row_count": 3351778,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "session_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "payload",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'{}'"
+        }
+      ]
+    },
+    "film_sources": {
+      "domain": "catalog",
+      "row_count": 1,
+      "primary_key": [
+        "movie_id",
+        "source"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,LK",
+          "default": null
+        },
+        {
+          "name": "source",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "torrent",
+          "type": "blob",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "files",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "info_hash",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "magnet",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "added_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "films": {
+      "domain": "catalog",
+      "row_count": 3054,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "tmdb_kind",
+          "tmdb_id"
+        ],
+        [
+          "imdb_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "data",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "art",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "torrent",
+          "type": "blob",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "torrent_name",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "file_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "files",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "revision",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        {
+          "name": "magnet",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "info_hash",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "episodes",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "imdb_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "UK",
+          "default": null
+        },
+        {
+          "name": "tmdb_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "tmdb_kind",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "impressions": {
+      "domain": "discovery",
+      "row_count": 1500000,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "request_id",
+          "movie_id"
+        ],
+        [
+          "request_id",
+          "rank"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "rank",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "shown_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "clicked",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        }
+      ]
+    },
+    "login_attempts": {
+      "domain": "accounts",
+      "row_count": 0,
+      "primary_key": [
+        "key"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "key",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "failures",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "last_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "media_info": {
+      "domain": "catalog",
+      "row_count": 9,
+      "primary_key": [
+        "key"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "key",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "data",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "not_interested": {
+      "domain": "feedback",
+      "row_count": 84025,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "is_active",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "1"
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "password_resets": {
+      "domain": "accounts",
+      "row_count": 0,
+      "primary_key": [
+        "token_hash"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "token_hash",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "expires_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "payments": {
+      "domain": "accounts",
+      "row_count": 0,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "tariff",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "amount",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "progress": {
+      "domain": "playback",
+      "row_count": 233622,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,LK",
+          "default": null
+        },
+        {
+          "name": "position",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "duration",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "completed",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        },
+        {
+          "name": "watched_seconds",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "hidden",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        },
+        {
+          "name": "file_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "ratings": {
+      "domain": "feedback",
+      "row_count": 6219466,
+      "primary_key": [
+        "user_id",
+        "movie_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,LK",
+          "default": null
+        },
+        {
+          "name": "score",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "recommendation_requests": {
+      "domain": "discovery",
+      "row_count": 150000,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "surface",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "policy",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "reviews": {
+      "domain": "feedback",
+      "row_count": 60895,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "user_id",
+          "movie_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "score",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "room_members": {
+      "domain": "social",
+      "row_count": 19882,
+      "primary_key": [
+        "code",
+        "user_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "code",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "joined_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "last_seen",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "room_messages": {
+      "domain": "social",
+      "row_count": 44764,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "code",
+          "type": "text",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "kind",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "rooms": {
+      "domain": "social",
+      "row_count": 5000,
+      "primary_key": [
+        "code"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "code",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "host_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "settings",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "ended_at",
+          "type": "real",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "searches": {
+      "domain": "discovery",
+      "row_count": 70139,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "query",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "query_type",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "searched_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "selected_movie_id",
+          "type": "integer",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        }
+      ]
+    },
+    "tags": {
+      "domain": "feedback",
+      "row_count": 456375,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "tag",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "tmdb_cache": {
+      "domain": "imports",
+      "row_count": 0,
+      "primary_key": [
+        "key"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "key",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "data",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "tmdb_jobs": {
+      "domain": "imports",
+      "row_count": 0,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "total",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "options",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "message",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "cancel",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "0"
+        },
+        {
+          "name": "created",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "updated",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "tmdb_rows": {
+      "domain": "imports",
+      "row_count": 0,
+      "primary_key": [
+        "job_id",
+        "position"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "job_id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "entry",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'pending'"
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "user_preferences": {
+      "domain": "accounts",
+      "row_count": 50000,
+      "primary_key": [
+        "user_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "genres",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "content_types",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "languages",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "duration_min",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "actor_ids",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "director_ids",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'[]'"
+        },
+        {
+          "name": "locale",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'ru-RU'"
+        },
+        {
+          "name": "timezone",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'UTC'"
+        },
+        {
+          "name": "updated_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "user_state": {
+      "domain": "accounts",
+      "row_count": 50000,
+      "primary_key": [
+        "user_id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK,FK",
+          "default": null
+        },
+        {
+          "name": "data",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "users": {
+      "domain": "accounts",
+      "row_count": 50000,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "email"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": false,
+          "keys": "UK",
+          "default": null
+        },
+        {
+          "name": "username",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "password_hash",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "active",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "1"
+        },
+        {
+          "name": "session_version",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": "1"
+        },
+        {
+          "name": "created_at",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        {
+          "name": "last_seen",
+          "type": "real",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "plan",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": "'free'"
+        },
+        {
+          "name": "plan_until",
+          "type": "real",
+          "nullable": true,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "views": {
+      "domain": "playback",
+      "row_count": 256230,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "room_code",
+          "type": "text",
+          "nullable": true,
+          "keys": "LK",
+          "default": null
+        },
+        {
+          "name": "started_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    },
+    "watch_sessions": {
+      "domain": "playback",
+      "row_count": 256230,
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [
+        [
+          "view_id"
+        ]
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "keys": "PK",
+          "default": null
+        },
+        {
+          "name": "view_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK,UK",
+          "default": null
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "movie_id",
+          "type": "integer",
+          "nullable": false,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "episode_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "room_code",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "request_id",
+          "type": "text",
+          "nullable": true,
+          "keys": "FK",
+          "default": null
+        },
+        {
+          "name": "started_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "ended_at",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "duration",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "start_position",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "end_position",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "watched_seconds",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "paused_seconds",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "buffered_seconds",
+          "type": "real",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "completed",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "start_kind",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "view_number",
+          "type": "integer",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        },
+        {
+          "name": "stop_reason",
+          "type": "text",
+          "nullable": false,
+          "keys": "",
+          "default": null
+        }
+      ]
+    }
+  },
+  "foreign_keys": [
+    {
+      "child": "bookmark_events",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "bookmark_events",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "clicks",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "clicks",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "clicks",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "clicks",
+      "column": "impression_id",
+      "parent": "impressions",
+      "target": "id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "episode_progress",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "episodes",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "events",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "events",
+      "column": "session_id",
+      "parent": "watch_sessions",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "events",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "events",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "impressions",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "impressions",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "impressions",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "not_interested",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "not_interested",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "password_resets",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "payments",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "progress",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "ratings",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "recommendation_requests",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "reviews",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "room_members",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "room_members",
+      "column": "code",
+      "parent": "rooms",
+      "target": "code",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "room_messages",
+      "column": "code",
+      "parent": "rooms",
+      "target": "code",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "rooms",
+      "column": "host_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "searches",
+      "column": "selected_movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "searches",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "tags",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "tags",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "tmdb_rows",
+      "column": "job_id",
+      "parent": "tmdb_jobs",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "user_preferences",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "user_state",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": true,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "request_id",
+      "parent": "recommendation_requests",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "room_code",
+      "parent": "rooms",
+      "target": "code",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "episode_id",
+      "parent": "episodes",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "watch_sessions",
+      "column": "view_id",
+      "parent": "views",
+      "target": "id",
+      "optional": false,
+      "unique": true,
+      "total": false,
+      "identifying": false,
+      "enforced": true
+    },
+    {
+      "child": "ratings",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": false
+    },
+    {
+      "child": "reviews",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    },
+    {
+      "child": "progress",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": false
+    },
+    {
+      "child": "episode_progress",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": false
+    },
+    {
+      "child": "film_sources",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": true,
+      "enforced": false
+    },
+    {
+      "child": "views",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    },
+    {
+      "child": "views",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    },
+    {
+      "child": "views",
+      "column": "room_code",
+      "parent": "rooms",
+      "target": "code",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    },
+    {
+      "child": "rooms",
+      "column": "movie_id",
+      "parent": "films",
+      "target": "id",
+      "optional": false,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    },
+    {
+      "child": "room_messages",
+      "column": "user_id",
+      "parent": "users",
+      "target": "id",
+      "optional": true,
+      "unique": false,
+      "total": false,
+      "identifying": false,
+      "enforced": false
+    }
+  ],
+  "views": {
+    "episode_activity": "CREATE VIEW episode_activity AS\nSELECT user_id,movie_id,episode_id,file_id,position,duration,watched_seconds,completed,updated_at\nFROM (\n    SELECT s.user_id,s.movie_id,s.episode_id,e.file_id,\n           s.end_position AS position,s.duration,\n           SUM(s.watched_seconds) OVER (PARTITION BY s.user_id,s.movie_id,s.episode_id) AS watched_seconds,\n           MAX(s.completed) OVER (PARTITION BY s.user_id,s.movie_id,s.episode_id) AS completed,\n           s.ended_at AS updated_at,\n           ROW_NUMBER() OVER (PARTITION BY s.user_id,s.movie_id,s.episode_id ORDER BY s.ended_at DESC,s.id DESC) AS latest\n    FROM watch_sessions s JOIN episodes e ON e.id=s.episode_id\n) WHERE latest=1"
+  }
+}

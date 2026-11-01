@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon, avatar %}
+{% block title %}Управление кинотеатром{% endblock %}
+{% block content %}
+<section class="admin-page page-width" data-admin-tab="{{ tab }}">
+    <div class="section-heading"><div><span class="eyebrow accent">АДМИНИСТРАТОР</span><h1>Управление КиноСферой</h1><p class="muted">Библиотека, раздачи, пользователи и комнаты</p></div><div class="imdb-admin-actions"><a class="btn btn-secondary" href="{{ url_for('tmdb.page') }}">TMDB · Импорт CSV</a><a class="btn btn-secondary" href="{{ url_for('imdb.page') }}">IMDb · Импорт CSV</a><a class="btn" href="{{ url_for('admin.edit_film') }}">{{ icon('plus') }} Добавить фильм</a></div></div>
+    <nav class="admin-tabs" aria-label="Разделы администратора">{% for key, title, symbol in [('overview','Обзор','grid'),('films','Фильмы','film'),('engine','Раздачи','bolt'),('users','Пользователи','users'),('reviews','Отзывы','edit'),('rooms','Комнаты','chat')] %}<a class="{{ 'active' if tab == key }}" href="{{ url_for('admin.dashboard', tab=key) }}">{{ icon(symbol) }} {{ title }}</a>{% endfor %}</nav>
+
+{% if tab == 'overview' %}
+    <div class="admin-stats wide">
+        <div class="panel"><strong>{{ films|length }}</strong><span>фильмов · {{ films|selectattr('torrent')|list|length }} с видео</span></div>
+        <div class="panel"><strong>{{ numbers.users }}</strong><span>пользователей · {{ numbers.users_day }} за сутки</span></div>
+        <div class="panel"><strong>{{ numbers.views }}</strong><span>просмотров · {{ numbers.views_day }} за сутки</span></div>
+        <div class="panel">{% if numbers.hours >= 1 %}<strong>{{ numbers.hours }}</strong><span>часов просмотра</span>{% else %}<strong>{{ numbers.minutes }}</strong><span>минут просмотра</span>{% endif %}</div>
+        <div class="panel"><strong>{{ numbers.rooms_active }}</strong><span>активных комнат из {{ numbers.rooms }}</span></div>
+        <div class="panel"><strong>{{ numbers.reviews }}</strong><span>отзывов</span></div>
+    </div>
+    <div class="admin-columns">
+        <div class="panel engine-live" data-engine-live><div class="panel-heading"><h3>{{ icon('bolt') }} Движок сейчас</h3><a class="text-link" href="{{ url_for('admin.dashboard', tab='engine') }}">Подробнее {{ icon('arrow') }}</a></div>
+            <div class="live-grid"><div><strong data-live="down">—</strong><span>загрузка</span></div><div><strong data-live="up">—</strong><span>отдача</span></div><div><strong data-live="peers">—</strong><span>пиров</span></div><div><strong data-live="sessions">—</strong><span>зрителей</span></div></div>
+            <canvas class="sparkline" width="600" height="80" data-sparkline aria-label="Скорость загрузки за последние минуты"></canvas></div>
+        <div class="panel"><div class="panel-heading"><h3>{{ icon('star') }} Топ просмотров</h3></div>
+            <ol class="top-list">{% for item in numbers.top %}<li><a href="{{ url_for('movie_detail', movie_id=item.movie_id) }}">{{ titles.get(item.movie_id, 'Удалён') }}</a><span>{{ item.n }}</span></li>{% else %}<li class="muted">Просмотров пока нет</li>{% endfor %}</ol>
+            {% if numbers.daily %}{% set peak = numbers.daily|map(attribute='n')|max %}<div class="daily-bars" aria-label="Просмотры за 14 дней">{% for d in numbers.daily %}<span style="height: {{ (d.n / peak * 100)|round }}%" title="{{ d.day }}: {{ d.n }}"></span>{% endfor %}</div><p class="muted small-text">Просмотры за последние 14 дней</p>{% endif %}</div>
+    </div>
+    <div class="admin-columns">
+        <div class="panel"><div class="panel-heading"><h3>{{ icon('users') }} Новые пользователи</h3><a class="text-link" href="{{ url_for('admin.dashboard', tab='users') }}">Все {{ icon('arrow') }}</a></div>
+            <ul class="mini-list">{% for u in users|reverse %}{% if loop.index <= 5 %}<li>{{ avatar(u.username, ['peach','blue','purple','green','gold'][u.id % 5], 'tiny') }}<span>{{ u.username }}</span><small class="muted">{{ u.created_at[:10] }}</small></li>{% endif %}{% endfor %}</ul></div>
+        <div class="panel"><div class="panel-heading"><h3>{{ icon('chat') }} Активные комнаты</h3><a class="text-link" href="{{ url_for('admin.dashboard', tab='rooms') }}">Все {{ icon('arrow') }}</a></div>
+            <ul class="mini-list">{% for r in rooms[:5] %}<li><span class="badge">{{ r.code }}</span><span>{{ r.title }}</span><small class="muted">{{ r.members }} чел.</small></li>{% else %}<li class="muted">Сейчас никто не смотрит вместе</li>{% endfor %}</ul></div>
+    </div>
+
+{% elif tab == 'films' %}
+    <div class="admin-filter">{% for key, title in [('all','Все'),('published','Опубликованы'),('drafts','Черновики'),('nosource','Без видео')] %}<a class="chip{{ ' is-active' if film_filter == key }}" href="{{ url_for('admin.dashboard', tab='films', filter=key) }}">{{ title }}</a>{% endfor %}</div>
+    <div class="admin-film-list">{% for item in films %}{% set s = stats.get(item.film.id, {}) %}
+        {% if film_filter == 'all' or (film_filter == 'published' and not item.film.is_hidden) or (film_filter == 'drafts' and item.film.is_hidden) or (film_filter == 'nosource' and not item.torrent) %}
+        <a class="admin-film panel" href="{{ url_for('admin.edit_film', movie_id=item.film.id) }}"><img src="{{ film_image(item.film.id) }}" alt="" loading="lazy"><div><h3>{{ item.film.title }}</h3><p class="muted">{{ item.film.year }} · {{ item.film.genres|join(' · ') }}</p><small>{% if item.torrent %}{{ icon('bolt') }} {{ item.torrent_name }}{% else %}Источник пока не добавлен{% endif %}</small></div>
+            <div class="film-numbers"><span title="Просмотры">{{ icon('eye') }} {{ s.views or 0 }}</span><span title="Оценка зрителей">{{ icon('star') }} {{ s.avg or '—' }}</span><span title="Отзывы">{{ icon('chat') }} {{ s.reviews or 0 }}</span></div>
+            <span class="badge {{ 'is-draft' if item.film.is_hidden else 'is-live' }}">{{ 'Черновик' if item.film.is_hidden else 'Опубликован' }}</span><span class="accent">Редактировать →</span></a>
+        {% endif %}{% endfor %}</div>
+
+{% elif tab == 'engine' %}
+    <div class="panel engine-live" data-engine-live data-engine-full>
+        <div class="panel-heading"><h3>{{ icon('bolt') }} BitTorrent-движок</h3><span class="badge" data-live="state">…</span></div>
+        <div class="live-grid"><div><strong data-live="down">—</strong><span>загрузка</span></div><div><strong data-live="up">—</strong><span>отдача</span></div><div><strong data-live="peers">—</strong><span>пиров</span></div><div><strong data-live="sessions">—</strong><span>зрителей</span></div><div><strong data-live="hls">—</strong><span>HLS-процессов</span></div><div><strong data-live="cache">—</strong><span>кэш на диске</span></div></div>
+        <canvas class="sparkline" width="900" height="90" data-sparkline></canvas>
+        <h3 class="subsection-title">Активные раздачи</h3><div class="engine-table" data-live-torrents><p class="muted">Нет активных раздач — они запускаются, когда кто-то смотрит фильм.</p></div>
+        <h3 class="subsection-title">Зрители</h3><div class="engine-table" data-live-sessions></div>
+    </div>
+    <div class="panel"><div class="panel-heading"><h3>{{ icon('download') }} Кэш фильмов на диске</h3></div><p class="muted small-text">Скачанные части хранятся, чтобы повторный просмотр начинался мгновенно. При превышении лимита (CINEMA_CACHE_LIMIT_GB) старые фильмы удаляются автоматически.</p><div class="engine-table" data-live-cache></div></div>
+
+{% elif tab == 'users' %}
+    <form class="admin-search" method="get"><input type="hidden" name="tab" value="users"><label class="sr-only" for="user-search">Поиск</label><input id="user-search" name="q" value="{{ query }}" placeholder="Имя или email"><button class="btn btn-secondary btn-small">Найти</button></form>
+    <div class="admin-users">{% for account in users %}<form class="panel admin-user" method="post" action="{{ url_for('admin.edit_user', user_id=account.id, q=query) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{{ avatar(account.username, ['peach','blue','purple','green','gold'][account.id % 5], 'small') }}<div><strong>{{ account.username }}</strong>{% if account.plan == 'plus' %} <span class="badge plus-badge">Плюс</span>{% endif %}<p class="muted">{{ account.email }} · с {{ account.created_at[:10] }} · {{ 'был(а) ' ~ (account.last_seen|date) if account.last_seen else 'не заходил(а)' }} · {{ account.views }} просм. · {{ account.reviews }} отз.</p></div><label class="sr-only" for="role-{{ account.id }}">Роль {{ account.username }}</label><select id="role-{{ account.id }}" name="role"><option value="USER" {{ 'selected' if account.role == 'USER' }}>Пользователь</option><option value="ADMIN" {{ 'selected' if account.role == 'ADMIN' }}>Администратор</option></select><label class="checkbox-label"><input type="checkbox" name="active" {{ 'checked' if account.active }}>Активен</label><button class="btn btn-secondary btn-small">Сохранить</button><button class="btn btn-secondary btn-small" formaction="{{ url_for('admin.reset_sessions', user_id=account.id) }}" title="Выйти на всех устройствах">Сбросить сеансы</button></form>{% else %}<p class="muted">Никого не нашли.</p>{% endfor %}</div>
+
+{% elif tab == 'reviews' %}
+    <div class="review-list">{% for r in reviews %}<article class="panel review-row"><img src="{{ film_image(r.movie_id) }}" alt="" loading="lazy"><div><div class="review-heading"><strong>{{ r.username }}</strong><span class="muted">о фильме</span><a class="accent" href="{{ url_for('movie_detail', movie_id=r.movie_id) }}#reviews">{{ titles.get(r.movie_id, 'Удалён') }}</a><span class="score-text">{{ r.score }}/10</span></div><p>{{ r.text }}</p><span class="muted small-text">{{ r.updated_at|date }}</span></div>
+        <form method="post" action="{{ url_for('admin.delete_review', review_id=r.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-secondary btn-small danger">{{ icon('trash') }} Удалить</button></form></article>{% else %}<p class="muted">Отзывов пока нет.</p>{% endfor %}</div>
+
+{% elif tab == 'rooms' %}
+    <div class="admin-users">{% for r in rooms %}<div class="panel admin-user"><span class="badge">{{ r.code }}</span><div><strong>{{ r.title }}</strong><p class="muted">{{ titles.get(r.movie_id, '') }} · хост {{ r.host_name }} · {{ r.members }} участн. · создана {{ r.created_at|date }}</p></div><a class="btn btn-secondary btn-small" href="{{ url_for('rooms.archive', code=r.code) }}">Чат</a><form method="post" action="{{ url_for('admin.end_room', code=r.code) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-secondary btn-small danger">Закрыть</button></form></div>{% else %}<p class="muted">Активных комнат нет.</p>{% endfor %}</div>
+{% endif %}
+</section>
+<script src="{{ asset_url('js/admin.js') }}" defer></script>
+{% endblock %}

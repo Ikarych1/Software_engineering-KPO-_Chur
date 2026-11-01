@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% from 'components.html' import icon %}
+{% block title %}Импорт из IMDb{% endblock %}
+{% block content %}
+<section class="admin-page page-width imdb-import" data-imdb-import data-start-url="{{ url_for('imdb.start') }}" data-job-url="{{ url_for('imdb.status', token='JOB') }}">
+    <a class="back-link" href="{{ url_for('admin.dashboard', tab='films') }}">{{ icon('back') }} Библиотека</a>
+    <div class="section-heading"><div><span class="eyebrow accent">ПОПОЛНЯЕМ КАТАЛОГ</span><h1>Импорт из IMDb</h1><p class="muted">Загрузите список — карточки фильмов и сериалов появятся в библиотеке.</p></div><a class="btn btn-secondary" href="{{ url_for('imdb.example') }}">{{ icon('download') }} Пример CSV</a></div>
+    <p class="muted tmdb-provenance">Нужны описания и обложки? Используйте <a class="text-link" href="{{ url_for('tmdb.page') }}">импорт из TMDB</a>. Этот раздел остаётся для официальных наборов и рейтингов IMDb.</p>
+    <div class="imdb-layout"><form class="panel stacked-form" id="imdb-form" enctype="multipart/form-data">
+        <h2>Список фильмов</h2><label for="imdb-list">CSV в UTF-8, до 500 строк и 512 КБ</label><input id="imdb-list" name="list" type="file" accept=".csv,text/csv" required>
+        <p class="muted small-text">Укажите IMDb ID или ссылку. В столбце title можно задать русское название карточки. Без ID поиск идёт по точному названию и году; для русского названия при необходимости загружается дополнительный набор IMDb. Неоднозначные совпадения будут пропущены.</p>
+        <pre class="imdb-example">imdb_id,title,year
+tt0816692,Интерстеллар,2014
+tt3659388,Марсианин,2015</pre>
+        <label class="checkbox-label"><input type="checkbox" name="publish" checked> Опубликовать новые карточки в каталоге</label>
+        <label class="checkbox-label"><input type="checkbox" name="credits"> Добавить актёров и режиссёров</label><p class="muted small-text">При первой загрузке потребуются дополнительные наборы IMDb общим размером около 1 ГБ. Их загрузка и чтение займут больше времени.</p>
+        <label class="checkbox-label"><input type="checkbox" name="refresh"> Заново загрузить наборы IMDb</label><p class="muted small-text">Обычно используются ранее загруженные файлы. Включите опцию, чтобы получить свежие рейтинги и новые фильмы.</p>
+        <button class="btn" id="imdb-submit" type="submit">{{ icon('plus') }} Импортировать в каталог</button>
+    </form><aside class="panel imdb-details"><h2>Что будет добавлено</h2><ul><li>Название и оригинальное название</li><li>Год, жанры и длительность</li><li>Рейтинг IMDb и число голосов</li><li>Ссылка на IMDb и идентификатор фильма</li><li>Актёры и режиссёры — по желанию</li></ul>
+        <p class="muted">Первый импорт загружает официальные наборы IMDb размером в сотни мегабайт. Затем файлы используются повторно. Прогресс отображается ниже; страницу можно перезагрузить.</p>
+        <p class="muted">В бесплатных наборах нет описаний сюжета, постеров, стран производства и возрастных сертификатов. Эти поля можно заполнить в редакторе карточки. Видеоисточники добавляются отдельно.</p>
+        <p class="muted small-text">Повторный импорт обновляет данные IMDb в существующей карточке. Ваши описания, обложки, публикация, раздачи и прогресс просмотра сохраняются.</p>
+        <a class="text-link" href="https://data.imdb.com/non-commercial-datasets/" target="_blank" rel="noopener">Официальные данные IMDb · некоммерческое использование {{ icon('arrow') }}</a>
+    </aside></div>
+    <section class="panel imdb-status" id="imdb-status" hidden aria-live="polite"><div class="section-heading"><div><h2 id="imdb-status-heading">Подготовка импорта</h2><p class="muted" id="imdb-message"></p></div><button class="btn btn-secondary btn-small" id="imdb-cancel" type="button">Отменить</button></div><progress id="imdb-progress" max="1" aria-label="Загрузка данных IMDb"></progress><p class="muted small-text" id="imdb-detail"></p><a class="text-link" id="imdb-report" hidden>Скачать отчёт CSV {{ icon('download') }}</a><div id="imdb-results" class="imdb-results"></div></section>
+    <p class="form-error" id="imdb-error" role="alert" hidden></p>
+</section>
+<script src="{{ asset_url('js/imdb-import.js') }}" defer></script>
+{% endblock %}

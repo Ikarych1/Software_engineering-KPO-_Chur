@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="1032" viewBox="0 0 1670 1032" role="img" aria-label="Оценки, теги и отзывы">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="1032" fill="#f7f9fc"/>
+<text x="40" y="40" font-size="24" font-weight="700">Оценки, теги и отзывы</text>
+<text x="40" y="69" font-size="13" fill="#596982">Одна таблица ratings и одно поле score на пару пользователь–произведение. reviews.rating_id → ratings.rating_id.</text>
+<g data-parent="users" data-child="ratings"><title>ratings.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,210.0 572,210.0 572,214.0 600,214.0"/>
+<path class="mark" d="M507,203.0V217.0 M513,203.0V217.0"/>
+<path class="mark" d="M600,207.0L587,214.0L600,221.0 M600,214.0L587,214.0"/><circle class="mark" cx="579" cy="214.0" r="4"/>
+</g>
+<g data-parent="users" data-child="tags"><title>tags.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,210.0 582,210.0 582,110.0 1112,110.0 1112,214.0 1140,214.0"/>
+<path class="mark" d="M507,203.0V217.0 M513,203.0V217.0"/>
+<path class="mark" d="M1140,207.0L1127,214.0L1140,221.0 M1140,214.0L1127,214.0"/><circle class="mark" cx="1119" cy="214.0" r="4"/>
+</g>
+<g data-parent="users" data-child="reviews"><title>reviews.user_id → users.user_id</title>
+<polyline class="edge" style="stroke:#6d28d9;stroke-opacity:.65;stroke-dasharray:5 4" points="500,210.0 572,210.0 572,744.0 600,744.0"/>
+<path class="mark" d="M507,203.0V217.0 M513,203.0V217.0"/>
+<path class="mark" d="M600,737.0L587,744.0L600,751.0 M600,744.0L587,744.0"/><circle class="mark" cx="579" cy="744.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="ratings"><title>ratings.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,560.0 562,560.0 562,238.0 600,238.0"/>
+<path class="mark" d="M507,553.0V567.0 M513,553.0V567.0"/>
+<path class="mark" d="M600,231.0L587,238.0L600,245.0 M600,238.0L587,238.0"/><circle class="mark" cx="579" cy="238.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="tags"><title>tags.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,560.0 1112,560.0 1112,238.0 1140,238.0"/>
+<path class="mark" d="M507,553.0V567.0 M513,553.0V567.0"/>
+<path class="mark" d="M1140,231.0L1127,238.0L1140,245.0 M1140,238.0L1127,238.0"/><circle class="mark" cx="1119" cy="238.0" r="4"/>
+</g>
+<g data-parent="movies" data-child="reviews"><title>reviews.movie_id → movies.movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,560.0 562,560.0 562,768.0 600,768.0"/>
+<path class="mark" d="M507,553.0V567.0 M513,553.0V567.0"/>
+<path class="mark" d="M600,761.0L587,768.0L600,775.0 M600,768.0L587,768.0"/><circle class="mark" cx="579" cy="768.0" r="4"/>
+</g>
+<g data-parent="movie_mapping" data-child="ratings"><title>ratings.source_movie_id → movie_mapping.source_movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,910.0 558,910.0 558,310.0 600,310.0"/>
+<path class="mark" d="M507,903.0V917.0"/><circle class="mark" cx="519" cy="910.0" r="4"/>
+<path class="mark" d="M600,303.0L587,310.0L600,317.0 M600,310.0L587,310.0"/><circle class="mark" cx="579" cy="310.0" r="4"/>
+</g>
+<g data-parent="movie_mapping" data-child="tags"><title>tags.source_movie_id → movie_mapping.source_movie_id</title>
+<polyline class="edge" style="stroke:#0f766e;stroke-opacity:.65;stroke-dasharray:5 4" points="500,910.0 1108,910.0 1108,310.0 1140,310.0"/>
+<path class="mark" d="M507,903.0V917.0 M513,903.0V917.0"/>
+<path class="mark" d="M1140,303.0L1127,310.0L1140,317.0 M1140,310.0L1127,310.0"/><circle class="mark" cx="1119" cy="310.0" r="4"/>
+</g>
+<g data-parent="ratings" data-child="reviews"><title>reviews.rating_id → ratings.rating_id</title>
+<polyline class="edge" style="stroke:#1d4ed8;stroke-opacity:.65;stroke-dasharray:5 4" points="1060,190.0 1088,190.0 1088,792.0 1060,792.0"/>
+<path class="mark" d="M1067,183.0V197.0 M1073,183.0V197.0"/>
+<path class="mark" d="M1067,785.0V799.0"/><circle class="mark" cx="1079" cy="792.0" r="4"/>
+</g>
+<g data-entity="users"><rect x="40" y="150" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,150H493Q500,150 500,157V198H40V157Q40,150 47,150" fill="#6d28d9"/>
+<text x="55" y="173" style="fill:white" font-size="17" font-weight="700">users</text>
+<text x="486" y="173" text-anchor="end" style="fill:#fff" font-size="11">50,000</text>
+<text x="55" y="190" style="fill:#eef2ff" font-size="10">Профили и предпочтения · ссылка</text>
+<rect x="41" y="198" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="214">PK</text>
+<text class="field" x="113" y="214">user_id</text>
+<text class="type" x="490" y="214" text-anchor="end">text</text>
+</g>
+<g data-entity="movies"><rect x="40" y="500" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,500H493Q500,500 500,507V548H40V507Q40,500 47,500" fill="#0f766e"/>
+<text x="55" y="523" style="fill:white" font-size="17" font-weight="700">movies</text>
+<text x="486" y="523" text-anchor="end" style="fill:#fff" font-size="11">3,054</text>
+<text x="55" y="540" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="548" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="564">PK</text>
+<text class="field" x="113" y="564">movie_id</text>
+<text class="type" x="490" y="564" text-anchor="end">bigint</text>
+</g>
+<g data-entity="movie_mapping"><rect x="40" y="850" width="460" height="82" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M47,850H493Q500,850 500,857V898H40V857Q40,850 47,850" fill="#0f766e"/>
+<text x="55" y="873" style="fill:white" font-size="17" font-weight="700">movie_mapping</text>
+<text x="486" y="873" text-anchor="end" style="fill:#fff" font-size="11">2,571</text>
+<text x="55" y="890" style="fill:#eef2ff" font-size="10">Каталог · ссылка</text>
+<rect x="41" y="898" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="51" y="914">PK</text>
+<text class="field" x="113" y="914">source_movie_id</text>
+<text class="type" x="490" y="914" text-anchor="end">bigint</text>
+</g>
+<g data-entity="ratings"><rect x="600" y="130" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,130H1053Q1060,130 1060,137V178H600V137Q600,130 607,130" fill="#1d4ed8"/>
+<text x="615" y="153" style="fill:white" font-size="17" font-weight="700">ratings</text>
+<text x="1046" y="153" text-anchor="end" style="fill:#fff" font-size="11">6,219,466</text>
+<text x="615" y="170" style="fill:#eef2ff" font-size="10">Оценки и отзывы</text>
+<rect x="601" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="194">PK</text>
+<text class="field" x="673" y="194">rating_id</text>
+<text class="type" x="1050" y="194" text-anchor="end">text</text>
+<text class="key" x="611" y="218">FK</text>
+<text class="field" x="673" y="218">user_id</text>
+<text class="type" x="1050" y="218" text-anchor="end">text</text>
+<rect x="601" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="242">FK</text>
+<text class="field" x="673" y="242">movie_id</text>
+<text class="type" x="1050" y="242" text-anchor="end">bigint</text>
+<text class="key" x="611" y="266"></text>
+<text class="field" x="673" y="266">score</text>
+<text class="type" x="1050" y="266" text-anchor="end">bigint</text>
+<rect x="601" y="274" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="290"></text>
+<text class="field" x="673" y="290">rated_at</text>
+<text class="type" x="1050" y="290" text-anchor="end">bigint</text>
+<text class="key" x="611" y="314">FK</text>
+<text class="field" x="673" y="314">source_movie_id ?</text>
+<text class="type" x="1050" y="314" text-anchor="end">bigint</text>
+<rect x="601" y="322" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="338"></text>
+<text class="field" x="673" y="338">split ?</text>
+<text class="type" x="1050" y="338" text-anchor="end">text</text>
+</g>
+<g data-entity="tags"><rect x="1140" y="130" width="460" height="202" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M1147,130H1593Q1600,130 1600,137V178H1140V137Q1140,130 1147,130" fill="#1d4ed8"/>
+<text x="1155" y="153" style="fill:white" font-size="17" font-weight="700">tags</text>
+<text x="1586" y="153" text-anchor="end" style="fill:#fff" font-size="11">456,375</text>
+<text x="1155" y="170" style="fill:#eef2ff" font-size="10">Оценки и отзывы</text>
+<rect x="1141" y="178" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="194">PK</text>
+<text class="field" x="1213" y="194">tag_id</text>
+<text class="type" x="1590" y="194" text-anchor="end">text</text>
+<text class="key" x="1151" y="218">FK</text>
+<text class="field" x="1213" y="218">user_id</text>
+<text class="type" x="1590" y="218" text-anchor="end">text</text>
+<rect x="1141" y="226" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="242">FK</text>
+<text class="field" x="1213" y="242">movie_id</text>
+<text class="type" x="1590" y="242" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="266"></text>
+<text class="field" x="1213" y="266">tag</text>
+<text class="type" x="1590" y="266" text-anchor="end">text</text>
+<rect x="1141" y="274" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="1151" y="290"></text>
+<text class="field" x="1213" y="290">created_at</text>
+<text class="type" x="1590" y="290" text-anchor="end">bigint</text>
+<text class="key" x="1151" y="314">FK</text>
+<text class="field" x="1213" y="314">source_movie_id</text>
+<text class="type" x="1590" y="314" text-anchor="end">bigint</text>
+</g>
+<g data-entity="reviews"><rect x="600" y="660" width="460" height="226" rx="7" fill="#fff" stroke="#cbd5e1"/>
+<path d="M607,660H1053Q1060,660 1060,667V708H600V667Q600,660 607,660" fill="#1d4ed8"/>
+<text x="615" y="683" style="fill:white" font-size="17" font-weight="700">reviews</text>
+<text x="1046" y="683" text-anchor="end" style="fill:#fff" font-size="11">60,895</text>
+<text x="615" y="700" style="fill:#eef2ff" font-size="10">Оценки и отзывы</text>
+<rect x="601" y="708" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="724">PK</text>
+<text class="field" x="673" y="724">review_id</text>
+<text class="type" x="1050" y="724" text-anchor="end">text</text>
+<text class="key" x="611" y="748">FK</text>
+<text class="field" x="673" y="748">user_id</text>
+<text class="type" x="1050" y="748" text-anchor="end">text</text>
+<rect x="601" y="756" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="772">FK</text>
+<text class="field" x="673" y="772">movie_id</text>
+<text class="type" x="1050" y="772" text-anchor="end">bigint</text>
+<text class="key" x="611" y="796">FK/UK</text>
+<text class="field" x="673" y="796">rating_id</text>
+<text class="type" x="1050" y="796" text-anchor="end">text</text>
+<rect x="601" y="804" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="820"></text>
+<text class="field" x="673" y="820">score</text>
+<text class="type" x="1050" y="820" text-anchor="end">bigint</text>
+<text class="key" x="611" y="844"></text>
+<text class="field" x="673" y="844">text</text>
+<text class="type" x="1050" y="844" text-anchor="end">text</text>
+<rect x="601" y="852" width="458" height="24" fill="#f5f7fa"/>
+<text class="key" x="611" y="868"></text>
+<text class="field" x="673" y="868">created_at</text>
+<text class="type" x="1050" y="868" text-anchor="end">bigint</text>
+</g>
+<text x="40" y="1002" font-size="12">PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

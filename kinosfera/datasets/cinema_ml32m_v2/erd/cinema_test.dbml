@@ -1,0 +1,388 @@
+// Logical model of the 24 CSV tables. No SQL database is created.
+// Epoch timestamps are bigint. JSON collections remain in their existing columns.
+Project cinema_test_dataset {
+  database_type: 'PostgreSQL'
+  Note: 'Documentation model only; data files remain CSV.gz.'
+}
+
+Table ratings {
+  rating_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  score bigint [not null]
+  rated_at bigint [not null]
+  source_movie_id bigint
+  split text
+  indexes {
+    (user_id, movie_id) [unique]
+  }
+  Note: 'Единая оценка пары user/movie по шкале 1–10. Исходная оценка имеет приоритет; дополняются только отсутствующие пары.'
+}
+
+Table movies {
+  movie_id bigint [pk, not null]
+  imdb_id text [unique]
+  tmdb_id bigint
+  catalog_kind text [not null]
+  content_type text [not null]
+  title text [not null]
+  original_title text [not null]
+  genres json [not null]
+  description text [not null]
+  tagline text [not null]
+  year bigint [not null]
+  countries json [not null]
+  country_codes json [not null]
+  original_language text [not null]
+  spoken_languages json [not null]
+  duration_min bigint [not null]
+  age_rating text [not null]
+  actors json [not null]
+  directors json [not null]
+  collection_id bigint
+  collection_name text
+  tmdb_rating decimal(18,6) [not null]
+  tmdb_vote_count bigint [not null]
+  imdb_rating decimal(18,6) [not null]
+  imdb_vote_count bigint [not null]
+  kinopoisk_rating decimal(18,6) [not null]
+  kinopoisk_vote_count bigint [not null]
+  catalog_view_count bigint [not null]
+  has_video_source boolean [not null]
+  is_hidden boolean [not null]
+  indexes {
+    (catalog_kind, tmdb_id) [unique]
+  }
+  Note: 'Коллекции, персоны, жанры и языки хранятся в полях/JSON, а не в отдельных таблицах.'
+}
+
+Table episodes {
+  episode_id text [pk, not null]
+  movie_id bigint [not null]
+  season bigint [not null]
+  episode bigint [not null]
+  title text [not null]
+  duration_seconds bigint [not null]
+  source_file_id bigint
+  indexes {
+    (movie_id, season, episode) [unique]
+  }
+  Note: 'source_file_id — внешняя ссылка на источник каталога, без отдельной таблицы в датасете.'
+}
+
+Table tags {
+  tag_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  tag text [not null]
+  created_at bigint [not null]
+  source_movie_id bigint [not null]
+}
+
+Table movie_mapping {
+  source_movie_id bigint [pk, not null]
+  movie_id bigint [not null]
+  match_source text [not null]
+}
+
+Table room_members {
+  room_id text [not null]
+  user_id text [not null]
+  session_id text [not null, unique]
+  is_host boolean [not null]
+  joined_at_ms bigint [not null]
+  left_at_ms bigint [not null]
+  indexes {
+    (room_id, user_id) [pk]
+  }
+  Note: 'Связующая таблица N:M. Один участник комнаты связан с одним модельным сеансом.'
+}
+
+Table rooms {
+  room_id text [pk, not null]
+  movie_id bigint [not null]
+  episode_id text
+  host_user_id text [not null]
+  title text [not null]
+  created_at_ms bigint [not null]
+  ended_at_ms bigint [not null]
+}
+
+Table clips {
+  clip_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  episode_id text
+  session_id text [not null]
+  title text [not null]
+  start_seconds decimal(18,6) [not null]
+  end_seconds decimal(18,6) [not null]
+  format text [not null]
+  pinned boolean [not null]
+  created_at_ms bigint [not null]
+  updated_at_ms bigint [not null]
+}
+
+Table reviews {
+  review_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  rating_id text [not null, unique]
+  score bigint [not null]
+  text text [not null]
+  created_at bigint [not null]
+  indexes {
+    (user_id, movie_id) [unique]
+  }
+  Note: 'Отзыв ссылается на единую таблицу ratings; оценка и владелец должны совпадать.'
+}
+
+Table episode_progress {
+  user_id text [not null]
+  movie_id bigint [not null]
+  episode_id text [not null]
+  position decimal(18,6) [not null]
+  duration decimal(18,6) [not null]
+  watched_seconds decimal(18,6) [not null]
+  completed boolean [not null]
+  updated_at_ms bigint [not null]
+  indexes {
+    (user_id, movie_id, episode_id) [pk]
+  }
+  Note: 'Последний снимок user/movie/episode; накопленное время может превышать длительность.'
+}
+
+Table progress {
+  user_id text [not null]
+  movie_id bigint [not null]
+  episode_id text
+  position decimal(18,6) [not null]
+  duration decimal(18,6) [not null]
+  watched_seconds decimal(18,6) [not null]
+  completed boolean [not null]
+  episodes_completed bigint [not null]
+  episode_count bigint [not null]
+  updated_at_ms bigint [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+  Note: 'Последний снимок user/movie; episode_id — текущая серия при наличии.'
+}
+
+Table watched {
+  user_id text [not null]
+  movie_id bigint [not null]
+  marked_at_ms bigint [not null]
+  reason text [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+}
+
+Table not_interested {
+  user_id text [not null]
+  movie_id bigint [not null]
+  is_active boolean [not null]
+  reason text [not null]
+  updated_at_ms bigint [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+  Note: 'Одна последняя запись состояния на пару user/movie.'
+}
+
+Table watchlist {
+  user_id text [not null]
+  movie_id bigint [not null]
+  added_at_ms bigint [not null]
+  indexes {
+    (user_id, movie_id) [pk]
+  }
+  Note: 'Текущее состояние. Восстанавливается из bookmark_events, прямого FK к истории нет.'
+}
+
+Table bookmark_events {
+  bookmark_event_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  action text [not null]
+  event_at_ms bigint [not null]
+  collection text [not null]
+}
+
+Table watch_sessions {
+  session_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  episode_id text
+  room_id text
+  request_id text
+  started_at_ms bigint [not null]
+  ended_at_ms bigint [not null]
+  duration_seconds bigint [not null]
+  start_position decimal(18,6) [not null]
+  end_position decimal(18,6) [not null]
+  watched_seconds decimal(18,6) [not null]
+  paused_seconds bigint [not null]
+  buffered_seconds bigint [not null]
+  completed boolean [not null]
+  start_kind text [not null]
+  view_number bigint [not null]
+  stop_reason text [not null]
+  Note: 'episode_id, room_id и request_id необязательны. Одна строка — один сеанс.'
+}
+
+Table searches {
+  search_id text [pk, not null]
+  user_id text [not null]
+  query text [not null]
+  query_type text [not null]
+  searched_at_ms bigint [not null]
+  selected_movie_id bigint [not null]
+}
+
+Table clicks {
+  click_id text [pk, not null]
+  impression_id text [not null, unique]
+  request_id text [not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  clicked_at_ms bigint [not null]
+}
+
+Table impressions {
+  impression_id text [pk, not null]
+  request_id text [not null]
+  user_id text [not null]
+  movie_id bigint [not null]
+  rank bigint [not null]
+  shown_at_ms bigint [not null]
+  clicked boolean [not null]
+  indexes {
+    (request_id, rank) [unique]
+    (request_id, movie_id) [unique]
+  }
+}
+
+Table recommendation_requests {
+  request_id text [pk, not null]
+  user_id text [not null]
+  shown_at_ms bigint [not null]
+  surface text [not null]
+  policy text [not null]
+}
+
+Table events {
+  event_id text [pk, not null]
+  user_id text [not null]
+  movie_id bigint
+  event_type text [not null]
+  event_at_ms bigint [not null]
+  session_id text
+  request_id text
+  payload json [not null]
+  Note: 'Общая лента. Ссылки внутри payload полиморфны и не являются обычными FK.'
+}
+
+Table users {
+  user_id text [pk, not null]
+  source_user_id bigint [not null, unique]
+  display_name text [not null]
+  email text [not null]
+  registered_at bigint [not null]
+  locale text [not null]
+  timezone text [not null]
+  rating_count bigint [not null]
+  preferred_genres json [not null]
+  preferred_content_types json [not null]
+  preferred_languages json [not null]
+  preferred_duration_min json [not null]
+  preferred_actor_ids json [not null]
+  preferred_director_ids json [not null]
+  Note: 'Отдельные обезличенные ID MovieLens; это не аккаунты сайта.'
+}
+
+Table user_activity {
+  user_id text [pk, not null]
+  first_activity_at bigint [not null]
+  last_rating_at bigint [not null]
+  last_event_at_ms bigint [not null]
+  days_since_last_event decimal(18,6) [not null]
+  rating_count bigint [not null]
+  event_count bigint [not null]
+  sessions bigint [not null]
+  completed_sessions bigint [not null]
+  watched_seconds decimal(18,6) [not null]
+  Note: 'Расчётная сводка 1:1; даты в разных единицах согласно именам столбцов.'
+}
+
+Table movie_stats {
+  movie_id bigint [pk, not null]
+  rating_count bigint [not null]
+  rating_mean decimal(18,6)
+  impressions bigint [not null]
+  clicks bigint [not null]
+  sessions bigint [not null]
+  completed_sessions bigint [not null]
+  total_watched_seconds decimal(18,6) [not null]
+  active_watchlist_users bigint [not null]
+  active_not_interested_users bigint [not null]
+  Note: 'Расчётная сводка 1:1; не независимые взаимодействия.'
+}
+
+Ref: movies.movie_id < episodes.movie_id
+Ref: movies.movie_id < movie_mapping.movie_id
+Ref: movies.movie_id - movie_stats.movie_id
+Ref: users.user_id - user_activity.user_id
+Ref: users.user_id < ratings.user_id
+Ref: users.user_id < tags.user_id
+Ref: users.user_id < reviews.user_id
+Ref: users.user_id < watched.user_id
+Ref: users.user_id < watchlist.user_id
+Ref: users.user_id < not_interested.user_id
+Ref: users.user_id < bookmark_events.user_id
+Ref: users.user_id < impressions.user_id
+Ref: users.user_id < clicks.user_id
+Ref: users.user_id < watch_sessions.user_id
+Ref: users.user_id < progress.user_id
+Ref: users.user_id < episode_progress.user_id
+Ref: users.user_id < room_members.user_id
+Ref: users.user_id < clips.user_id
+Ref: users.user_id < events.user_id
+Ref: movies.movie_id < ratings.movie_id
+Ref: movies.movie_id < tags.movie_id
+Ref: movies.movie_id < reviews.movie_id
+Ref: movies.movie_id < watched.movie_id
+Ref: movies.movie_id < watchlist.movie_id
+Ref: movies.movie_id < not_interested.movie_id
+Ref: movies.movie_id < bookmark_events.movie_id
+Ref: movies.movie_id < impressions.movie_id
+Ref: movies.movie_id < clicks.movie_id
+Ref: movies.movie_id < watch_sessions.movie_id
+Ref: movies.movie_id < progress.movie_id
+Ref: movies.movie_id < episode_progress.movie_id
+Ref: movies.movie_id < clips.movie_id
+Ref: movies.movie_id < events.movie_id
+Ref: movies.movie_id < rooms.movie_id
+Ref: movie_mapping.source_movie_id < ratings.source_movie_id
+Ref: movie_mapping.source_movie_id < tags.source_movie_id
+Ref: ratings.rating_id - reviews.rating_id
+Ref: users.user_id < recommendation_requests.user_id
+Ref: recommendation_requests.request_id < impressions.request_id
+Ref: recommendation_requests.request_id < clicks.request_id
+Ref: impressions.impression_id - clicks.impression_id
+Ref: users.user_id < searches.user_id
+Ref: movies.movie_id < searches.selected_movie_id
+Ref: episodes.episode_id < watch_sessions.episode_id
+Ref: episodes.episode_id < progress.episode_id
+Ref: episodes.episode_id < episode_progress.episode_id
+Ref: episodes.episode_id < rooms.episode_id
+Ref: episodes.episode_id < clips.episode_id
+Ref: rooms.room_id < watch_sessions.room_id
+Ref: recommendation_requests.request_id < watch_sessions.request_id
+Ref: users.user_id < rooms.host_user_id
+Ref: rooms.room_id < room_members.room_id
+Ref: watch_sessions.session_id - room_members.session_id
+Ref: watch_sessions.session_id < clips.session_id
+Ref: watch_sessions.session_id < events.session_id
+Ref: recommendation_requests.request_id < events.request_id

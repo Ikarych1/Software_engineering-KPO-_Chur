@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Источники данных{% endblock %}
+{% block content %}
+<section class="page-width admin-page data-sources"><span class="eyebrow accent">О ПРОЕКТЕ</span><h1>Источники данных</h1>
+    <article class="panel"><h2>The Movie Database (TMDB)</h2>
+        <a href="https://www.themoviedb.org" target="_blank" rel="noopener"><img class="tmdb-logo" src="{{ asset_url('images/tmdb-logo.svg') }}" alt="TMDB" width="120" height="86"></a>
+        <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+        <p class="muted">Описания, изображения и сведения о фильмах и сериалах могут предоставляться TMDB. Рейтинг TMDB отражает оценки пользователей этого сервиса. Отсутствующие сведения и переводы могут быть дополнены администратором.</p>
+        <p><a class="text-link" href="https://developer.themoviedb.org/docs/faq" target="_blank" rel="noopener">Условия и указание источника TMDB →</a></p>
+    </article>
+    <article class="panel"><h2>IMDb</h2><p>Information courtesy of IMDb (https://www.imdb.com). Used with permission.</p><p class="muted">Официальные бесплатные наборы IMDb используются отдельным импортом для сведений о фильмах и рейтингов. TMDB не предоставляет рейтинг IMDb.</p><a class="text-link" href="https://data.imdb.com/non-commercial-datasets/" target="_blank" rel="noopener">Наборы IMDb и условия использования →</a></article>
+    <article class="panel"><h2>Данные КиноСферы</h2><p class="muted">Оценки пользователей, отзывы, просмотры, подборки и подключённые видеоисточники хранятся отдельно. Учебный проект использует бесплатный доступ TMDB для некоммерческих целей.</p></article>
+</section>
+{% endblock %}

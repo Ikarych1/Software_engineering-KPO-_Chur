@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1670" height="500" viewBox="0 0 1670 500" role="img" aria-label="Служебные таблицы импорта TMDB">
+<style>text{font-family:Segoe UI,Arial,sans-serif;fill:#17243b}.field{font-family:Consolas,monospace;font-size:13px}.type{fill:#65738a;font-size:12px}.key{font-size:10px;font-weight:700;fill:#1d4ed8}.edge{fill:none;stroke:#8290a5;stroke-width:1.25}.mark{fill:#fff;stroke:#64748b;stroke-width:1.4}</style>
+<rect width="1670" height="500" fill="#f7f9fc" />
+<text x="40" y="40" font-size="24" font-weight="700">Служебные таблицы импорта TMDB</text>
+<text x="40" y="69" font-size="13" fill="#596982">Схема совпадает с проектом; в отдельной тестовой базе задачи, строки импорта и кеш пусты.</text>
+<g data-parent="tmdb_jobs" data-child="tmdb_rows"><title>tmdb_rows.job_id → tmdb_jobs.id</title>
+<polyline class="edge" style="stroke:#475569;stroke-opacity:.65" points="500,210.0 600,210.0" />
+<path class="mark" d="M507,203.0V217.0 M513,203.0V217.0" />
+<path class="mark" d="M600,203.0L587,210.0L600,217.0 M600,210.0L587,210.0" /><circle class="mark" cx="579" cy="210.0" r="4" />
+</g>
+<g data-entity="tmdb_jobs"><rect x="40" y="150" width="460" height="250" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M47,150H493Q500,150 500,157V198H40V157Q40,150 47,150" fill="#475569" />
+<text x="55" y="173" style="fill:white" font-size="17" font-weight="700">tmdb_jobs</text>
+<text x="486" y="173" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="55" y="190" style="fill:#eef2ff" font-size="10">Импорт и кеш</text>
+<rect x="41" y="198" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="214">PK</text>
+<text class="field" x="113" y="214">id</text>
+<text class="type" x="490" y="214" text-anchor="end">text</text>
+<text class="key" x="51" y="238" />
+<text class="field" x="113" y="238">state</text>
+<text class="type" x="490" y="238" text-anchor="end">text</text>
+<rect x="41" y="246" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="262" />
+<text class="field" x="113" y="262">total</text>
+<text class="type" x="490" y="262" text-anchor="end">integer</text>
+<text class="key" x="51" y="286" />
+<text class="field" x="113" y="286">options</text>
+<text class="type" x="490" y="286" text-anchor="end">text</text>
+<rect x="41" y="294" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="310" />
+<text class="field" x="113" y="310">message</text>
+<text class="type" x="490" y="310" text-anchor="end">text</text>
+<text class="key" x="51" y="334" />
+<text class="field" x="113" y="334">cancel</text>
+<text class="type" x="490" y="334" text-anchor="end">integer</text>
+<rect x="41" y="342" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="51" y="358" />
+<text class="field" x="113" y="358">created</text>
+<text class="type" x="490" y="358" text-anchor="end">real</text>
+<text class="key" x="51" y="382" />
+<text class="field" x="113" y="382">updated</text>
+<text class="type" x="490" y="382" text-anchor="end">real</text>
+</g>
+<g data-entity="tmdb_rows"><rect x="600" y="150" width="460" height="178" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M607,150H1053Q1060,150 1060,157V198H600V157Q600,150 607,150" fill="#475569" />
+<text x="615" y="173" style="fill:white" font-size="17" font-weight="700">tmdb_rows</text>
+<text x="1046" y="173" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="615" y="190" style="fill:#eef2ff" font-size="10">Импорт и кеш</text>
+<rect x="601" y="198" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="214">PK/FK</text>
+<text class="field" x="673" y="214">job_id</text>
+<text class="type" x="1050" y="214" text-anchor="end">text</text>
+<text class="key" x="611" y="238">PK</text>
+<text class="field" x="673" y="238">position</text>
+<text class="type" x="1050" y="238" text-anchor="end">integer</text>
+<rect x="601" y="246" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="262" />
+<text class="field" x="673" y="262">entry</text>
+<text class="type" x="1050" y="262" text-anchor="end">text</text>
+<text class="key" x="611" y="286" />
+<text class="field" x="673" y="286">status</text>
+<text class="type" x="1050" y="286" text-anchor="end">text</text>
+<rect x="601" y="294" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="611" y="310" />
+<text class="field" x="673" y="310">result ?</text>
+<text class="type" x="1050" y="310" text-anchor="end">text</text>
+</g>
+<g data-entity="tmdb_cache"><rect x="1140" y="150" width="460" height="130" rx="7" fill="#fff" stroke="#cbd5e1" />
+<path d="M1147,150H1593Q1600,150 1600,157V198H1140V157Q1140,150 1147,150" fill="#475569" />
+<text x="1155" y="173" style="fill:white" font-size="17" font-weight="700">tmdb_cache</text>
+<text x="1586" y="173" text-anchor="end" style="fill:#fff" font-size="11">0</text>
+<text x="1155" y="190" style="fill:#eef2ff" font-size="10">Импорт и кеш</text>
+<rect x="1141" y="198" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="214">PK</text>
+<text class="field" x="1213" y="214">key</text>
+<text class="type" x="1590" y="214" text-anchor="end">text</text>
+<text class="key" x="1151" y="238" />
+<text class="field" x="1213" y="238">data</text>
+<text class="type" x="1590" y="238" text-anchor="end">text</text>
+<rect x="1141" y="246" width="458" height="24" fill="#f5f7fa" />
+<text class="key" x="1151" y="262" />
+<text class="field" x="1213" y="262">updated</text>
+<text class="type" x="1590" y="262" text-anchor="end">real</text>
+</g>
+<text x="40" y="470" font-size="12">LK — логическая ссылка без SQL FK · PK — первичный ключ · FK — внешний ключ · UK — уникальность · ? — NULL · ○ — 0 · || — 1 · лапка — много · пунктир — FK вне PK</text>
+</svg>

@@ -1,0 +1,82 @@
+erDiagram
+    direction LR
+    users {
+        text user_id PK
+        bigint source_user_id UK
+    }
+    movies {
+        bigint movie_id PK
+        text imdb_id UK "nullable"
+    }
+    recommendation_requests {
+        text request_id PK
+        text user_id FK
+    }
+    impressions {
+        text impression_id PK
+        text request_id FK
+        text user_id FK
+        bigint movie_id FK
+    }
+    clicks {
+        text click_id PK
+        text impression_id FK,UK
+        text request_id FK
+        text user_id FK
+        bigint movie_id FK
+    }
+    ratings {
+        text rating_id PK
+        text user_id FK
+        bigint movie_id FK
+        bigint source_movie_id FK
+    }
+    reviews {
+        text review_id PK
+        text user_id FK
+        bigint movie_id FK
+        text rating_id FK,UK
+    }
+    episodes {
+        text episode_id PK
+        bigint movie_id FK
+    }
+    watch_sessions {
+        text session_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text room_id FK "nullable"
+        text request_id FK "nullable"
+    }
+    rooms {
+        text room_id PK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text host_user_id FK
+    }
+    room_members {
+        text room_id PK,FK
+        text user_id PK,FK
+        text session_id FK,UK
+    }
+    clips {
+        text clip_id PK
+        text user_id FK
+        bigint movie_id FK
+        text episode_id FK "nullable"
+        text session_id FK
+    }
+    movies ||..o{ episodes : "movie_id"
+    users ||..o{ ratings : "user_id"
+    users ||..o{ watch_sessions : "user_id"
+    movies ||..o{ rooms : "movie_id"
+    ratings ||..o| reviews : "rating_id"
+    users ||..o{ recommendation_requests : "user_id"
+    recommendation_requests ||..o{ impressions : "request_id"
+    impressions ||..o| clicks : "impression_id"
+    episodes |o..o{ watch_sessions : "episode_id"
+    users ||..o{ rooms : "host_user_id"
+    rooms ||--o{ room_members : "room_id"
+    watch_sessions ||..o| room_members : "session_id"
+    watch_sessions ||..o{ clips : "session_id"

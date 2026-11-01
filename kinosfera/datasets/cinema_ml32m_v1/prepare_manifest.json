@@ -1,0 +1,139 @@
+{
+  "seed": 20261031,
+  "as_of": 1793448000,
+  "database": "C:\\Users\\sasha\\Desktop\\lab_2\\.local\\cinema.sqlite3",
+  "database_sha256_before": "9d47295870e5a6247b1731982afada03fbc16da369f44c0478e3aac6b36f8306",
+  "database_sha256_after_prepare": "9d47295870e5a6247b1731982afada03fbc16da369f44c0478e3aac6b36f8306",
+  "catalog_snapshot_counts": {
+    "films": 3054,
+    "users": 2,
+    "ratings": 1,
+    "views": 25,
+    "progress": 5
+  },
+  "users": 50000,
+  "eligible_source_users": 176196,
+  "matched_catalog_titles": 2570,
+  "mapping_conflicts": 0,
+  "stats": {
+    "duplicate_mapped_ratings_removed": 14,
+    "real_ratings": 6184366,
+    "split_train": 4927399,
+    "split_validation": 615611,
+    "split_test": 641356,
+    "real_tags": 456375
+  },
+  "files": {
+    "movies": {
+      "file": "data/movies.csv.gz",
+      "rows": 3054,
+      "columns": [
+        "movie_id",
+        "imdb_id",
+        "tmdb_id",
+        "catalog_kind",
+        "content_type",
+        "title",
+        "original_title",
+        "genres",
+        "description",
+        "tagline",
+        "year",
+        "countries",
+        "country_codes",
+        "original_language",
+        "spoken_languages",
+        "duration_min",
+        "age_rating",
+        "actors",
+        "directors",
+        "collection_id",
+        "collection_name",
+        "tmdb_rating",
+        "tmdb_vote_count",
+        "imdb_rating",
+        "imdb_vote_count",
+        "kinopoisk_rating",
+        "kinopoisk_vote_count",
+        "catalog_view_count",
+        "has_video_source",
+        "simulated_playback_available",
+        "is_hidden",
+        "metadata_provenance",
+        "synthetic_fields"
+      ],
+      "bytes": 2921803,
+      "sha256": "74a5cbdecdbbeb5a2da69cba9d7b92e0045ee963db426eedafa4333d9dbb9023"
+    },
+    "episodes": {
+      "file": "data/episodes.csv.gz",
+      "rows": 8395,
+      "columns": [
+        "episode_id",
+        "movie_id",
+        "season",
+        "episode",
+        "title",
+        "duration_seconds",
+        "source_file_id",
+        "source",
+        "is_synthetic"
+      ],
+      "bytes": 53104,
+      "sha256": "062f162487c76a0b38b537ccf551c96f421e8887892e8705e25b5aa5082d9e6e"
+    },
+    "ratings": {
+      "file": "data/ratings.csv.gz",
+      "rows": 6184366,
+      "columns": [
+        "rating_id",
+        "user_id",
+        "movie_id",
+        "score",
+        "source_rating_0_5_to_5",
+        "rated_at",
+        "source_movie_id",
+        "split",
+        "source",
+        "is_synthetic"
+      ],
+      "bytes": 83283797,
+      "sha256": "fbf5bc1413ac3494aa35cd80845b6deaeb53a8206945765fe68ed954f66af95f"
+    },
+    "tags": {
+      "file": "data/tags.csv.gz",
+      "rows": 456375,
+      "columns": [
+        "tag_id",
+        "user_id",
+        "movie_id",
+        "tag",
+        "created_at",
+        "source_movie_id",
+        "source",
+        "is_synthetic"
+      ],
+      "bytes": 5995829,
+      "sha256": "af5a228842911376897ec9925e226f5be926f9ab749f09904517a22d3fbd9ab2"
+    },
+    "movie_mapping": {
+      "file": "data/movie_mapping.csv.gz",
+      "rows": 2571,
+      "columns": [
+        "source_movie_id",
+        "movie_id",
+        "match_source"
+      ],
+      "bytes": 15120,
+      "sha256": "07ed5a40b2a54f1d8164805f10b20b760938461f26c464c00718c33c99b809b7"
+    }
+  },
+  "source_url": "https://files.grouplens.org/datasets/movielens/ml-32m.zip",
+  "source_checksums": {
+    "links.csv": "8f033867bcb4e6be8792b21468b4fa6e",
+    "movies.csv": "0df90835c19151f9d819d0822e190797",
+    "ratings.csv": "cf12b74f9ad4b94a011f079e26d4270a",
+    "tags.csv": "963bf4fa4de6b8901868fddd3eb54567"
+  },
+  "source_zip_sha256": "e4a68655d7386b8f95f2f2424b2ff975dfdd15ffd59e0d864a14dca43e99d6ee"
+}
