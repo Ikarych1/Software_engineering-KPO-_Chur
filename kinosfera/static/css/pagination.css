@@ -1,0 +1,1 @@
+.pagination{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:30px 0}.pagination a{padding:10px 15px;border:1px solid var(--border);border-radius:9px;background:var(--surface,#191a1e)}.pagination a.active{background:var(--accent);color:#151515}.pagination a:hover{border-color:var(--accent)}.pagination>span{padding:8px;font-size:12px}

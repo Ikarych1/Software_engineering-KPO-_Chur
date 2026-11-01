@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset_url('css/accounts.css') }}">
     <link rel="stylesheet" href="{{ asset_url('css/imdb-import.css') }}">
     <link rel="stylesheet" href="{{ asset_url('css/features.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/pagination.css') }}">
     {% block head %}{% endblock %}
     <script src="{{ asset_url('js/ui.js') }}" defer></script>
     <script src="{{ asset_url('js/recommendations.js') }}" defer></script>
@@ -39,6 +40,7 @@
                     <a href="{{ url_for('profile', section='history') }}">{{ icon('clock') }} История и прогресс</a>
                     <a href="{{ url_for('profile', section='ratings') }}">{{ icon('star') }} Мои оценки</a>
                     <a href="{{ url_for('profile', section='watchlist') }}">{{ icon('bookmark') }} Буду смотреть</a>
+                    <a href="{{ url_for('onboarding.preferences') }}">{{ icon('star') }} Мои предпочтения</a>
                     <a href="{{ url_for('rooms.rooms_page') }}">{{ icon('users') }} Мои комнаты</a>
                     <a href="{{ url_for('profile', section='clips') }}">{{ icon('scissors') }} Мои клипы</a>
                     <hr><a href="{{ url_for('profile', section='subscription') }}">{{ icon('card') }} Подписка и оплата</a>
@@ -72,3 +74,4 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
+

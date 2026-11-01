@@ -45,3 +45,4 @@ def profile_stats(rows_by_id, state, progress, reviews):
                 avg_score=round(sum(ratings.values()) / len(ratings), 1) if ratings else None,
                 hours=round(seconds / 3600, 1), minutes=int(seconds // 60), reviews=len(reviews), watchlist=len(state.get('watchlist', [])),
                 genres=[g for g, _ in genres.most_common(5)])
+

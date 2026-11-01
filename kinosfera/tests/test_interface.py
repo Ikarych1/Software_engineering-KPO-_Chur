@@ -53,6 +53,13 @@ class InterfaceTests(unittest.TestCase):
         cls.client = app.test_client()
         with cls.client.session_transaction() as session:
             session.update(user_id=user_id, session_version=1)
+        cls.client.get('/auth/preferences')
+        with cls.client.session_transaction() as session:
+            token = session['csrf']
+        rows = cls.store.films()
+        genres = sorted({g for r in rows for g in r['film'].genres})[:3]
+        assert cls.client.post('/auth/preferences', data=dict(csrf_token=token, genres=genres,
+                               movie_ids=[r['film'].id for r in rows[:3]])).status_code == 302
 
     @classmethod
     def tearDownClass(cls):

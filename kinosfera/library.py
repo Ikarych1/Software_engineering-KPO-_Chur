@@ -97,8 +97,13 @@ def dashboard():
     query = request.args.get('q', '').strip()[:80]
     context = dict(tab=tab, films=films, stats=stats, query=query, numbers=store().dashboard(),
                    film_filter=request.args.get('filter', 'all'))
-    if tab in ('users', 'overview'):
-        context['users'] = store().users(query if tab == 'users' else '')
+    if tab == 'users':
+        from pagination import paginate
+        paging = paginate(store().users_count(query), size=50)
+        context['pagination'] = paging
+        context['users'] = store().users(query, limit=50, offset=paging['offset'])
+    elif tab == 'overview':
+        context['users'] = store().users(limit=5, offset=max(0, context['numbers']['users']-5))
     if tab == 'reviews':
         context['reviews'] = store().reviews(limit=300)
     if tab in ('rooms', 'overview'):
