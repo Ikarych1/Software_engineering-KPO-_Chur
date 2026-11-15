@@ -12,9 +12,12 @@ actor "Администратор" as Admin
 
 rectangle "Онлайн-кинотеатр" {
     usecase "Регистрация и авторизация" as UC_Auth
+    usecase "Изменение имени и настроек профиля" as UC_Changing_profile_settings
     usecase "Поиск и фильтрация каталога" as UC_Search
     usecase "Просмотр карточки фильма" as UC_ViewCard
     usecase "Воспроизведение видео (плеер)" as UC_WatchVideo
+    usecase "Сохранение фильма, сериала и т.п. в список «Избранное»" as UC_Saving_to_the_favorites_list
+    usecase "Сохранение фильма, сериала и т.п. в список «Посмотреть позже»" as UC_Saving_to_watch_later_list
     usecase "Выставление оценки по 10-балльной шкале" as UC_Rate10PointScale
     usecase "Написание отзыва" as UC_RateReview
     usecase "Получение рекомендаций" as UC_Recs
@@ -23,17 +26,23 @@ rectangle "Онлайн-кинотеатр" {
     usecase "Создание и управление комнатой совместного просмотра" as UC_CreateManageRoom
     usecase "Создание комнаты совместного просмотра" as UC_CreateRoom
     usecase "Подключение к комнате по коду" as UC_JoinRoom
+    usecase "Отправка приглашения другому пользователю подключиться к комнате по коду" as UC_InviteRoom
+    usecase "Выход из комнаты" as UC_ExitRoom
     usecase "Управление синхронным плеером (Play/Pause/Seek)" as UC_SyncControl
     usecase "Отправка сообщений в чат комнаты" as UC_RoomChat
 
     usecase "Модерация каталога и метаданных" as UC_AdminCatalog
     usecase "Блокировка пользователей и удаление отзывов" as UC_AdminUsers
-    usecase "Просмотр статистики просмотров" as UC_AdminStats
+    usecase "Просмотр числа зарегистрированных пользователей, просмотров и созданных комнат за выбранный период" as UC_AdminStats
 }
 
 User --> UC_Auth
+User --> UC_Changing_profile_settings
 User --> UC_Search
 User --> UC_ViewCard
+
+User --> UC_Saving_to_the_favorites_list
+User --> UC_Saving_to_watch_later_list
 
 User --> UC_Rate10PointScale
 User --> UC_RateReview
@@ -47,6 +56,8 @@ UC_CreateManageRoom ..> UC_CreateRoom : <<include>>
 UC_CreateManageRoom ..> UC_SyncControl : <<include>>
 
 User --> UC_JoinRoom
+User --> UC_InviteRoom
+User --> UC_ExitRoom
 User --> UC_RoomChat
 
 Admin --> UC_AdminCatalog
