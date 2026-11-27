@@ -74,6 +74,25 @@ class AccountsTests(AppTestCase):
         self.post(self.admin, '/admin/users/2', data={'role': 'USER'})
         self.assertEqual(self.viewer.get('/profile').status_code, 302)
 
+    def test_admin_cannot_promote_another_account(self):
+        self.accounts()
+        response = self.post(self.admin, '/admin/users/2', data={'role': 'ADMIN', 'active': 'on'})
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(self.store.account(user_id=2)['role'], 'USER')
+
+    def test_dashboard_counts_new_events_within_period(self):
+        self.accounts()
+        old = time.time() - 8 * 86400
+        with self.store.connect() as db:
+            db.execute("UPDATE users SET created_at=datetime(?, 'unixepoch') WHERE id=1", (old,))
+            for index, stamp in enumerate((old, time.time())):
+                db.execute('INSERT INTO views(user_id,movie_id,started_at) VALUES(1,1,?)', (stamp,))
+                db.execute("INSERT INTO rooms(code,movie_id,host_id,title,settings,state,created_at) VALUES(?,1,1,'test','{}','{}',?)",
+                           (str(index), stamp))
+        for days, expected in ((7, 1), (30, 2), (None, 2)):
+            counts = self.store.dashboard(days)
+            self.assertEqual([counts[key] for key in ('registrations', 'starts', 'rooms_created')], [expected] * 3)
+
     def test_demo_subscription_is_per_user(self):
         self.accounts()
         self.post(self.viewer, '/subscription/pay', data={'tariff': 'plus'})
@@ -251,6 +270,13 @@ class ReviewsAndProgressTests(AppTestCase):
         review_id = self.store.reviews(2)[0]['id']
         self.post(self.admin, f'/admin/reviews/{review_id}/delete', data={})
         self.assertEqual(self.store.reviews(2), [])
+
+    def test_review_length_limit_preserves_previous_review_and_rating(self):
+        self.accounts()
+        self.post(self.viewer, '/movie/2/review', data={'score': '7', 'text': 'а' * 2000})
+        self.post(self.viewer, '/movie/2/review', data={'score': '1', 'text': 'б' * 2001})
+        self.assertEqual(self.store.reviews(2)[0]['text'], 'а' * 2000)
+        self.assertEqual(self.store.state(2)['ratings']['2'], 7)
 
     def test_short_review_and_bad_score_are_rejected(self):
         self.accounts()

@@ -95,7 +95,9 @@ def dashboard():
     films = store().films(include_hidden=True)
     stats = store().film_stats()
     query = request.args.get('q', '').strip()[:80]
-    context = dict(tab=tab, films=films, stats=stats, query=query, numbers=store().dashboard(),
+    days = request.args.get('days', type=int)
+    days = days if days in (1, 7, 30, 90) else None
+    context = dict(days=days, tab=tab, films=films, stats=stats, query=query, numbers=store().dashboard(days),
                    film_filter=request.args.get('filter', 'all'))
     if tab == 'users':
         from pagination import paginate
@@ -195,13 +197,21 @@ def health(movie_id):
     return jsonify(stats)
 
 
+def metadata_text(name, label, limit):
+    value = request.form.get(name, '').strip()
+    if len(value) > limit:
+        raise ValueError(f'Поле «{label}» допускает до {limit} символов.')
+    return value
+
+
 def number(name, low, high, cast=int):
+    label = {'year': 'Год', 'duration_min': 'Длительность', 'rating': 'Рейтинг'}.get(name, name)
     try:
         value = cast(request.form.get(name, ''))
     except (ValueError, TypeError):
-        raise ValueError('Проверьте числовые поля карточки.')
+        raise ValueError(f'Введите число в поле «{label}».')
     if not low <= value <= high:
-        raise ValueError(f'Поле «{name}» должно быть от {low} до {high}.')
+        raise ValueError(f'Поле «{label}» должно быть от {low} до {high}.')
     return value
 
 
@@ -440,25 +450,30 @@ def edit_film(movie_id=None):
             title = request.form.get('title', '').strip()
             description = request.form.get('description', '').strip()
             genres = list(dict.fromkeys(g.strip().capitalize() for g in request.form.get('genres', '').split(',') if g.strip()))
-            if not 1 <= len(title) <= 160 or not 10 <= len(description) <= 6000:
-                raise ValueError('Укажите название и описание от 10 до 6000 символов.')
+            if not 1 <= len(title) <= 160:
+                raise ValueError('Название должно содержать от 1 до 160 символов.')
+            if not 10 <= len(description) <= 6000:
+                raise ValueError('Описание должно содержать от 10 до 6000 символов.')
             if not genres or len(genres) > 10 or any(len(genre) > 40 for genre in genres):
                 raise ValueError('Укажите от 1 до 10 жанров через запятую.')
             data = dict(title=title, description=description, genres=genres,
-                        year=number('year', 1888, 2100), country=request.form.get('country', '').strip()[:100],
+                        year=number('year', 1888, 2100), country=metadata_text('country', 'Страна', 100),
                         rating=number('rating', 0, 10, float), duration_min=number('duration_min', 1, 720),
                         age_rating=request.form.get('age_rating', '16+'), is_hidden=request.form.get('published') != 'on',
                         kind='series' if request.form.get('kind') == 'series' else 'movie')
             if data['age_rating'] not in ('—', '0+', '6+', '12+', '16+', '18+'):
                 raise ValueError('Выберите возрастное ограничение.')
             art = dict(row['art']) if row else dict(slug='placeholder')
-            art.update(original=request.form.get('original', '').strip()[:160],
-                       director=request.form.get('director', '').strip()[:160],
-                       tagline=request.form.get('tagline', '').strip()[:200],
-                       actors=[a.strip()[:100] for a in request.form.get('actors', '').split(',') if a.strip()][:30],
-                       kp=request.form.get('kp', '').strip()[:6] or '—',
-                       imdb=request.form.get('imdb', '').strip()[:6] or '—',
-                       trailer=request.form.get('trailer', '').strip()[:300])
+            actors = [a.strip() for a in request.form.get('actors', '').split(',') if a.strip()]
+            if len(actors) > 30 or any(len(name) > 100 for name in actors):
+                raise ValueError('Укажите до 30 актёров. Каждое имя может содержать до 100 символов.')
+            art.update(original=metadata_text('original', 'Оригинальное название', 160),
+                       director=metadata_text('director', 'Режиссёр', 160),
+                       tagline=metadata_text('tagline', 'Слоган', 200),
+                       actors=actors,
+                       kp=metadata_text('kp', 'Кинопоиск', 6) or '—',
+                       imdb=metadata_text('imdb', 'IMDb', 6) or '—',
+                       trailer=metadata_text('trailer', 'Трейлер', 300))
             for field, prefix in (('poster', 'poster'), ('backdrop_file', 'backdrop')):
                 upload = request.files.get(field)
                 if upload and upload.filename:
@@ -612,14 +627,14 @@ def delete_film(movie_id):
 @admin_required
 def edit_user(user_id):
     role = request.form.get('role')
-    if role not in ('ADMIN', 'USER'):
-        abort(400)
+    if role not in (None, 'USER'):
+        abort(403)
     try:
-        store().change_role(user_id, role, request.form.get('active') == 'on')
+        store().set_user_active(user_id, request.form.get('active') == 'on')
         playback = _playback()
         if playback:
             playback.end_user(user_id)
-        flash('Права пользователя обновлены.')
+        flash('Статус пользователя обновлён.')
     except ValueError as exc:
         flash(str(exc), 'error')
     return redirect(url_for('admin.dashboard', tab='users', q=request.args.get('q', '')))

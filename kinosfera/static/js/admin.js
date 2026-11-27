@@ -313,6 +313,14 @@
         const eyebrow = editor.closest('.admin-page')?.querySelector('.section-heading .eyebrow');
         if (eyebrow) eyebrow.textContent = kind === 'series' ? 'КАРТОЧКА СЕРИАЛА' : 'КАРТОЧКА ФИЛЬМА';
     });
+    editor?.addEventListener('invalid', event => {
+        const field = event.target;
+        const label = field.labels?.[0]?.textContent.trim() || field.name;
+        const error = document.getElementById('editor-error');
+        error.hidden = false;
+        error.textContent = field.name === 'description' ? 'Описание должно содержать от 10 до 6000 символов.' : label + ' — ' + field.validationMessage;
+        field.setAttribute('aria-describedby', 'editor-error');
+    }, true);
     editor?.addEventListener('submit', async event => {
         const picker = editor.querySelector('.source-picker[data-source-picker]');
         const magnet = picker?.querySelector('[data-source-magnet]');
