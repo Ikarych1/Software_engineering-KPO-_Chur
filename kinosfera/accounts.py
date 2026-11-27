@@ -311,7 +311,7 @@ def profile_state():
         if not isinstance(data, dict):
             return jsonify(error='Некорректные данные профиля.'), 400
         result = {}
-        for key in ('watched', 'watchlist'):
+        for key in ('watched', 'watchlist', 'favorites'):
             values = data.get(key, [])
             result[key] = list(dict.fromkeys(v for v in values if type(v) is int and v > 0))[:2000] if isinstance(values, list) else []
         ratings = data.get('ratings', {})

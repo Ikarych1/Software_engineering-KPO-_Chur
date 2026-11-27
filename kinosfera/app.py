@@ -315,7 +315,10 @@ def save_review(movie_id):
     except ValueError:
         flash('Выберите оценку от 1 до 10.', 'error')
         return redirect(url_for('movie_detail', movie_id=movie_id) + '#reviews')
-    text = request.form.get('text', '').strip()[:3000]
+    text = request.form.get('text', '').strip()
+    if len(text) > 2000:
+        flash('Отзыв может содержать не более 2000 символов.', 'error')
+        return redirect(url_for('movie_detail', movie_id=movie_id) + '#reviews')
     if text and len(text) < 10:
         flash('Отзыв должен содержать хотя бы 10 символов.', 'error')
         return redirect(url_for('movie_detail', movie_id=movie_id) + '#reviews')
@@ -383,7 +386,7 @@ def hide_progress(movie_id):
     return redirect(request.referrer if (request.referrer or '').startswith(request.host_url) else url_for('profile', section='history'))
 
 
-PROFILE_SECTIONS = ('overview', 'history', 'watched', 'ratings', 'watchlist', 'reviews', 'clips', 'company', 'rooms', 'subscription', 'settings')
+PROFILE_SECTIONS = ('overview', 'history', 'watched', 'ratings', 'watchlist', 'favorites', 'reviews', 'clips', 'company', 'rooms', 'subscription', 'settings')
 
 
 @app.route('/profile')
@@ -403,12 +406,14 @@ def profile():
                    reviews=reviews, account=store().account(user_id=g.user.id))
     watched_ids = set(state.get('watched', [])) | {p['movie_id'] for p in progress if p['completed']}
     watchlist_ids = set(state.get('watchlist', []))
+    favorite_ids = set(state.get('favorites', []))
     rating_ids = {int(i) for i in state.get('ratings', {})}
-    client_ids = watched_ids | watchlist_ids | rating_ids | {c['movieId'] for c in state.get('clips', [])}
+    client_ids = watched_ids | watchlist_ids | favorite_ids | rating_ids | {c['movieId'] for c in state.get('clips', [])
+                if isinstance(c, dict) and type(c.get('movieId')) is int}
     context['catalog_client'] = [by_id[i]['film'] for i in sorted(client_ids) if i in by_id]
     context['watchlist_preview'] = [by_id[i]['film'] for i in state.get('watchlist', []) if i in by_id][:12]
-    if section in ('watchlist', 'watched', 'ratings'):
-        ids = {'watchlist':watchlist_ids, 'watched':watched_ids, 'ratings':rating_ids}[section]
+    if section in ('watchlist', 'watched', 'ratings', 'favorites'):
+        ids = {'favorites':favorite_ids, 'watchlist':watchlist_ids, 'watched':watched_ids, 'ratings':rating_ids}[section]
         collection = [r['film'] for r in catalog_rows() if r['film'].id in ids]
         paging = paginate(len(collection))
         context['pagination'] = paging

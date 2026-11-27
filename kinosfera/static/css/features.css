@@ -190,3 +190,12 @@ main{position:relative;isolation:isolate}
 .source-health{display:flex;flex-direction:column;gap:10px;margin-top:6px}.source-health-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.source-health-head select{width:auto;flex:1;min-width:0}.health-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.health-steps li{display:grid;grid-template-columns:20px 1fr;column-gap:8px;font-size:12px;align-items:start}.health-steps li::before{content:"○";grid-row:span 2;color:var(--muted);text-align:center;line-height:18px}.health-steps li b{font-weight:600}.health-steps li span{color:var(--muted);font-size:11px;overflow-wrap:anywhere}.health-steps li.is-done::before{content:"✓";color:var(--green)}.health-steps li.is-active::before{content:"";width:12px;height:12px;margin:3px 0 0 3px;border-radius:50%;border:2px solid #ff794855;border-top-color:var(--accent);animation:spin .8s linear infinite}.health-steps li.is-warn::before{content:"!";color:#ffc78e;font-weight:700}.health-steps li.is-warn span{color:#ffc78e}.health-steps li.is-failed::before{content:"✕";color:#ff8e7e}.health-steps li.is-failed span{color:#ff9e8e}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:700px){.inline-field{flex-direction:column}.episode-source-head{align-items:flex-start}}
+
+.filter-actions, .period-filter { flex-wrap: wrap; }
+.period-filter { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+.period-filter select { width: auto; }
+.review, .review-row > div, .admin-user > div { min-width: 0; overflow-wrap: anywhere; }
+.review > p, .review-row p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.admin-users .admin-user { flex-wrap: wrap; gap: 12px 18px; }
+.admin-user > div { flex: 1 1 240px; }
+.admin-user .btn { flex-shrink: 0; }

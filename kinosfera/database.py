@@ -12,7 +12,7 @@ from models import MediaItem, User
 from engagement_schema import SCHEMA as ENGAGEMENT_SCHEMA
 from film_stats_cache import SCHEMA as STATS_CACHE_SCHEMA
 
-EMPTY_STATE = dict(watched=[], ratings={}, watchlist=[], clips=[], settings={}, rooms={}, friends=[])
+EMPTY_STATE = dict(watched=[], ratings={}, watchlist=[], favorites=[], clips=[], settings={}, rooms={}, friends=[])
 
 SCHEMA = '''
 CREATE TABLE IF NOT EXISTS users (
@@ -207,18 +207,12 @@ class Store:
         with self.connect() as db:
             db.execute('UPDATE users SET last_seen=? WHERE id=?', (time.time(), user_id))
 
-    def change_role(self, user_id, role, active):
+    def set_user_active(self, user_id, active):
         with self.connect() as db:
-            db.execute('BEGIN IMMEDIATE')
-            row = db.execute('SELECT * FROM users WHERE id=?', (user_id,)).fetchone()
-            if not row:
-                raise ValueError('Пользователь не найден.')
-            if row['role'] == 'ADMIN' and row['active'] and (role != 'ADMIN' or not active):
-                count = db.execute("SELECT COUNT(*) FROM users WHERE role='ADMIN' AND active=1").fetchone()[0]
-                if count <= 1:
-                    raise ValueError('Нельзя отключить последнего администратора.')
-            db.execute('UPDATE users SET role=?,active=?,session_version=session_version+1 WHERE id=?',
-                       (role, int(active), user_id))
+            changed = db.execute("UPDATE users SET active=?, session_version=session_version+1 WHERE id=? AND role='USER'",
+                                 (int(active), user_id))
+            if not changed.rowcount:
+                raise ValueError('Можно менять статус только обычных пользователей.')
 
     def reset_sessions(self, user_id):
         with self.connect() as db:
@@ -577,18 +571,27 @@ class Store:
             db.execute('INSERT INTO views(user_id,movie_id,room_code,started_at) VALUES(?,?,?,?)',
                        (user_id, movie_id, room_code, time.time()))
 
-    def dashboard(self):
+    def dashboard(self, days=None):
         day = time.time() - 86400
         with self.connect() as db:
             one = lambda sql, *a: db.execute(sql, a).fetchone()[0]  # noqa: E731
+            users = one('SELECT COUNT(*) FROM users')
+            views = one('SELECT COUNT(*) FROM views')
+            rooms = one('SELECT COUNT(*) FROM rooms')
+            registrations, starts, rooms_created = users, views, rooms
+            if days:
+                since = time.time() - days * 86400
+                registrations = one("SELECT COUNT(*) FROM users WHERE unixepoch(created_at) >= ?", since)
+                starts = one('SELECT COUNT(*) FROM views WHERE started_at >= ?', since)
+                rooms_created = one('SELECT COUNT(*) FROM rooms WHERE created_at >= ?', since)
             return dict(
-                users=one('SELECT COUNT(*) FROM users'),
+                registrations=registrations, starts=starts, rooms_created=rooms_created, users=users,
                 users_day=one('SELECT COUNT(*) FROM users WHERE last_seen>?', day),
-                views=one('SELECT COUNT(*) FROM views'), views_day=one('SELECT COUNT(*) FROM views WHERE started_at>?', day),
+                views=views, views_day=one('SELECT COUNT(*) FROM views WHERE started_at>?', day),
                 hours=round(one('SELECT COALESCE(SUM(watched_seconds),0) FROM progress') / 3600, 1),
                 minutes=int(one('SELECT COALESCE(SUM(watched_seconds),0) FROM progress') // 60),
                 reviews=one('SELECT COUNT(*) FROM reviews'),
-                rooms=one('SELECT COUNT(*) FROM rooms'), rooms_active=one('SELECT COUNT(*) FROM rooms WHERE ended_at IS NULL'),
+                rooms=rooms, rooms_active=one('SELECT COUNT(*) FROM rooms WHERE ended_at IS NULL'),
                 top=[dict(r) for r in db.execute('SELECT movie_id, COUNT(*) AS n FROM views GROUP BY movie_id ORDER BY n DESC LIMIT 5')],
                 daily=[dict(r) for r in db.execute(
                     "SELECT date(started_at,'unixepoch','localtime') AS day, COUNT(*) AS n FROM views "

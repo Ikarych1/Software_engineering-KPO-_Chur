@@ -7,9 +7,20 @@
     <nav class="admin-tabs" aria-label="Разделы администратора">{% for key, title, symbol in [('overview','Обзор','grid'),('films','Фильмы','film'),('engine','Раздачи','bolt'),('users','Пользователи','users'),('reviews','Отзывы','edit'),('rooms','Комнаты','chat')] %}<a class="{{ 'active' if tab == key }}" href="{{ url_for('admin.dashboard', tab=key) }}">{{ icon(symbol) }} {{ title }}</a>{% endfor %}</nav>
 
 {% if tab == 'overview' %}
+    <form class="period-filter" method="get">
+        <label for="stats-period">Статистика за период</label>
+        <select name="days" id="stats-period">{% for value, label in [(0,'Всё время'),(1,'Последние сутки'),(7,'Последние 7 дней'),(30,'Последние 30 дней'),(90,'Последние 90 дней')] %}<option value="{{ value }}" {{ 'selected' if (days or 0) == value }}>{{ label }}</option>{% endfor %}</select>
+        <button class="btn btn-small">Показать</button>
+    </form>
+    <div class="admin-stats">
+        <div class="panel"><strong>{{ numbers.registrations }}</strong><span>регистраций</span></div>
+        <div class="panel"><strong>{{ numbers.starts }}</strong><span>просмотров</span></div>
+        <div class="panel"><strong>{{ numbers.rooms_created }}</strong><span>созданных комнат</span></div>
+    </div>
+    <h3>Общая статистика</h3>
     <div class="admin-stats wide">
         <div class="panel"><strong>{{ films|length }}</strong><span>фильмов · {{ films|selectattr('torrent')|list|length }} с видео</span></div>
-        <div class="panel"><strong>{{ numbers.users }}</strong><span>пользователей · {{ numbers.users_day }} за сутки</span></div>
+        <div class="panel"><strong>{{ numbers.users }}</strong><span>пользователей · {{ numbers.users_day }} активных за сутки</span></div>
         <div class="panel"><strong>{{ numbers.views }}</strong><span>просмотров · {{ numbers.views_day }} за сутки</span></div>
         <div class="panel">{% if numbers.hours >= 1 %}<strong>{{ numbers.hours }}</strong><span>часов просмотра</span>{% else %}<strong>{{ numbers.minutes }}</strong><span>минут просмотра</span>{% endif %}</div>
         <div class="panel"><strong>{{ numbers.rooms_active }}</strong><span>активных комнат из {{ numbers.rooms }}</span></div>
@@ -51,7 +62,9 @@
 
 {% elif tab == 'users' %}
     <form class="admin-search" method="get"><input type="hidden" name="tab" value="users"><label class="sr-only" for="user-search">Поиск</label><input id="user-search" name="q" value="{{ query }}" placeholder="Имя или email"><button class="btn btn-secondary btn-small">Найти</button></form>
-    <div class="admin-users">{% for account in users %}<form class="panel admin-user" method="post" action="{{ url_for('admin.edit_user', user_id=account.id, q=query) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{{ avatar(account.username, ['peach','blue','purple','green','gold'][account.id % 5], 'small') }}<div><strong>{{ account.username }}</strong>{% if account.plan == 'plus' %} <span class="badge plus-badge">Плюс</span>{% endif %}<p class="muted">{{ account.email }} · с {{ account.created_at[:10] }} · {{ 'был(а) ' ~ (account.last_seen|date) if account.last_seen else 'не заходил(а)' }} · {{ account.views }} просм. · {{ account.reviews }} отз.</p></div><label class="sr-only" for="role-{{ account.id }}">Роль {{ account.username }}</label><select id="role-{{ account.id }}" name="role"><option value="USER" {{ 'selected' if account.role == 'USER' }}>Пользователь</option><option value="ADMIN" {{ 'selected' if account.role == 'ADMIN' }}>Администратор</option></select><label class="checkbox-label"><input type="checkbox" name="active" {{ 'checked' if account.active }}>Активен</label><button class="btn btn-secondary btn-small">Сохранить</button><button class="btn btn-secondary btn-small" formaction="{{ url_for('admin.reset_sessions', user_id=account.id) }}" title="Выйти на всех устройствах">Сбросить сеансы</button></form>{% else %}<p class="muted">Никого не нашли.</p>{% endfor %}</div>
+    <div class="admin-users">{% for account in users %}<form class="panel admin-user" method="post" action="{{ url_for('admin.edit_user', user_id=account.id, q=query) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{{ avatar(account.username, ['peach','blue','purple','green','gold'][account.id % 5], 'small') }}<div><strong>{{ account.username }}</strong>{% if account.plan == 'plus' %} <span class="badge plus-badge">Плюс</span>{% endif %}<p class="muted">{{ account.email }}</p><p class="muted">Регистрация {{ account.created_at[:10] }} · {{ 'был(а) ' ~ (account.last_seen|date) if account.last_seen else 'не заходил(а)' }} · {{ account.views }} просм. · {{ account.reviews }} отз.</p></div><span class="badge">{{ 'Администратор' if account.role == 'ADMIN' else 'Пользователь' }}</span>
+        {% if account.role == 'USER' %}<label class="checkbox-label"><input type="checkbox" name="active" {{ 'checked' if account.active }}>Активен</label><button class="btn btn-secondary btn-small">Сохранить</button>{% endif %}
+        <button class="btn btn-secondary btn-small" formaction="{{ url_for('admin.reset_sessions', user_id=account.id) }}" title="Выйти на всех устройствах">Сбросить сеансы</button></form>{% else %}<p class="muted">Никого не нашли.</p>{% endfor %}</div>
 
 {% include 'pagination.html' %}
 {% elif tab == 'reviews' %}

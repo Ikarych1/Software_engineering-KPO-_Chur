@@ -45,6 +45,7 @@
             watched: movieIds([...watched, ...Object.keys(ratings)]),
             ratings,
             watchlist: movieIds(state.watchlist),
+            favorites: movieIds(state.favorites),
             clips: (Array.isArray(state.clips) ? state.clips : []).filter(clip => clip && Number.isInteger(Number(clip.movieId)) && Number(clip.movieId) > 0 && Number.isFinite(Number(clip.start)) && Number(clip.start) >= 0 && Number.isFinite(Number(clip.end)) && Number(clip.end) > Number(clip.start) && Number(clip.end) - Number(clip.start) <= 60).map(clip => ({
                 id: text(String(clip.id || ''), 100), movieId: Number(clip.movieId), movieTitle: text(clip.movieTitle, 150), title: text(clip.title, 80), image: text(clip.image, 500),
                 start: Number(clip.start), end: Number(clip.end), format: clip.format === 'portrait' ? 'portrait' : 'landscape', pinned: Boolean(clip.pinned), createdAt: text(clip.createdAt, 40)
@@ -159,6 +160,11 @@
     }
 
     function syncBookmarks(state) {
+        document.querySelectorAll('[data-favorite]').forEach(button => {
+            const saved = state.favorites.includes(Number(button.dataset.favorite));
+            button.setAttribute('aria-pressed', String(saved));
+            button.querySelector('span:last-child').textContent = saved ? 'Убрать из избранного' : 'В избранное';
+        });
         document.querySelectorAll('[data-bookmark]').forEach(button => {
             const selected = state.watchlist.includes(Number(button.dataset.bookmark));
             const title = button.closest('.movie-card')?.querySelector('.card-title')?.textContent.trim();
@@ -178,6 +184,7 @@
                 button.classList.toggle('is-selected', selected);
                 button.setAttribute('aria-pressed', String(selected));
             });
+            panel.querySelector('[data-remove-score]').hidden = !score;
             const feedback = panel.querySelector('.score-feedback');
             if (feedback) feedback.textContent = score ? `Вы оценили на ${score} из 10` : 'Ещё не оценён';
         });
@@ -373,7 +380,17 @@
             openDialog(document.getElementById('search-dialog'));
             document.getElementById('global-search')?.focus();
         } else if (target.hasAttribute('data-close-dialog')) closeDialog(target.closest('dialog'));
-        else if (target.hasAttribute('data-bookmark')) {
+        else if (target.hasAttribute('data-favorite')) {
+            const id = Number(target.dataset.favorite);
+            update(state => {
+                if (state.favorites.includes(id)) state.favorites = state.favorites.filter(item => item !== id);
+                else state.favorites.push(id);
+            });
+        } else if (target.hasAttribute('data-remove-score')) {
+            const id = target.closest('[data-rating-panel]').dataset.ratingPanel;
+            update(state => { delete state.ratings[id]; });
+            toast('Оценка удалена.');
+        } else if (target.hasAttribute('data-bookmark')) {
             const id = Number(target.dataset.bookmark);
             if (!Number.isInteger(id) || id < 1) return;
             const alreadySaved = read().watchlist.includes(id);
