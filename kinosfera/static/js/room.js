@@ -6,6 +6,12 @@
     const code = page.dataset.roomCode;
     const meId = Number(page.dataset.userId);
     const video = document.getElementById('room-video');
+    const clipButton = document.querySelector('[data-open-clip]');
+    function syncClipButton() {
+        clipButton.disabled = !Number.isFinite(video.duration) || video.duration < 1;
+    }
+    video.addEventListener('durationchange', syncClipButton);
+    video.addEventListener('emptied', syncClipButton);
     const screen = document.getElementById('cinema-screen');
     const joinBox = document.getElementById('room-join');
     const connectButton = document.getElementById('room-connect');
@@ -477,7 +483,7 @@
     });
 
     window.KinoPlayer = {getState: () => ({movieId: Number(screen.dataset.movieId), currentTime: video.currentTime || 0,
-        duration: Number.isFinite(video.duration) ? video.duration : Number(screen.dataset.duration), playing: !video.paused}),
+        duration: Number.isFinite(video.duration) ? video.duration : 0, playing: !video.paused}),
         pause() {}, play() {}, seekTo() {}};
 
     setInterval(correctDrift, 500);
