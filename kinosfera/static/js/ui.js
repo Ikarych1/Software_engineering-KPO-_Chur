@@ -48,6 +48,7 @@
             favorites: movieIds(state.favorites),
             clips: (Array.isArray(state.clips) ? state.clips : []).filter(clip => clip && Number.isInteger(Number(clip.movieId)) && Number(clip.movieId) > 0 && Number.isFinite(Number(clip.start)) && Number(clip.start) >= 0 && Number.isFinite(Number(clip.end)) && Number(clip.end) > Number(clip.start) && Number(clip.end) - Number(clip.start) <= 60).map(clip => ({
                 id: text(String(clip.id || ''), 100), movieId: Number(clip.movieId), movieTitle: text(clip.movieTitle, 150), title: text(clip.title, 80), image: text(clip.image, 500),
+                episode: Number.isInteger(clip.episode) && clip.episode >= 0 ? clip.episode : null,
                 start: Number(clip.start), end: Number(clip.end), format: clip.format === 'portrait' ? 'portrait' : 'landscape', pinned: Boolean(clip.pinned), createdAt: text(clip.createdAt, 40)
             })).filter(clip => clip.id),
             settings: state.settings && typeof state.settings === 'object' && !Array.isArray(state.settings) ? state.settings : {},
@@ -117,7 +118,7 @@
     function safeImage(value) {
         try {
             const url = new URL(value, location.origin);
-            return url.origin === location.origin && url.pathname.startsWith('/static/images/') ? url.href : '';
+            return (url.origin === location.origin && url.pathname.startsWith('/static/')) || url.origin === 'https://image.tmdb.org' ? url.href : '';
         } catch (error) {
             return '';
         }
@@ -125,6 +126,7 @@
 
     function clipLink(clip) {
         const url = new URL(`/watch/${clip.movieId}`, location.origin);
+        if (clip.episode != null) url.searchParams.set('ep', String(clip.episode));
         url.searchParams.set('start', String(clip.start));
         url.searchParams.set('end', String(clip.end));
         url.searchParams.set('clip', clip.title);
@@ -271,10 +273,9 @@
             article.dataset.clipId = clip.id;
             const art = node('a', 'clip-art');
             art.href = clipLink(clip).pathname + clipLink(clip).search;
-            art.target = '_blank';
-            art.rel = 'noopener';
+            art.append(node('span', 'clip-play', '▶ Смотреть'));
             art.setAttribute('aria-label', `Открыть фрагмент: ${clip.title}`);
-            const source = safeImage(clip.image || film?.image || '');
+            const source = safeImage(clip.image) || safeImage(film?.image || '');
             if (source) {
                 const poster = node('img');
                 poster.src = source;
@@ -287,7 +288,7 @@
             body.append(node('h3', '', clip.title || 'Любимый момент'));
             body.append(node('p', 'muted small-text', clip.movieTitle || film?.title || 'Фильм'));
             const meta = node('div', 'clip-meta');
-            meta.append(node('span', 'muted small-text', `${Math.round(clip.end - clip.start)} сек · ${clip.format === 'portrait' ? '9:16' : '16:9'}`));
+            meta.append(node('span', 'muted small-text', `${Math.round(clip.end - clip.start)} сек`));
             if (clip.pinned) meta.append(node('span', 'badge clip-pinned', 'Закреплён'));
             body.append(meta);
             const actions = node('div', 'clip-actions');
@@ -327,22 +328,23 @@
         const start = Math.min(Math.max(Number.isFinite(requestedStart) ? Math.floor(requestedStart) : 0, 0), Math.floor(duration) - 1);
         const requestedEnd = Number(context.end || start + 30);
         const end = Math.min(Math.max(Number.isFinite(requestedEnd) ? Math.floor(requestedEnd) : start + 30, start + 1), start + 60, Math.floor(duration));
-        activeClip = {movieId, duration, movieTitle: text(context.title, 150), image: safeImage(context.image || '')};
-        const form = document.getElementById('clip-form');
-        form.reset();
-        document.getElementById('clip-title').value = text(context.clipTitle || `${activeClip.movieTitle} — любимый момент`, 80);
+        const video = document.querySelector('[data-player] video');
+        activeClip = {movieId, duration, episode: context.episode, movieTitle: text(context.title, 150),
+            image: safeImage(context.image || ''), video, position: video?.currentTime, seek: video?.id === 'torrent-video'};
+        document.getElementById('clip-form').reset();
+        document.getElementById('clip-source').textContent = activeClip.movieTitle;
+        document.getElementById('clip-title').value = context.clipTitle || '';
+        activeClip.autoTitle = !context.clipTitle;
         const startInput = document.getElementById('clip-start');
-        const endInput = document.getElementById('clip-end');
-        startInput.value = String(start);
-        startInput.max = String(Math.floor(duration) - 1);
-        endInput.value = String(end);
-        endInput.max = String(Math.floor(duration));
+        startInput.max = Math.floor(duration) - 1;
+        startInput.value = start;
+        document.getElementById('clip-length').value = end - start;
         document.getElementById('clip-error').textContent = '';
-        const preview = document.getElementById('clip-preview');
-        if (preview) {
-            preview.classList.remove('portrait');
-            preview.style.backgroundImage = activeClip.image ? `linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.1)), url("${activeClip.image}")` : '';
-        }
+        const frame = document.getElementById('clip-frame');
+        frame.hidden = true;
+        video?.addEventListener('seeked', drawClipFrame);
+        drawClipFrame();
+        syncClipRange();
         openDialog(dialog);
         document.getElementById('clip-title').focus();
     }
@@ -438,7 +440,7 @@
             const player = document.querySelector('[data-player]');
             const live = window.KinoPlayer?.getState?.();
             window.KinoPlayer?.pause?.();
-            openClip({movieId: target.dataset.movieId || player?.dataset.movieId, title: target.dataset.title || player?.dataset.title, image: target.dataset.image || player?.dataset.image, duration: live?.duration || target.dataset.duration || player?.dataset.duration, start: Number(live?.currentTime || 0)});
+            openClip({movieId: target.dataset.movieId || player?.dataset.movieId, title: target.dataset.title || player?.dataset.title, image: target.dataset.image || player?.dataset.image, episode: player?.dataset.episode != null ? Number(player.dataset.episode) : null, duration: live?.duration, start: Number(live?.currentTime || 0)});
         } else if (target.hasAttribute('data-clip-action')) {
             const clip = read().clips.find(item => item.id === target.dataset.clipId);
             if (!clip) return;
@@ -488,25 +490,53 @@
     }
 
     const clipForm = document.getElementById('clip-form');
-    const clipFormat = document.getElementById('clip-format');
-    if (clipFormat) clipFormat.addEventListener('change', () => {
-        document.getElementById('clip-preview')?.classList.toggle('portrait', clipFormat.value === 'portrait');
+    function drawClipFrame() {
+        const video = activeClip?.video;
+        if (!activeClip?.seek || !video?.videoWidth || video.readyState < 2) return;
+        const frame = document.getElementById('clip-frame');
+        frame.height = Math.max(1, Math.round(frame.width * video.videoHeight / video.videoWidth));
+        frame.getContext('2d').drawImage(video, 0, 0, frame.width, frame.height);
+        frame.hidden = false;
+    }
+    function syncClipRange() {
+        const start = Number(document.getElementById('clip-start').value);
+        const length = document.getElementById('clip-length');
+        if (activeClip.autoTitle) document.getElementById('clip-title').value = text(`${activeClip.movieTitle} · ${time(start)}`, 80);
+        length.max = Math.min(60, Math.floor(activeClip.duration) - start);
+        document.getElementById('clip-start-time').textContent = time(start);
+        document.getElementById('clip-length-time').textContent = `${length.value} с · до ${time(start + Number(length.value))}`;
+    }
+    document.getElementById('clip-start')?.addEventListener('input', event => {
+        syncClipRange();
+        if (activeClip.seek) activeClip.video.currentTime = Number(event.target.value);
+    });
+    document.getElementById('clip-title')?.addEventListener('input', () => { activeClip.autoTitle = false; });
+    document.querySelectorAll('[data-clip-step]').forEach(button => button.addEventListener('click', () => {
+        const start = document.getElementById('clip-start');
+        start.value = Number(start.value) + Number(button.dataset.clipStep);
+        start.dispatchEvent(new Event('input'));
+    }));
+    document.getElementById('clip-length')?.addEventListener('input', syncClipRange);
+    document.getElementById('clip-dialog')?.addEventListener('close', () => {
+        if (!activeClip) return;
+        activeClip.video?.removeEventListener('seeked', drawClipFrame);
+        if (activeClip.seek && activeClip.video.currentTime !== activeClip.position) activeClip.video.currentTime = activeClip.position;
+        activeClip = null;
     });
     if (clipForm) clipForm.addEventListener('submit', event => {
         event.preventDefault();
         const title = document.getElementById('clip-title').value.trim();
         const start = Number(document.getElementById('clip-start').value);
-        const end = Number(document.getElementById('clip-end').value);
+        const end = start + Number(document.getElementById('clip-length').value);
         const error = document.getElementById('clip-error');
         if (!activeClip || !title || !Number.isInteger(start) || !Number.isInteger(end) || start < 0 || end <= start || end > activeClip.duration || end - start > 60) {
             error.textContent = 'Введите название и границы внутри фильма: конец позже начала, длительность от 1 до 60 секунд.';
             return;
         }
-        const clip = {id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `clip-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`, movieId: activeClip.movieId, movieTitle: activeClip.movieTitle, title: title.slice(0, 80), image: activeClip.image, start, end, format: document.getElementById('clip-format').value, pinned: document.getElementById('clip-pin').checked, createdAt: new Date().toISOString()};
+        const clip = {id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `clip-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`, movieId: activeClip.movieId, movieTitle: activeClip.movieTitle, title: title.slice(0, 80), image: activeClip.image, start, end, episode: activeClip.episode, pinned: document.getElementById('clip-pin').checked, createdAt: new Date().toISOString()};
         update(state => { state.clips.unshift(clip); });
         closeDialog(document.getElementById('clip-dialog'));
         toast('Клип сохранён в «Мои клипы». Ссылкой на него можно поделиться.');
-        activeClip = null;
     });
 
     window.addEventListener('storage', event => {

@@ -199,3 +199,19 @@ main{position:relative;isolation:isolate}
 .admin-users .admin-user { flex-wrap: wrap; gap: 12px 18px; }
 .admin-user > div { flex: 1 1 240px; }
 .admin-user .btn { flex-shrink: 0; }
+
+.clip-frame { overflow: hidden; border-radius: 10px; background: #101114; }
+.clip-frame canvas { display: block; width: 100%; height: 145px; object-fit: contain; }
+.clip-frame canvas[hidden] { display: none; }
+.clip-frame span { display: block; padding: 8px 12px; font-weight: 600; }
+.clip-dialog output { float: right; color: var(--text); font-variant-numeric: tabular-nums; }
+.clip-dialog input[type=range] { width: 100%; padding: 0; accent-color: var(--accent); cursor: pointer; }
+.clip-dialog .checkbox-label { margin: 16px 0; }
+.clip-play { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 4px 8px; background: #111c; border-radius: 4px; color: white; font-size: 12px; }
+.clip-body { min-width: 0; overflow-wrap: anywhere; }
+
+.clip-view-bar:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; background: var(--surface); border-radius: 10px; margin-bottom: 12px; }
+.clip-view-bar > div { flex: 1 1 200px; overflow-wrap: anywhere; }
+
+.clip-trim { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+.clip-trim .btn { min-height: 34px; padding: 4px 10px; }

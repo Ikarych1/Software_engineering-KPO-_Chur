@@ -23,7 +23,7 @@
 
     // Series: offer the next episode when this one ends (10 s countdown, can be cancelled).
     function offerNext() {
-        if (!screen.dataset.nextUrl || !nextCard || nextTimer) return;
+        if (clipEnd !== Infinity || !screen.dataset.nextUrl || !nextCard || nextTimer) return;
         let left = 10;
         nextCard.querySelector('#next-episode-title').textContent = screen.dataset.nextLabel || 'Следующая серия';
         nextCard.querySelector('#next-episode-go').href = screen.dataset.nextUrl;
@@ -44,6 +44,24 @@
     video.addEventListener('ended', offerNext);
     video.addEventListener('seeking', () => { if (!video.ended) cancelNext(); });
     let clipEnd = Infinity, busy = false;
+    const clipStart = Number(params.get('start'));
+    const viewBar = document.getElementById('clip-view-bar');
+    function replayClip() {
+        video.currentTime = clipStart;
+        video.play().catch(() => { message.textContent = 'Нажмите ▶ в плеере.'; });
+    }
+    document.getElementById('clip-replay').addEventListener('click', replayClip);
+    document.getElementById('clip-continue').addEventListener('click', () => {
+        clipEnd = Infinity;
+        for (const key of ['start', 'end', 'clip']) params.delete(key);
+        const search = params.toString();
+        history.replaceState(null, '', location.pathname + (search ? '?' + search : ''));
+        viewBar.hidden = true;
+        video.play().catch(() => { message.textContent = 'Нажмите ▶ в плеере.'; });
+    });
+    video.addEventListener('play', () => {
+        if (clipEnd !== Infinity && (video.currentTime >= clipEnd || video.currentTime < clipStart)) video.currentTime = clipStart;
+    });
 
     const duration = () => Number.isFinite(video.duration) ? video.duration : 0;
     const getState = () => ({movieId, currentTime: video.currentTime || 0, duration: duration(), playing: !video.paused && !video.ended});
@@ -121,14 +139,20 @@
     video.addEventListener('loadedmetadata', () => {
         const startAt = Number(params.get('start'));
         const endAt = Number(params.get('end'));
-        if (params.has('end') && endAt > startAt && endAt <= duration() && endAt - startAt <= 60) clipEnd = endAt;
+        if (params.has('start') && startAt >= 0 && endAt > startAt && endAt <= duration() && endAt - startAt <= 60) {
+            clipEnd = endAt;
+            document.getElementById('clip-view-title').textContent = params.get('clip') || screen.dataset.title;
+            const stamp = n => Math.floor(n / 60) + ':' + String(Math.floor(n % 60)).padStart(2, '0');
+            document.getElementById('clip-view-times').textContent = stamp(startAt) + ' – ' + stamp(endAt);
+            viewBar.hidden = false;
+        }
         emit();
     });
-    video.addEventListener('timeupdate', () => { if (video.currentTime >= clipEnd) { video.pause(); clipEnd = Infinity; } emit(); });
+    video.addEventListener('timeupdate', () => { if (video.currentTime >= clipEnd) { video.pause(); } emit(); });
     video.addEventListener('durationchange', emit);
     clip.addEventListener('click', () => {
         video.pause();
-        window.KinoDemo?.openClip({movieId, title: screen.dataset.title, image: screen.dataset.image, duration: duration(), start: video.currentTime});
+        window.KinoDemo?.openClip({movieId, episode, title: screen.dataset.title, image: screen.dataset.image, duration: duration(), start: video.currentTime});
     });
     document.addEventListener('keydown', event => {
         if (!stream.mode || event.target.closest('input, textarea, select, dialog') || event.ctrlKey || event.metaKey || event.altKey) return;
@@ -143,6 +167,6 @@
     window.addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
     window.KinoPlayer = {getState, play: () => video.play(), pause: () => video.pause(),
         seekTo: value => { if (duration()) video.currentTime = Math.max(0, Math.min(Number(value) || 0, duration())); }};
-    if (params.has('start') || params.get('autoplay') === '1') begin(false);
+    if (start && (params.has('start') || params.get('autoplay') === '1')) begin(false);
     emit();
 })();

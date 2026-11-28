@@ -24,7 +24,7 @@
             <div class="stream-stats compact" id="stream-stats" hidden><span>{{ icon('download') }} <b data-stat="rate">—</b></span><span>{{ icon('users') }} <b data-stat="peers">—</b></span><span>{{ icon('clock') }} <b data-stat="buffer">—</b></span></div></div>
         <div class="room-toolbar">
             <div class="reaction-bar" id="reaction-bar" role="group" aria-label="Реакции"></div>
-            <button class="tool-button" data-open-clip data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ film_image(film.id) }}" data-duration="{{ film.duration_min * 60 }}">{{ icon('scissors') }}<span>Клип</span></button>
+            <button class="tool-button" disabled title="Создать клип во время просмотра" data-open-clip data-movie-id="{{ film.id }}" data-title="{{ film.title }}" data-image="{{ film_image(film.id) }}" data-duration="{{ film.duration_min * 60 }}">{{ icon('scissors') }}<span>Клип</span></button>
             <button class="tool-button" data-host-tools aria-expanded="false" {% if not is_host %}hidden{% endif %}>{{ icon('settings') }}<span>Настройки</span></button>
             <button class="tool-button leave-button" data-end-room>{{ icon('close') }}<span>{{ 'Завершить' if is_host else 'Выйти' }}</span></button>
         </div>

@@ -60,15 +60,19 @@
         <form action="{{ url_for('index') }}" method="get" class="search-form"><label for="global-search" class="sr-only">Название фильма или описание</label>{{ icon('search') }}<input id="global-search" name="q" type="search" placeholder="Фильм, история, настроение…" required><button class="btn" type="submit">Найти</button></form>
         <p class="muted">Или начните с жанра</p><div class="chips">{% for g in ['Фантастика', 'Драма', 'Комедия', 'Триллер'] %}<a class="chip" href="{{ url_for('index', genre=g) }}">{{ g }}</a>{% endfor %}</div>
     </dialog>
-    <dialog id="clip-dialog" class="clip-dialog">
+    <dialog id="clip-dialog" aria-labelledby="clip-heading" class="clip-dialog">
         <form id="clip-form">
-            <div class="dialog-heading"><div><span class="eyebrow">СОХРАНИТЕ МОМЕНТ</span><h2>Создать клип</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Закрыть">{{ icon('close') }}</button></div>
-            <div class="clip-preview" id="clip-preview"><span>{{ icon('play') }}</span><span class="badge">Фрагмент фильма</span></div>
-            <label for="clip-title">Название клипа</label><input id="clip-title" maxlength="80" placeholder="Момент, который хочется пересмотреть" required>
-            <div class="two-columns"><div><label for="clip-start">Начало, сек.</label><input id="clip-start" type="number" min="0" value="0" required></div><div><label for="clip-end">Конец, сек.</label><input id="clip-end" type="number" min="1" value="30" required></div></div>
-            <label for="clip-format">Формат</label><select id="clip-format"><option value="landscape">Альбомный · 16:9</option><option value="portrait">Вертикальный · 9:16</option></select>
-            <label class="checkbox-label"><input id="clip-pin" type="checkbox" checked> Закрепить в моём профиле</label>
-            <p class="muted small-text">Клип — это ссылка на фрагмент фильма до 60 секунд. Её можно открыть и отправить друзьям.</p><p id="clip-error" class="error" role="alert"></p>
+            <div class="dialog-heading"><h2 id="clip-heading">Создать клип</h2><button type="button" class="icon-button" data-close-dialog aria-label="Закрыть">{{ icon('close') }}</button></div>
+            <div class="clip-frame"><canvas id="clip-frame" width="480" height="270"></canvas><span id="clip-source"></span></div>
+            <label for="clip-start">Начало фрагмента <output id="clip-start-time" for="clip-start"></output></label>
+            <div class="clip-trim"><button class="btn btn-secondary btn-small" type="button" data-clip-step="-1" aria-label="Сдвинуть начало на секунду назад">−1 с</button>
+                <input id="clip-start" type="range" min="0" step="1">
+                <button class="btn btn-secondary btn-small" type="button" data-clip-step="1" aria-label="Сдвинуть начало на секунду вперёд">+1 с</button></div>
+            <label for="clip-length">Длительность <output id="clip-length-time" for="clip-length"></output></label>
+            <input id="clip-length" type="range" min="1" max="60" step="1">
+            <label for="clip-title">Название клипа</label><input id="clip-title" maxlength="80" required>
+            <label class="checkbox-label"><input id="clip-pin" type="checkbox"> Закрепить в профиле</label>
+            <p class="muted small-text">Ссылка откроет выбранный фрагмент. Все сохранённые ссылки доступны в разделе «Мои клипы».</p><p id="clip-error" class="error" role="alert"></p>
             <button class="btn full-width" type="submit">{{ icon('scissors') }} Сохранить клип</button>
         </form>
     </dialog>
